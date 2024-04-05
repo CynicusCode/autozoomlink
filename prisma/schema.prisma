@@ -1,14 +1,28 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+//schema.prisma
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+        
 generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+model Appointment {
+  id            String   @id @default(uuid())
+  jobNumber     String   @unique
+  date          DateTime
+  time          DateTime
+  durationHrs   Int
+  durationMins  Int
+  address       String
+  timeZone      String
+  vriApproved   Boolean
+  videoScheduled Boolean
+  status        String
+  VideoLink String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
