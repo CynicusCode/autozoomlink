@@ -12,7 +12,7 @@ generator client {
 
 model Appointment {
   id            String   @id @default(uuid())
-  jobNumber     String   @unique
+  jobNumber     Int      @unique
   date          DateTime
   time          DateTime
   durationHrs   Int
@@ -22,7 +22,7 @@ model Appointment {
   vriApproved   Boolean
   videoScheduled Boolean
   status        String
-  VideoLink String?
+  VideoLink     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
