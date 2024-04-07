@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 // Create a new appointment with a third-party video link
 const appointment = await prisma.appointment.create({
 	data: {
-		jobNumber: "1234567",
+		jobNumber: 1234567,
 		date: new Date("2024-04-05"),
 		time: new Date("2024-04-05T10:00:00"),
 		durationHrs: 2,
