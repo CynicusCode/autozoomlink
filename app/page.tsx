@@ -1,12 +1,15 @@
+import { LinkGenerator } from "@/components/Link-Generator/LinkGenerator";
 import { Navbar } from "@/components/shared/Navbar";
 import React from "react";
 
 const page = () => {
 	return (
-		<div>
-			{" "}
+		<>
 			<Navbar />
-		</div>
+			<div className="flex justify-center items-center pt-52">
+				<LinkGenerator />
+			</div>
+		</>
 	);
 };
 
