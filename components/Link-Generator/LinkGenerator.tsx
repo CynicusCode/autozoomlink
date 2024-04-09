@@ -8,13 +8,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { FloatingLabelInput } from "../ui/floatinginput";
 import JobNumberInput from "./JobNumberInput";
 import FetchDetailsButton from "./FetchDetailsButton";
 import ManualEntrySwitch from "./ManualEntrySwitch";
 import { Separator } from "../ui/separator";
+import ManualTitle from "./ManualTitle";
+import DatePickerAndTimePicker from "./DatePickerAndTimePicker";
 
 export function LinkGenerator() {
 	return (
@@ -32,6 +31,8 @@ export function LinkGenerator() {
 						<ManualEntrySwitch />
 						<Separator />
 						{/* Additional form fields for Title, Date, Time, Duration, Time Zone, Video Link */}
+						<ManualTitle />
+						<DatePickerAndTimePicker />
 					</div>
 				</form>
 			</CardContent>
