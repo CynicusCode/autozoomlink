@@ -1,5 +1,6 @@
 // LinkGenerator.tsx
 import * as React from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -17,8 +18,56 @@ import LanguageSelector from "./LanguageSelector";
 import DatePicker from "./Datepicker";
 import TimeInput from "./TimeInput";
 import { Duration } from "./Duration";
+import { createClient } from "@supabase/supabase-js";
+import error from "next/error";
+import { z } from "zod";
+
+const supabase = createClient("YOUR_SUPABASE_URL", "YOUR_SUPABASE_KEY");
+
+type FormValues = {
+	jobNumber: string;
+	manualTitle: string;
+	language: string;
+	date: Date;
+	time: string;
+	duration: number;
+};
+const formSchema = z.object({
+	jobNumber: z.string().min(5, "Job number must be 5 digits").max(5),
+	manualTitle: z.string().optional(),
+	language: z.string(),
+	date: z.preprocess((arg) => {
+		if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
+	}, z.date()),
+	time: z.string(), // Consider more specific validation if needed
+	duration: z.number().min(15, "Duration must be at least 15 minutes"),
+});
 
 export function LinkGenerator() {
+	const {
+		register,
+		handleSubmit,
+		setError,
+		formState: { errors },
+	} = useForm<FormValues>();
+
+	const onSubmit: SubmitHandler<FormValues> = async (data) => {
+		try {
+			const parsedData = formSchema.parse(data);
+			// ... Your Supabase and Zoom logic using parsedData
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				for (const issue of error.issues) {
+					setError(issue.path[0] as keyof FormValues, {
+						type: "manual",
+						message: issue.message,
+					});
+				}
+			} else {
+				console.error("Error pushing data:", error);
+			}
+		}
+
 	return (
 		<Card className="w-[650px]">
 			<CardHeader>
@@ -27,26 +76,28 @@ export function LinkGenerator() {
 				</CardTitle>
 			</CardHeader>
 			<CardContent>
-				<form>
+				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className="grid w-full items-center gap-4">
-						<JobNumberInput />
+						<JobNumberInput register={register} />
 						<FetchDetailsButton />
 						<ManualEntrySwitch />
 						<Separator />
-						<ManualTitle />
-						<LanguageSelector />
+						<ManualTitle register={register} />
+						<LanguageSelector register={register} />
 						<div className="flex space-x-4">
-							<DatePicker />
-							<TimeInput />
+							<DatePicker register={register} />
+							<TimeInput register={register} />
 						</div>
-						<Duration />
+						<Duration register={register} />
 					</div>
+					<CardFooter className="flex justify-between">
+						<Button variant="outline" type="reset">
+							Clear
+						</Button>
+						<Button type="submit">Generate Link</Button>
+					</CardFooter>
 				</form>
 			</CardContent>
-			<CardFooter className="flex justify-between">
-				<Button variant="outline">Clear</Button>
-				<Button>Generate Link</Button>
-			</CardFooter>
 		</Card>
 	);
 }
