@@ -15,6 +15,8 @@ import { Separator } from "../ui/separator";
 import ManualTitle from "./ManualTitle";
 import LanguageSelector from "./LanguageSelector";
 import DatePicker from "./Datepicker";
+import TimeInput from "./TimeInput";
+import { Duration } from "./Duration";
 
 export function LinkGenerator() {
 	return (
@@ -31,11 +33,13 @@ export function LinkGenerator() {
 						<FetchDetailsButton />
 						<ManualEntrySwitch />
 						<Separator />
-						{/* Additional form fields for Title, Date, Time, Duration, Time Zone, Video Link */}
 						<ManualTitle />
 						<LanguageSelector />
-						<DatePicker/>
-						
+						<div className="flex space-x-4">
+							<DatePicker />
+							<TimeInput />
+						</div>
+						<Duration />
 					</div>
 				</form>
 			</CardContent>

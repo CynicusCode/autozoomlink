@@ -44,8 +44,8 @@ export function LanguageSelector() {
 	const [selectedLanguage, setSelectedLanguage] = useState("");
 
 	return (
-		<div className="flex flex-col">
-			<label>Language</label>
+		<div className="flex items-center gap-2">
+			<label className="whitespace-nowrap">Language:</label>
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button
