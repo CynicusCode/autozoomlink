@@ -1,11 +1,8 @@
-//JobNumberInput.tsx
+// JobNumberInput.tsx
 import type * as React from "react";
 import { FloatingLabelInput } from "../ui/floatinginput";
 import type { UseFormRegister } from "react-hook-form";
-
-interface FormValues {
-	jobNumber: string;
-}
+import type { FormValues } from "./types";
 
 interface JobNumberInputProps {
 	register: UseFormRegister<FormValues>;
@@ -17,7 +14,7 @@ const JobNumberInput: React.FC<JobNumberInputProps> = ({ register }) => {
 			<FloatingLabelInput
 				id="jobNumber"
 				label="Job Number"
-				placeholderLabel="Enter a 5-digit job number"
+				placeholder="Enter a 5-digit job number"
 				{...register("jobNumber")}
 			/>
 		</div>

@@ -423,4 +423,4 @@ const DateTimePicker = React.forwardRef<
 
 DateTimePicker.displayName = "DateTimePicker";
 
-export { DateTimePicker, TimePicker };
+export { DateTimePicker, TimePicker, type DateValue };

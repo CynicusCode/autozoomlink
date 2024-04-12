@@ -1,6 +1,7 @@
 // LinkGenerator.tsx
 import * as React from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -19,25 +20,17 @@ import DatePicker from "./Datepicker";
 import TimeInput from "./TimeInput";
 import { Duration } from "./Duration";
 import { createClient } from "@supabase/supabase-js";
-import error from "next/error";
 import { z } from "zod";
+import type { FormValues } from "./types";
 
-const supabase = createClient("YOUR_SUPABASE_URL", "YOUR_SUPABASE_KEY");
+// const supabase = createClient("YOUR_SUPABASE_URL", "YOUR_SUPABASE_KEY");
 
-type FormValues = {
-	jobNumber: string;
-	manualTitle: string;
-	language: string;
-	date: Date;
-	time: string;
-	duration: number;
-};
 const formSchema = z.object({
 	jobNumber: z.string().min(5, "Job number must be 5 digits").max(5),
 	manualTitle: z.string().optional(),
 	language: z.string(),
 	date: z.preprocess((arg) => {
-		if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
+		if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
 	}, z.date()),
 	time: z.string(), // Consider more specific validation if needed
 	duration: z.number().min(15, "Duration must be at least 15 minutes"),
@@ -47,6 +40,7 @@ export function LinkGenerator() {
 	const {
 		register,
 		handleSubmit,
+		control,
 		setError,
 		formState: { errors },
 	} = useForm<FormValues>();
@@ -67,6 +61,7 @@ export function LinkGenerator() {
 				console.error("Error pushing data:", error);
 			}
 		}
+	};
 
 	return (
 		<Card className="w-[650px]">
@@ -85,7 +80,7 @@ export function LinkGenerator() {
 						<ManualTitle register={register} />
 						<LanguageSelector register={register} />
 						<div className="flex space-x-4">
-							<DatePicker register={register} />
+							<DatePicker control={control} name="date" />
 							<TimeInput register={register} />
 						</div>
 						<Duration register={register} />
