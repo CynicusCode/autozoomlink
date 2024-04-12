@@ -1,4 +1,5 @@
 // LinkGenerator.tsx
+"use client";
 import * as React from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
