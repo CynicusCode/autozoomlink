@@ -9,11 +9,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
+import type { UseFormRegister } from "react-hook-form";
+import type { FormValues } from "./types";
 
-export function Duration() {
-	const [hours, setHours] = React.useState("0");
-	const [minutes, setMinutes] = React.useState("0");
+interface DurationProps {
+	register: UseFormRegister<FormValues>;
+}
 
+export function Duration({ register }: DurationProps) {
 	const hoursArray = Array.from({ length: 13 }, (_, i) => i.toString());
 	const minutesArray = ["0", "15", "30", "45"];
 
@@ -22,7 +25,7 @@ export function Duration() {
 			<label htmlFor="duration" className="text-sm font-medium">
 				Duration:
 			</label>
-			<Select value={hours} onValueChange={setHours}>
+			<Select {...register("hours", { required: true })}>
 				<SelectTrigger className="w-[120px]">
 					<SelectValue placeholder="Hours" />
 				</SelectTrigger>
@@ -37,7 +40,7 @@ export function Duration() {
 					</SelectGroup>
 				</SelectContent>
 			</Select>
-			<Select value={minutes} onValueChange={setMinutes}>
+			<Select {...register("minutes", { required: true })}>
 				<SelectTrigger className="w-[120px]">
 					<SelectValue placeholder="Minutes" />
 				</SelectTrigger>

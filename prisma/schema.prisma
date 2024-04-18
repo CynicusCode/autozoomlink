@@ -1,4 +1,4 @@
-//schema.prisma
+///schema.prisma
 
 datasource db {
   provider  = "postgresql"
@@ -19,10 +19,11 @@ model Appointment {
   durationMins  Int
   address       String
   timeZone      String
-  vriApproved   Boolean
-  videoScheduled Boolean
+  vriApproved   Boolean ///default should be false
+  videoScheduled Boolean ///default should be false
   status        String
-  VideoLink     String?
+  videoLink     String?
+  createdByLLS  Boolean ///default should be false
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }

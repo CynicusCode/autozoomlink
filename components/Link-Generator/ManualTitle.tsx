@@ -1,12 +1,21 @@
-import React from "react";
+// ManualTitle.tsx
+import type * as React from "react";
 import { FloatingLabelInput } from "../ui/floatinginput";
+import type { UseFormRegister } from "react-hook-form";
+import type { FormValues } from "./types";
 
-const ManualTitle = () => {
+interface ManualTitleProps {
+	register: UseFormRegister<FormValues>;
+}
+
+const ManualTitle: React.FC<ManualTitleProps> = ({ register }) => {
 	return (
 		<div>
 			<FloatingLabelInput
-				label="Title" // This label will float on focus
-				placeholderLabel="Link's Title" // Initial placeholder
+				id="manualTitle"
+				label="Title"
+				placeholder="Link's Title"
+				{...register("manualTitle")}
 			/>
 		</div>
 	);

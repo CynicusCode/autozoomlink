@@ -16,6 +16,8 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
+import type { UseFormRegister } from "react-hook-form";
+import type { FormValues } from "./types";
 
 const languages = [
 	{ label: "Spanish", value: "Spanish" },
@@ -40,8 +42,14 @@ const languages = [
 	{ label: "Certified Deaf Interpreter", value: "CDI" },
 ] as const;
 
-export function LanguageSelector() {
-	const [selectedLanguage, setSelectedLanguage] = useState("");
+type Language = (typeof languages)[number]["value"];
+
+interface LanguageSelectorProps {
+	register: UseFormRegister<FormValues>;
+}
+
+export function LanguageSelector({ register }: LanguageSelectorProps) {
+	const [selectedLanguage, setSelectedLanguage] = useState<Language | "">("");
 
 	return (
 		<div className="flex items-center gap-2">
@@ -97,6 +105,7 @@ export function LanguageSelector() {
 					</Command>
 				</PopoverContent>
 			</Popover>
+			<input type="hidden" {...register("language")} value={selectedLanguage} />
 		</div>
 	);
 }

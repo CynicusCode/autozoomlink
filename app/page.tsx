@@ -6,7 +6,7 @@ const page = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="flex justify-center items-center pt-52">
+			<div className="flex justify-center items-center pt-40">
 				<LinkGenerator />
 			</div>
 		</>
