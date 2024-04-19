@@ -1,5 +1,6 @@
 // This API endpoint fetches appointment details for a specified job number from a mock JSON file.
 // It is designed to mirror the Boostlingo API's data structure, enabling seamless transition from development to production.
+// the information is sent to app/hooks/useAppointmentDetails.tsx before sending it to the LinkGenerator.tsx component, to use SSR and avoid sending the data to the client.
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
