@@ -1,3 +1,11 @@
+/**
+ * Structure:
+ * - Logo: Clickable logo that redirects to the home page.
+ * - Navigation Links: Visible on screens wider than the 'sm' breakpoint, includes links to Dashboard, Meetings, and Settings.
+ * - ThemeToggle: Button to switch between light and dark themes.
+ * - User Profile: Placeholder or indicator for user profile integration.
+ * - MobileNav: Component that renders a mobile-friendly navigation menu.
+ */
 "use client";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";

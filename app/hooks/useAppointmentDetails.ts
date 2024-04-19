@@ -43,16 +43,19 @@ export function useAppointmentDetails(
 						expectedStartTime,
 						requestor,
 						status,
+						ref
 					} = data;
 
+
 					const isVirtual = actualLocation.addrEntered.includes("VR");
-					const videoLinkField = data.find((field: any) => 
-                        field.name?.toLowerCase().includes("video link".toLowerCase())
-                    );
+					const videoLinkField = refs.find((ref: any) => 
+    ref.name?.toLowerCase().includes("video link".toLowerCase())
+)?.referenceValue || "No video link available";
+
 
 					setAppointmentDetails({
 						jobNumber,
-						language: defaultLanguage.iso639_3Tag,
+						language: defaultLanguage.displayName,
 						location: actualLocation.addrEntered,
 						appType: bookingMode.name,
 						locationLabel: actualLocation.displayLabel,
@@ -65,7 +68,7 @@ export function useAppointmentDetails(
 						notificationEmail: requestor.email,
 						requestorName: requestor.name,
 						jobStatus: status.name,
-                        videoLinkField ? thirdPartyVideoLinkField.referenceValue : "",
+                        videoLinkField:
 					});
 				} else {
 					console.error(

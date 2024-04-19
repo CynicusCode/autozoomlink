@@ -33,7 +33,7 @@ const formSchema = z.object({
 	date: z.preprocess((arg) => {
 		if (typeof arg === "string" || arg instanceof Date) return new Date(arg);
 	}, z.date()),
-	time: z.string(), // Consider more specific validation if needed
+	time: z.string(),
 	duration: z.number().min(15, "Duration must be at least 15 minutes"),
 });
 
