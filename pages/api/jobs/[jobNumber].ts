@@ -12,19 +12,28 @@ export default async function handler(
 ) {
 	const { jobNumber } = req.query;
 
-	try {
-		const filePath = path.join(
-			process.cwd(),
-			"mockdata",
-			"api",
-			`${jobNumber}.json`,
-		);
-		const fileData = fs.readFileSync(filePath, "utf8");
-		const appointmentDetails = JSON.parse(fileData);
+	// Validate jobNumber to ensure it's a safe, expected format (e.g., numeric)
+	if (!/^\d+$/.test(jobNumber as string)) {
+		return res.status(400).json({ error: "Invalid job number format" });
+	}
 
+	const filePath = path.join(
+		process.cwd(),
+		"mockdata",
+		"api",
+		`${jobNumber}.json`,
+	);
+
+	try {
+		// Implemented fs.promises.readFile to read the file asynchronously with better error handling
+		const fileData = await fs.promises.readFile(filePath, "utf8");
+		const appointmentDetails = JSON.parse(fileData);
 		res.status(200).json(appointmentDetails);
 	} catch (error) {
 		console.error("Error fetching appointment details:", error);
+		if (error.code === "ENOENT") {
+			return res.status(404).json({ error: "Appointment details not found" });
+		}
 		res.status(500).json({ error: "Failed to fetch appointment details" });
 	}
 }
