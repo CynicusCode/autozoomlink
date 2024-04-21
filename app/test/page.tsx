@@ -1,41 +1,40 @@
-import type { GetServerSideProps, NextPage } from "next";
-import type { LanguageDetails } from "@/types/JobDetails";
+"use client";
+import { useState } from "react";
 
-interface LanguagePageProps {
-	language: string | null;
+interface LocationProps {
+	addrEntered: string;
 }
 
-const LanguagePage: NextPage<LanguagePageProps> = ({ language }) => {
-	if (!language) {
-		return <div>No language details found for this job.</div>;
-	}
+export default function LocationPage() {
+	const [location, setLocation] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [error, setError] = useState<string | null>(null);
 
-	return <div>The job language is: {language}</div>;
-};
+	const fetchLocation = async () => {
+		setIsLoading(true);
+		setError(null);
 
-export const getServerSideProps: GetServerSideProps<LanguagePageProps> = async (
-	context,
-) => {
-	const jobNumber = "10001"; // Fixed job number for this example
-
-	try {
-		const response = await fetch(`http://localhost:3000/api/${jobNumber}`);
-		if (response.ok) {
+		try {
+			const response = await fetch(`/api/jobs/10001`);
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
+			}
 			const data = await response.json();
-			const language = data.defaultLanguage?.displayName || "Default Language";
-
-			return {
-				props: {
-					language,
-				},
-			};
+			setLocation(data.actualLocation.addrEntered);
+		} catch (error: any) {
+			setError(error.message);
+		} finally {
+			setIsLoading(false);
 		}
-		console.error("Error fetching language details:", response.statusText);
-		return { props: { language: null } };
-	} catch (error) {
-		console.error("Error fetching language details:", error);
-		return { props: { language: null } };
-	}
-};
+	};
 
-export default LanguagePage;
+	return (
+		<div>
+			<button onClick={fetchLocation} disabled={isLoading}>
+				{isLoading ? "Loading..." : "Get Location"}
+			</button>
+			{location && <div>Location: {location}</div>}
+			{error && <div>Error: {error}</div>}
+		</div>
+	);
+}
