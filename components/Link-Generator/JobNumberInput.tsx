@@ -1,21 +1,27 @@
-// JobNumberInput.tsx
 import type * as React from "react";
 import { FloatingLabelInput } from "../ui/floatinginput";
-import type { UseFormRegister } from "react-hook-form";
-import type { FormValues } from "./types";
 
 interface JobNumberInputProps {
-	register: UseFormRegister<FormValues>;
+	jobNumber: string;
+	setJobNumber: (jobNumber: string) => void;
 }
 
-const JobNumberInput: React.FC<JobNumberInputProps> = ({ register }) => {
+const JobNumberInput: React.FC<JobNumberInputProps> = ({
+	jobNumber,
+	setJobNumber,
+}) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setJobNumber(e.target.value); // Update the job number as the user types
+	};
+
 	return (
 		<div>
 			<FloatingLabelInput
 				id="jobNumber"
 				label="Job Number"
-				placeholder="Enter a 5-digit job number"
-				{...register("jobNumber")}
+				placeholder="Enter a 7-digit job number"
+				value={jobNumber}
+				onChange={handleInputChange}
 			/>
 		</div>
 	);

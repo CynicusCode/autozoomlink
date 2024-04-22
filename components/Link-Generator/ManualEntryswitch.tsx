@@ -1,15 +1,19 @@
 // ManualEntrySwitch.tsx
 "use client";
 
-import * as React from "react";
+import type * as React from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-export default function ManualEntrySwitch() {
-	const [isManualEntry, setIsManualEntry] = React.useState(false);
-
+export default function ManualEntrySwitch({
+	isAutomaticMode,
+	setIsAutomaticMode,
+}: {
+	isAutomaticMode: boolean;
+	setIsAutomaticMode: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
 	const handleManualEntryToggle = () => {
-		setIsManualEntry((prevState) => !prevState);
+		setIsAutomaticMode(false);
 	};
 
 	return (
@@ -17,7 +21,7 @@ export default function ManualEntrySwitch() {
 			<Label htmlFor="manualEntry">Enter Details Manually</Label>
 			<Switch
 				id="manualEntry"
-				checked={isManualEntry}
+				checked={!isAutomaticMode}
 				onCheckedChange={handleManualEntryToggle}
 			/>
 		</div>

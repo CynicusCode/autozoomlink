@@ -1,6 +1,7 @@
 "use client";
+import type React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -9,28 +10,48 @@ interface FetchDetailsButtonProps {
 const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	jobNumber,
 }) => {
+	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
+
 	const handleFetchDetails = async () => {
-		// Placeholder logic to search in Prisma using the jobNumber
-		// Replace this with your actual Prisma query logic
-		const fetchedData = await prisma.job.findUnique({
-			where: { jobNumber: jobNumber },
-		});
+		setError(""); // Clear previous errors
 
-		// Handle the fetched data as needed
-		console.log("Fetched data:", fetchedData);
+		// Check if the jobNumber is exactly 7 digits and numeric
+		if (!/^\d{7}$/.test(jobNumber)) {
+			setError("Job number must be exactly 7 digits and numeric.");
+			return;
+		}
 
-		// Optionally, you can navigate to another page after fetching the details
-		// router.push("/path/to/another/page");
+		setLoading(true);
+		try {
+			const response = await fetch(
+				`http://localhost:3000/api/jobs/${jobNumber}`,
+			);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			console.log("Fetched details:", data);
+			setLoading(false);
+		} catch (error) {
+			console.error("Failed to fetch details:", error);
+			setError("Failed to fetch details. Please try again.");
+			setLoading(false);
+		}
 	};
 
 	return (
 		<div className="flex justify-center">
 			<Button
 				onClick={handleFetchDetails}
-				className="bg-orange-600 text-white hover:bg-orange-700"
+				className={`bg-orange-600 text-white hover:bg-orange-700 ${
+					loading ? "opacity-50 cursor-not-allowed" : ""
+				}`}
+				disabled={loading}
 			>
-				Fetch Details
+				{loading ? "Loading..." : "Fetch Details"}
 			</Button>
+			{error && <div style={{ color: "red" }}>{error}</div>}
 		</div>
 	);
 };
