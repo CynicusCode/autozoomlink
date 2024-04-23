@@ -56,7 +56,7 @@ const AutoLinkGenerator: React.FC = () => {
 				</FormProvider>
 			</CardContent>
 			<CardFooter>
-				{/* Footer content can be added here if necessary */}
+				<h1>Project develop by Daniel Garcia dev.daniel.garcia@gmail.com</h1>
 			</CardFooter>
 		</Card>
 	);
