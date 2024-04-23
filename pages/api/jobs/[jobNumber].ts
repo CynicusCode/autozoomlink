@@ -13,18 +13,21 @@ export default async function handler(
 		return res.status(400).json({ error: "Invalid job number format" });
 	}
 
-	const filePath = path.join(
-		process.cwd(),
-		"mockdata",
-		"api",
-		`${jobNumber}.json`,
-	);
+	const dirPath = path.join(process.cwd(), "mockdata", "api");
 
 	try {
-		// Read the file asynchronously with error handling
+		// List all files in the directory
+		const files = await fs.readdir(dirPath);
+		// Filter files based on jobNumber
+		const matchedFile = files.find((file) => file === `${jobNumber}.json`);
+
+		if (!matchedFile) {
+			return res.status(404).json({ error: "Appointment details not found" });
+		}
+
+		const filePath = path.join(dirPath, matchedFile);
 		const fileData = await fs.readFile(filePath, "utf8");
 		const appointmentDetails = JSON.parse(fileData);
-
 		// Extract the ID from the appointment details
 		const {
 			id, // make sure this is part of your JSON structure
