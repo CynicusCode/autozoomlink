@@ -1,22 +1,23 @@
 //ManualTitle.tsx
-import type * as React from "react";
+import type React from "react";
+import { useFormContext } from "react-hook-form"; // Import useFormContext
 import { FloatingLabelInput } from "../ui/floatinginput";
-import type { UseFormRegister } from "react-hook-form";
 import type { FormValues } from "./formSchema";
 
 interface ManualTitleProps {
-	register: UseFormRegister<FormValues>;
 	disabled: boolean;
 }
 
-const ManualTitle: React.FC<ManualTitleProps> = ({ register, disabled }) => {
+const ManualTitle: React.FC<ManualTitleProps> = ({ disabled }) => {
+	const { register } = useFormContext<FormValues>(); // Use useFormContext to get register method
+
 	return (
 		<div>
 			<FloatingLabelInput
 				id="manualTitle"
 				label="Title"
 				placeholder="Link's Title"
-				{...register("manualTitle")}
+				{...register("manualTitle")} // Use register directly from useFormContext
 				disabled={disabled}
 			/>
 		</div>

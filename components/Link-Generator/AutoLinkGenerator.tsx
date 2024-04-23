@@ -52,7 +52,7 @@ const AutoLinkGenerator: React.FC = () => {
 						setIsAutomaticMode={setIsAutomaticMode}
 					/>
 					<Separator />
-					<ManualTitle register={methods.register} disabled={isAutomaticMode} />
+					<ManualTitle disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
 			<CardFooter>
