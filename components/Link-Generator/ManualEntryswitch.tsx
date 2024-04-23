@@ -1,4 +1,14 @@
+/**
+ * Renders a switch component for toggling between automatic and manual entry mode.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.isAutomaticMode - Indicates whether the automatic mode is enabled.
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} props.setIsAutomaticMode - A function to update the automatic mode state.
+ * @returns {JSX.Element} The rendered ManualEntrySwitch component.
+ */
 // ManualEntrySwitch.tsx
+
 "use client";
 
 import type * as React from "react";

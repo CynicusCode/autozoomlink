@@ -1,3 +1,4 @@
+//ManualTitle.tsx
 import type * as React from "react";
 import { FloatingLabelInput } from "../ui/floatinginput";
 import type { UseFormRegister } from "react-hook-form";

@@ -1,8 +1,8 @@
-// AutoLinkGenerator.tsx
+//AutoLinkGenerator.tsx
 "use client";
 import type React from "react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema, type FormValues } from "./formSchema"; // Assuming schemas.ts is in the same directory
 import {
@@ -22,11 +22,8 @@ const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
 	const [isAutomaticMode, setIsAutomaticMode] = useState(false);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<FormValues>({
+	// Use useForm to manage form state and validation
+	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
@@ -42,23 +39,21 @@ const AutoLinkGenerator: React.FC = () => {
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				<JobNumberInput
-					jobNumber={jobNumber}
-					setJobNumber={setJobNumber}
-					setIsAutomaticMode={setIsAutomaticMode}
-				/>
-				<FetchDetailsButton jobNumber={jobNumber} />
-				<ManualEntrySwitch
-					isAutomaticMode={isAutomaticMode}
-					setIsAutomaticMode={setIsAutomaticMode}
-				/>
-				<Separator />
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<ManualTitle register={register} disabled={isAutomaticMode} />
-					<button type="submit" className="mt-4">
-						Submit
-					</button>
-				</form>
+				{/* Spread all useForm methods into FormProvider to make them available to all child components */}
+				<FormProvider {...methods}>
+					<JobNumberInput
+						jobNumber={jobNumber}
+						setJobNumber={setJobNumber}
+						setIsAutomaticMode={setIsAutomaticMode}
+					/>
+					<FetchDetailsButton jobNumber={jobNumber} />
+					<ManualEntrySwitch
+						isAutomaticMode={isAutomaticMode}
+						setIsAutomaticMode={setIsAutomaticMode}
+					/>
+					<Separator />
+					<ManualTitle register={methods.register} disabled={isAutomaticMode} />
+				</FormProvider>
 			</CardContent>
 			<CardFooter>
 				{/* Footer content can be added here if necessary */}

@@ -5,6 +5,7 @@ import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { fetchJobDetails } from "./JobDetailsApi";
+import { useFormContext } from "react-hook-form";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -15,6 +16,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 }) => {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
+	const { setValue } = useFormContext();
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
@@ -30,6 +32,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		try {
 			const data = await fetchJobDetails(jobNumber);
 			console.log("Fetched details:", data);
+			setValue("manualTitle", data.jobNumber); // Set the value of manualTitle to jobNumber
 			setLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch details:", error);
