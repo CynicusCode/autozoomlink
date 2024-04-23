@@ -1,7 +1,11 @@
+// FetchDetailsButton.tsx
+// API call was transfered to JobDetailsApi.tsx to keep the component focus
 "use client";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { fetchJobDetails } from "./JobDetailsApi";
+import { useFormContext } from "react-hook-form";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -12,6 +16,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 }) => {
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
+	const { setValue } = useFormContext();
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
@@ -23,15 +28,11 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		}
 
 		setLoading(true);
+
 		try {
-			const response = await fetch(
-				`http://localhost:3000/api/jobs/${jobNumber}`,
-			);
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}`);
-			}
-			const data = await response.json();
+			const data = await fetchJobDetails(jobNumber);
 			console.log("Fetched details:", data);
+			setValue("manualTitle", data.jobNumber); // Set the value of manualTitle to jobNumber
 			setLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch details:", error);
