@@ -1,17 +1,21 @@
-import type * as React from "react";
+// JobNumberInput.tsx
+import type React from "react";
 import { FloatingLabelInput } from "../ui/floatinginput";
 
 interface JobNumberInputProps {
 	jobNumber: string;
 	setJobNumber: (jobNumber: string) => void;
+	setIsAutomaticMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const JobNumberInput: React.FC<JobNumberInputProps> = ({
 	jobNumber,
 	setJobNumber,
+	setIsAutomaticMode,
 }) => {
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setJobNumber(e.target.value); // Update the job number as the user types
+		setJobNumber(e.target.value);
+		setIsAutomaticMode(true); // Switch to automatic mode when user starts typing
 	};
 
 	return (
@@ -19,7 +23,7 @@ const JobNumberInput: React.FC<JobNumberInputProps> = ({
 			<FloatingLabelInput
 				id="jobNumber"
 				label="Job Number"
-				placeholder="Enter a 7-digit job number"
+				placeholder="Enter a job number"
 				value={jobNumber}
 				onChange={handleInputChange}
 			/>

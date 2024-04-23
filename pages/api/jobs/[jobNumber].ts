@@ -1,8 +1,3 @@
-// This API endpoint fetches appointment details for a specified job number from a mock JSON file.
-// It is designed to mirror the Boostlingo API's data structure, enabling seamless transition from development to production.
-// Since this API call may contain HIPAA PHI (Protected Health Information), I have decided to filter the data directly
-// in the endpoint for security reasons. This ensures that sensitive information is not unnecessarily exposed to the client-side.
-
 import { promises as fs } from "fs";
 import path from "path";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -30,9 +25,9 @@ export default async function handler(
 		const fileData = await fs.readFile(filePath, "utf8");
 		const appointmentDetails = JSON.parse(fileData);
 
-		// Filter and transform the appointment details data directly in the endpoint
+		// Extract the ID from the appointment details
 		const {
-			jobNumber,
+			id, // make sure this is part of your JSON structure
 			defaultLanguage,
 			actualLocation,
 			bookingMode,
@@ -41,6 +36,8 @@ export default async function handler(
 			expectedEndDate,
 			expectedStartDate,
 			expectedStartTime,
+			timeZone,
+			timeZoneDisplayName,
 			requestor,
 			status,
 			refs,
@@ -53,7 +50,7 @@ export default async function handler(
 		const isVirtual = actualLocation?.addrEntered?.includes("VR");
 
 		const filteredJobDetails = {
-			jobNumber,
+			jobNumber: id.toString(), // Convert to string if necessary
 			language: defaultLanguage?.displayName || "Default Language",
 			location: actualLocation?.addrEntered || "Default Location",
 			appType: bookingMode?.name || "Default Booking Mode",
@@ -64,6 +61,8 @@ export default async function handler(
 			expectedEndDate,
 			expectedStartDate,
 			expectedStartTime,
+			timeZone: timeZone.toString(),
+			timeZoneDisplayName: timeZoneDisplayName.toString(),
 			notificationEmail: requestor?.email || "noemail@example.com",
 			requestorName: requestor?.name || "Unknown Requestor",
 			jobStatus: status?.name || "Status Unknown",
