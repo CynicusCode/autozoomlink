@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/popover";
 import type { UseFormRegister } from "react-hook-form";
 import type { FormValues } from "./types";
+import { useFormContext, useWatch } from "react-hook-form";
 
 const languages = [
 	{ label: "Spanish", value: "Spanish" },
@@ -38,18 +39,32 @@ const languages = [
 	{ label: "Persian", value: "Persian" },
 	{ label: "Gujarati", value: "Gujarati" },
 	{ label: "Bengali", value: "Bengali" },
-	{ label: "American Sign Language", value: "ASL" },
-	{ label: "Certified Deaf Interpreter", value: "CDI" },
+	{ label: "American Sign Language", value: "American Sign Language" },
+	{ label: "Certified Deaf Interpreter", value: "Certified Deaf Interpreter" },
 ] as const;
 
-type Language = (typeof languages)[number]["value"];
-
 interface LanguageSelectorProps {
-	register: UseFormRegister<FormValues>;
+	disabled: boolean;
 }
 
-export function LanguageSelector({ register }: LanguageSelectorProps) {
-	const [selectedLanguage, setSelectedLanguage] = useState<Language | "">("");
+export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
+	disabled,
+}) => {
+	const { setValue, control } = useFormContext();
+	const selectedLanguage = useWatch({
+		control,
+		name: "language",
+		defaultValue: "",
+	});
+
+	const handleSelectLanguage = (value: string) => {
+		setValue("language", value);
+		console.log("Selected language from the component:", value);
+	};
+
+	useEffect(() => {
+		console.log("Selected language changed:", selectedLanguage);
+	}, [selectedLanguage]);
 
 	return (
 		<div className="flex items-center gap-2">
@@ -59,22 +74,24 @@ export function LanguageSelector({ register }: LanguageSelectorProps) {
 					<Button
 						variant="outline"
 						role="combobox"
+						disabled={disabled}
 						className={cn(
 							"w-[200px] justify-between",
 							!selectedLanguage && "text-muted-foreground",
 						)}
 					>
 						{selectedLanguage
-							? languages.find(
-									(language) => language.value === selectedLanguage,
-								)?.label
+							? languages.find((lang) => lang.value === selectedLanguage)?.label
 							: "Select language"}
 						<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</Button>
 				</PopoverTrigger>
 				<PopoverContent className="w-[200px] p-0">
 					<Command>
-						<CommandInput placeholder="Search language..." />
+						<CommandInput
+							placeholder="Search language..."
+							disabled={disabled}
+						/>
 						<CommandEmpty>No language found.</CommandEmpty>
 						<CommandList>
 							<CommandGroup>
@@ -82,11 +99,9 @@ export function LanguageSelector({ register }: LanguageSelectorProps) {
 									<CommandItem
 										key={language.value}
 										value={language.value}
-										onSelect={() => {
-											setSelectedLanguage(language.value);
-										}}
+										onSelect={() => handleSelectLanguage(language.value)}
 										className={cn(
-											'data-[aria-selected="true"]:bg-accent data-[aria-selected="true"]:text-accent-foreground data-[disabled="true"]:pointer-events-none data-[disabled="true"]:opacity-50',
+											'data-[aria-selected="true"]:bg-accent data-[aria-selected="true"]:text-accent-foreground',
 										)}
 									>
 										{language.label}
@@ -105,9 +120,9 @@ export function LanguageSelector({ register }: LanguageSelectorProps) {
 					</Command>
 				</PopoverContent>
 			</Popover>
-			<input type="hidden" {...register("language")} value={selectedLanguage} />
+			<input type="hidden" value={selectedLanguage} readOnly />
 		</div>
 	);
-}
+};
 
 export default LanguageSelector;

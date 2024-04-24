@@ -17,6 +17,7 @@ import FetchDetailsButton from "./FetchDetailsButton";
 import ManualEntrySwitch from "./ManualEntryswitch";
 import ManualTitle from "./ManualTitle";
 import { Separator } from "../ui/separator";
+import LanguageSelector from "./LanguageSelector";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -53,6 +54,7 @@ const AutoLinkGenerator: React.FC = () => {
 					/>
 					<Separator />
 					<ManualTitle disabled={isAutomaticMode} />
+					<LanguageSelector disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
 			<CardFooter>

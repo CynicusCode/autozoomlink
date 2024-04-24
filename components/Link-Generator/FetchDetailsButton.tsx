@@ -17,12 +17,11 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const { setValue } = useFormContext();
-
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
 
 		// Check if the jobNumber is exactly 7 digits and numeric
-		if (!/^\d{7}$/.test(jobNumber)) {
+		if (!/^\d{5}$/.test(jobNumber)) {
 			setError("Job number must be exactly 7 digits and numeric.");
 			return;
 		}
@@ -32,7 +31,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		try {
 			const data = await fetchJobDetails(jobNumber);
 			console.log("Fetched details:", data);
-			setValue("manualTitle", data.jobNumber); // Set the value of manualTitle to jobNumber
+			setValue("manualTitle", data.jobNumber);
+			setValue("language", data.language);
+			console.log("Setting language:", data.language);
 			setLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch details:", error);
