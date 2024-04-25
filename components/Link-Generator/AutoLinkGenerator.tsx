@@ -18,6 +18,8 @@ import ManualEntrySwitch from "./ManualEntryswitch";
 import ManualTitle from "./ManualTitle";
 import { Separator } from "../ui/separator";
 import LanguageSelector from "./LanguageSelector";
+import DatePicker from "./Datepicker";
+import Datepicker from "./Datepicker";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");

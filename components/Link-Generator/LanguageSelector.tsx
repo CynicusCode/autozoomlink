@@ -59,12 +59,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
 	const handleSelectLanguage = (value: string) => {
 		setValue("language", value);
-		console.log("Selected language from the component:", value);
 	};
-
-	useEffect(() => {
-		console.log("Selected language changed:", selectedLanguage);
-	}, [selectedLanguage]);
 
 	return (
 		<div className="flex items-center gap-2">

@@ -30,10 +30,8 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 
 		try {
 			const data = await fetchJobDetails(jobNumber);
-			console.log("Fetched details:", data);
 			setValue("manualTitle", data.jobNumber);
 			setValue("language", data.language);
-			console.log("Setting language:", data.language);
 			setLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch details:", error);
