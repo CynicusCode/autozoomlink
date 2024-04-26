@@ -1,8 +1,8 @@
-import { DateTimePickerForm } from "@/components/Link-Generator/DateTimePicker";
+import { DateTimePicker } from "@/components/Link-Generator/Date-time/DateTimePicker";
 import React from "react";
 
 const TimePickerDemo = () => {
-	return <DateTimePickerForm />;
+	return <DateTimePicker granularity="minute" />;
 };
 
 export default TimePickerDemo;
