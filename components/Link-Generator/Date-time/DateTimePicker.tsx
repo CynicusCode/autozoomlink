@@ -1,3 +1,20 @@
+/**
+ * DateTimePicker is a compound component that combines date and time selection functionalities.
+ * It integrates a popover calendar with optional time selection capabilities.
+ *
+ * Props:
+ * - `jsDate` (Date | null): The JavaScript Date object to manage.
+ * - `onJsDateChange` ((date: Date) => void): Callback fired when the date changes.
+ * - `showClearButton` (boolean): Flag to display the clear button.
+ *
+ * Ref Attributes:
+ * - `divRef` (HTMLDivElement | null): Ref to the container div.
+ * - `buttonRef` (HTMLButtonElement | null): Ref to the button.
+ * - `contentRef` (HTMLDivElement | null): Ref to the popover content.
+ * - `jsDate` (Date | null): Current JavaScript Date.
+ * - `state` (DatePickerState): Current state of the date picker.
+ */
+
 "use client";
 
 import {
@@ -225,6 +242,11 @@ function DateSegment({ segment, state }: DateSegmentProps) {
 		segmentProps: { ...segmentProps },
 	} = useDateSegment(segment, state, ref);
 
+	// Exclude the seconds segment
+	if (segment.type === "second") {
+		return null;
+	}
+
 	return (
 		<div
 			{...segmentProps}
@@ -275,6 +297,8 @@ function TimeField(props: AriaTimeFieldProps<TimeValue>) {
 	const state = useTimeFieldState({
 		...props,
 		locale,
+		hourCycle: 12, // or 24, depending on your preference
+		granularity: "minute", // set granularity to 'minute' to exclude seconds
 	});
 	const {
 		fieldProps: { ...fieldProps },
@@ -353,6 +377,7 @@ const DateTimePicker = React.forwardRef<
 		const parsed = fromDate(jsDatetime, getLocalTimeZone());
 
 		if (state.hasTime) {
+			parsed.second = 0;
 			return toCalendarDateTime(parsed);
 		}
 
