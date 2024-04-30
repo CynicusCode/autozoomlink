@@ -1,8 +1,12 @@
 import React from "react";
 import { DateTimePicker } from "@/components/Link-Generator/Date-time/DateTimePicker";
 
-const DatetimePickerDemo = () => {
-	return <DateTimePicker granularity="second" />;
+const DatetimePickerForm = () => {
+	return (
+		<div className="items-center justify-center max-w-lg">
+			<DateTimePicker granularity="minute" />
+		</div>
+	);
 };
 
-export default DatetimePickerDemo;
+export default DatetimePickerForm;

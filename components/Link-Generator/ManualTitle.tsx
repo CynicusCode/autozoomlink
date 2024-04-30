@@ -15,8 +15,8 @@ const ManualTitle: React.FC<ManualTitleProps> = ({ disabled }) => {
 		<div>
 			<FloatingLabelInput
 				id="manualTitle"
-				label="Title"
-				placeholder="Link's Title"
+				label="Meeting Title"
+				placeholder="Meeting Title"
 				{...register("manualTitle")} // Use register directly from useFormContext
 				disabled={disabled}
 			/>
