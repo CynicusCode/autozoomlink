@@ -19,29 +19,7 @@ import {
 import type { UseFormRegister } from "react-hook-form";
 import type { FormValues } from "./types";
 import { useFormContext, useWatch } from "react-hook-form";
-
-const languages = [
-	{ label: "Spanish", value: "Spanish" },
-	{ label: "Chinese", value: "Chinese" },
-	{ label: "Vietnamese", value: "Vietnamese" },
-	{ label: "Tagalog", value: "Tagalog" },
-	{ label: "Arabic", value: "Arabic" },
-	{ label: "French", value: "French" },
-	{ label: "Korean", value: "Korean" },
-	{ label: "Russian", value: "Russian" },
-	{ label: "German", value: "German" },
-	{ label: "Haitian Creole", value: "Haitian Creole" },
-	{ label: "Portuguese", value: "Portuguese" },
-	{ label: "Italian", value: "Italian" },
-	{ label: "Polish", value: "Polish" },
-	{ label: "Urdu", value: "Urdu" },
-	{ label: "Japanese", value: "Japanese" },
-	{ label: "Persian", value: "Persian" },
-	{ label: "Gujarati", value: "Gujarati" },
-	{ label: "Bengali", value: "Bengali" },
-	{ label: "American Sign Language", value: "American Sign Language" },
-	{ label: "Certified Deaf Interpreter", value: "Certified Deaf Interpreter" },
-] as const;
+import { languages } from "./languages";
 
 interface LanguageSelectorProps {
 	disabled: boolean;

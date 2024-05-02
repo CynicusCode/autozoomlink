@@ -19,8 +19,9 @@ import ManualTitle from "./ManualTitle";
 import { Separator } from "../ui/separator";
 import LanguageSelector from "./LanguageSelector";
 import { DateTimePicker } from "@/components/Link-Generator/Date-time/DateTimePicker";
-import DatetimePickerForm from "./Date-time/DateTimeForm";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
+import { Duration } from "./Duration";
+import DatetimePickerForm from "./Date-time/DateTimeForm";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -57,13 +58,17 @@ const AutoLinkGenerator: React.FC = () => {
 					/>
 					<Separator />
 					<ManualTitle disabled={isAutomaticMode} />
-					<DatetimePickerForm granularity="minute" />
+					<DateTimePicker disabled={isAutomaticMode} granularity="minute" />
+					<DatetimePickerForm disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
+					<Duration disabled={isAutomaticMode} />
 					<LanguageSelector disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
-			<CardFooter>
-				<h1>Project develop by Daniel Garcia dev.daniel.garcia@gmail.com</h1>
+			<CardFooter className="items-center justify-center flex">
+				<p className="text-sm text-muted-foreground">
+					Contact me: dev.daniel.garcia@gmail.com
+				</p>
 			</CardFooter>
 		</Card>
 	);
