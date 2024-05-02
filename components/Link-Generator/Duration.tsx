@@ -1,5 +1,5 @@
-"use client";
-import * as React from "react";
+import React from "react";
+import { useFormContext } from "react-hook-form";
 import {
 	Select,
 	SelectContent,
@@ -9,23 +9,29 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { UseFormRegister } from "react-hook-form";
-import type { FormValues } from "./types";
+import type { FormValues } from "./formSchema";
 
 interface DurationProps {
-	register: UseFormRegister<FormValues>;
+	disabled: boolean;
 }
 
-export function Duration({ register }: DurationProps) {
+export function Duration({ disabled }: DurationProps) {
+	const { setValue, watch } = useFormContext<FormValues>();
+	const hours = watch("hours");
+	const minutes = watch("minutes");
+
+	const onHoursChange = (value: string) => setValue("hours", value);
+	const onMinutesChange = (value: string) => setValue("minutes", value);
+
 	const hoursArray = Array.from({ length: 13 }, (_, i) => i.toString());
 	const minutesArray = ["0", "15", "30", "45"];
 
 	return (
 		<div className="flex items-center space-x-4">
-			<label htmlFor="duration" className="text-sm font-medium">
+			<label htmlFor="hours" className="text-sm font-medium">
 				Duration:
 			</label>
-			<Select {...register("hours", { required: true })}>
+			<Select onValueChange={onHoursChange} value={hours} disabled={disabled}>
 				<SelectTrigger className="w-[120px]">
 					<SelectValue placeholder="Hours" />
 				</SelectTrigger>
@@ -40,7 +46,11 @@ export function Duration({ register }: DurationProps) {
 					</SelectGroup>
 				</SelectContent>
 			</Select>
-			<Select {...register("minutes", { required: true })}>
+			<Select
+				onValueChange={onMinutesChange}
+				value={minutes}
+				disabled={disabled}
+			>
 				<SelectTrigger className="w-[120px]">
 					<SelectValue placeholder="Minutes" />
 				</SelectTrigger>

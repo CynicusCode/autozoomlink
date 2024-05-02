@@ -1,5 +1,4 @@
-// FetchDetailsButton.tsx
-// API call was transfered to JobDetailsApi.tsx to keep the component focus
+//FetchDetailsButton.tsx
 "use client";
 import type React from "react";
 import { useState } from "react";
@@ -17,12 +16,12 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
 	const { setValue } = useFormContext();
+
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
-
-		// Check if the jobNumber is exactly 7 digits and numeric
+		// Check if the jobNumber is exactly 5 digits and numeric
 		if (!/^\d{5}$/.test(jobNumber)) {
-			setError("Job number must be exactly 7 digits and numeric.");
+			setError("Job number must be exactly 5 digits and numeric.");
 			return;
 		}
 
@@ -30,8 +29,18 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 
 		try {
 			const data = await fetchJobDetails(jobNumber);
+			console.log("Data", data);
 			setValue("manualTitle", data.jobNumber);
 			setValue("language", data.language);
+			setValue("timeZone", data.timeZone);
+
+			// Here we extract the hours and minutes from the response
+			const hours = Math.floor(data.expectedDurationMins / 60);
+			const minutes = data.expectedDurationMins % 60;
+			console.log(hours, minutes);
+			setValue("hours", hours.toString()); // Update form with hours
+			setValue("minutes", minutes.toString()); // Update form with minutes
+
 			setLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch details:", error);
