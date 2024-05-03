@@ -26,6 +26,7 @@ const JobNumberInput: React.FC<JobNumberInputProps> = ({
 				placeholder="Enter a job number"
 				value={jobNumber}
 				onChange={handleInputChange}
+				aria-label="Job Number"
 			/>
 		</div>
 	);
