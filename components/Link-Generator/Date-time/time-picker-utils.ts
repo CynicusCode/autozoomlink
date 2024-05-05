@@ -1,3 +1,4 @@
+//time-picker-utils.ts
 /**
  * regular expression to check for valid hour format (01-23)
  */
@@ -94,22 +95,30 @@ export function setSeconds(date: Date, value: string) {
 	return date;
 }
 
-export function setHours(date: Date, value: string) {
-	const hours = getValidHour(value);
-	date.setHours(Number.parseInt(hours, 10));
+export function setHours(date: Date, value: string, period: Period) {
+	const hours =
+		period === "PM"
+			? Number.parseInt(value, 10) + 12
+			: Number.parseInt(value, 10);
+	date.setHours(hours);
 	return date;
 }
 
 export type TimePickerType = "minutes" | "seconds" | "hours"; // | "12hours";
 
-export function setDateByType(date: Date, value: string, type: TimePickerType) {
+export function setDateByType(
+	date: Date,
+	value: string,
+	type: TimePickerType,
+	period?: Period,
+) {
 	switch (type) {
 		case "minutes":
 			return setMinutes(date, value);
 		case "seconds":
 			return setSeconds(date, value);
 		case "hours":
-			return setHours(date, value);
+			return setHours(date, value, period!);
 		default:
 			return date;
 	}
