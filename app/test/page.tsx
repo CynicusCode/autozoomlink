@@ -1,8 +1,16 @@
-import { DateTimePicker } from "@/components/Link-Generator/Date-time/DateTimePicker";
+"use client";
+import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 
-const TimePickerDemo = () => {
-	return <DateTimePicker granularity="minute" />;
+const Page = () => {
+	return (
+		<div>
+			<h1>My Page</h1>
+			<DateTimePicker />
+			<Calendar />
+		</div>
+	);
 };
 
-export default TimePickerDemo;
+export default Page;

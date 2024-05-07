@@ -1,10 +1,13 @@
 //FetchDetailsButton.tsx
+
 "use client";
+
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
+import { parseDateTime } from "@internationalized/date";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -19,6 +22,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
+
 		// Check if the jobNumber is exactly 5 digits and numeric
 		if (!/^\d{5}$/.test(jobNumber)) {
 			setError("Job number must be exactly 5 digits and numeric.");
@@ -30,6 +34,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		try {
 			const data = await fetchJobDetails(jobNumber);
 			console.log("Data", data);
+
 			setValue("manualTitle", data.jobNumber);
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
@@ -40,6 +45,10 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			console.log(hours, minutes);
 			setValue("hours", hours.toString()); // Update form with hours
 			setValue("minutes", minutes.toString()); // Update form with minutes
+
+			// Parse the expectedStartDate from the API response
+			const expectedStartDate = parseDateTime(data.expectedStartDate);
+			setValue("expectedStartDate", expectedStartDate); // Update form with expectedStartDate
 
 			setLoading(false);
 		} catch (error) {

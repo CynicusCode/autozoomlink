@@ -18,10 +18,8 @@ import ManualEntrySwitch from "./ManualEntryswitch";
 import ManualTitle from "./ManualTitle";
 import { Separator } from "../ui/separator";
 import LanguageSelector from "./LanguageSelector";
-import { DateTimePicker } from "@/components/Link-Generator/Date-time/DateTimePicker";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
-import DatetimePickerForm from "./Date-time/DateTimeForm";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -58,9 +56,6 @@ const AutoLinkGenerator: React.FC = () => {
 					/>
 					<Separator />
 					<ManualTitle disabled={isAutomaticMode} />
-					<DateTimePicker disabled={isAutomaticMode} granularity="minute" />
-					<DatetimePickerForm disabled={isAutomaticMode} />
-					<TimeZoneSelector disabled={isAutomaticMode} />
 					<Duration disabled={isAutomaticMode} />
 					<LanguageSelector disabled={isAutomaticMode} />
 				</FormProvider>
