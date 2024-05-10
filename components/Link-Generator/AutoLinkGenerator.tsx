@@ -17,9 +17,11 @@ import FetchDetailsButton from "./FetchDetailsButton";
 import ManualEntrySwitch from "./ManualEntryswitch";
 import ManualTitle from "./ManualTitle";
 import { Separator } from "../ui/separator";
-import LanguageSelector from "./LanguageSelector";
-import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
+import { LanguageSelector } from "./LanguageSelector";
 import { Duration } from "./Duration";
+import { Button } from "@/components/ui/button";
+import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -58,13 +60,17 @@ const AutoLinkGenerator: React.FC = () => {
 					<ManualTitle disabled={isAutomaticMode} />
 					<Duration disabled={isAutomaticMode} />
 					<LanguageSelector disabled={isAutomaticMode} />
+					<DateTimePicker />
+					<TimeZoneSelector disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
-			<CardFooter className="items-center justify-center flex">
-				<p className="text-sm text-muted-foreground">
-					Contact me: dev.daniel.garcia@gmail.com
-				</p>
+			<CardFooter className="flex justify-between">
+				<Button type="reset">Clear</Button>
+				<Button type="submit">Generate Link</Button>
 			</CardFooter>
+			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
+				Contact me: dev.daniel.garcia@gmail.com
+			</p>
 		</Card>
 	);
 };

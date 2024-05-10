@@ -1,6 +1,6 @@
 "use client";
+import DateTimePickerInput from "@/components/Link-Generator/Date-time/DateTimePicker";
 import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
-import { Calendar } from "@/components/ui/calendar";
 import React from "react";
 
 const Page = () => {
@@ -8,7 +8,6 @@ const Page = () => {
 		<div>
 			<h1>My Page</h1>
 			<DateTimePicker />
-			<Calendar />
 		</div>
 	);
 };
