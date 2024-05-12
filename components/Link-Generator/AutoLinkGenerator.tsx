@@ -64,7 +64,8 @@ const AutoLinkGenerator: React.FC = () => {
 					<TimeZoneSelector disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
-			<CardFooter className="flex justify-between">
+			<Separator />
+			<CardFooter className="flex justify-between mt-4">
 				<Button type="reset">Clear</Button>
 				<Button type="submit">Generate Link</Button>
 			</CardFooter>
