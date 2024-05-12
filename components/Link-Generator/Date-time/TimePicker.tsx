@@ -10,11 +10,15 @@ import {
 
 interface TimePickerProps {
 	onTimeChange: (hour: number, minute: number, ampm: string) => void;
+	disabled?: boolean;
 }
 
-export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
+export const TimePicker = ({
+	onTimeChange,
+	disabled = false,
+}: TimePickerProps) => {
 	// Use local state to keep track of changes until they are committed
-	const [hour, setHour] = React.useState("12");
+	const [hour, setHour] = React.useState("00");
 	const [minute, setMinute] = React.useState("00");
 	const [ampm, setAmpm] = React.useState("AM");
 
@@ -35,20 +39,28 @@ export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
 
 	return (
 		<div className="flex gap-2 justify-center">
-			<Select defaultValue={hour} onValueChange={handleHourChange}>
+			<Select
+				defaultValue={hour}
+				onValueChange={handleHourChange}
+				disabled={disabled}
+			>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>
 					{Array.from({ length: 12 }, (_, index) => index + 1).map((hour) => (
-						<SelectItem key={hour} value={hour.toString()}>
+						<SelectItem key={hour} value={hour.toString()} disabled={disabled}>
 							{hour}
 						</SelectItem>
 					))}
 				</SelectContent>
 			</Select>
 			<span>:</span>
-			<Select defaultValue={minute} onValueChange={handleMinuteChange}>
+			<Select
+				defaultValue={minute}
+				onValueChange={handleMinuteChange}
+				disabled={disabled}
+			>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
@@ -56,20 +68,32 @@ export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
 					{Array.from({ length: 60 }, (_, index) => {
 						const minute = index.toString().padStart(2, "0");
 						return (
-							<SelectItem key={`minute-${minute}`} value={minute}>
+							<SelectItem
+								key={`minute-${minute}`}
+								value={minute}
+								disabled={disabled}
+							>
 								{minute}
 							</SelectItem>
 						);
 					})}
 				</SelectContent>
 			</Select>
-			<Select defaultValue={ampm} onValueChange={handleAmpmChange}>
+			<Select
+				defaultValue={ampm}
+				onValueChange={handleAmpmChange}
+				disabled={disabled}
+			>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>
-					<SelectItem value="AM">AM</SelectItem>
-					<SelectItem value="PM">PM</SelectItem>
+					<SelectItem value="AM" disabled={disabled}>
+						AM
+					</SelectItem>
+					<SelectItem value="PM" disabled={disabled}>
+						PM
+					</SelectItem>
 				</SelectContent>
 			</Select>
 		</div>
