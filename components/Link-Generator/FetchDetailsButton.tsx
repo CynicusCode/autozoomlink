@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
-import { parseDateTime } from "@internationalized/date";
+import dayjs from "dayjs";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -39,15 +39,16 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
 
-			// Here we extract the hours and minutes from the response
 			const hours = Math.floor(data.expectedDurationMins / 60);
 			const minutes = data.expectedDurationMins % 60;
-			setValue("hours", hours.toString()); // Update form with hours
-			setValue("minutes", minutes.toString()); // Update form with minutes
+			setValue("hours", hours.toString());
+			setValue("minutes", minutes.toString());
 
-			// Parse the expectedStartDate from the API response
-			const expectedStartDate = parseDateTime(data.expectedStartDate);
-			setValue("expectedStartDate", expectedStartDate); // Update form with expectedStartDate
+			// Format the expectedStartDate using dayjs
+			const formattedStartDate = dayjs(data.expectedStartDate).format(
+				"MM/DD/YYYY HH:mm A",
+			);
+			setValue("expectedStartDate", formattedStartDate);
 
 			setLoading(false);
 		} catch (error) {

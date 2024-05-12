@@ -1,27 +1,32 @@
 //AutoLinkGenerator.tsx
 "use client";
+// 1. External libraries
+import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { schema, type FormValues } from "./formSchema"; // Assuming schemas.ts is in the same directory
+
+// 2. Component library imports
+import { Button } from "@/components/ui/button";
 import {
 	Card,
-	CardHeader,
 	CardContent,
 	CardFooter,
+	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import JobNumberInput from "./JobNumberInput";
+import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+
+// 3. Local project files
 import FetchDetailsButton from "./FetchDetailsButton";
+import JobNumberInput from "./JobNumberInput";
+import { LanguageSelector } from "./LanguageSelector";
 import ManualEntrySwitch from "./ManualEntryswitch";
 import ManualTitle from "./ManualTitle";
+import { schema, type FormValues } from "./formSchema";
 import { Separator } from "../ui/separator";
-import { LanguageSelector } from "./LanguageSelector";
-import { Duration } from "./Duration";
-import { Button } from "@/components/ui/button";
-import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
+import { Duration } from "./Duration";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -60,7 +65,7 @@ const AutoLinkGenerator: React.FC = () => {
 					<ManualTitle disabled={isAutomaticMode} />
 					<Duration disabled={isAutomaticMode} />
 					<LanguageSelector disabled={isAutomaticMode} />
-					<DateTimePicker />
+					<DateTimePicker disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
 				</FormProvider>
 			</CardContent>
