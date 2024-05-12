@@ -1,3 +1,4 @@
+//DateTimePicker.tsx
 import type React from "react";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -9,7 +10,8 @@ import {
 } from "@/components/ui/popover";
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
-import { CalendarIcon } from "./CalendarIcon";
+import { InputWithIcon } from "@/components/ui/InputWithIcon";
+import { CalendarIcon } from "@radix-ui/react-icons";
 
 interface DateTimeState {
 	date: Date | null;
@@ -55,16 +57,16 @@ export const DateTimePicker = () => {
 						<label htmlFor="timezone-select" className="whitespace-nowrap pr-2">
 							Date & Time:
 						</label>
-						<Input
-							className="w-full pr-10 pl-10" // Adjusted padding
+						<InputWithIcon
+							label=""
+							id="dateTimeInput"
+							icon={<CalendarIcon />}
+							className="w-full pr-10 pl-10"
 							placeholder="MM/DD/YYYY HH:MM AM/PM"
 							type="text"
 							value={formatDateTime()}
 							readOnly
 						/>
-						<div className="absolute left-31 inset-y-0 my-auto h-6 w-6 text-gray-400">
-							<CalendarIcon />
-						</div>
 					</div>
 				</PopoverTrigger>
 				<PopoverContent className="w-auto p-0">

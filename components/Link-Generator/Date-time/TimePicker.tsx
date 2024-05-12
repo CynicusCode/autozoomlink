@@ -13,21 +13,29 @@ interface TimePickerProps {
 }
 
 export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
+	// Use local state to keep track of changes until they are committed
+	const [hour, setHour] = React.useState("12");
+	const [minute, setMinute] = React.useState("00");
+	const [ampm, setAmpm] = React.useState("AM");
+
 	const handleHourChange = (newHour: string) => {
-		onTimeChange(Number(newHour), 0, "AM"); // Defaulting minute and ampm for simplicity
+		setHour(newHour);
+		onTimeChange(Number(newHour), Number(minute), ampm);
 	};
 
 	const handleMinuteChange = (newMinute: string) => {
-		onTimeChange(0, Number(newMinute), "AM"); // Defaulting hour and ampm for simplicity
+		setMinute(newMinute);
+		onTimeChange(Number(hour), Number(newMinute), ampm);
 	};
 
 	const handleAmpmChange = (newAmpm: string) => {
-		onTimeChange(0, 0, newAmpm); // Defaulting hour and minute for simplicity
+		setAmpm(newAmpm);
+		onTimeChange(Number(hour), Number(minute), newAmpm);
 	};
 
 	return (
 		<div className="flex gap-2 justify-center">
-			<Select defaultValue="12" onValueChange={handleHourChange}>
+			<Select defaultValue={hour} onValueChange={handleHourChange}>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
@@ -40,7 +48,7 @@ export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
 				</SelectContent>
 			</Select>
 			<span>:</span>
-			<Select defaultValue="00" onValueChange={handleMinuteChange}>
+			<Select defaultValue={minute} onValueChange={handleMinuteChange}>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
@@ -55,7 +63,7 @@ export const TimePicker = ({ onTimeChange }: TimePickerProps) => {
 					})}
 				</SelectContent>
 			</Select>
-			<Select defaultValue="AM" onValueChange={handleAmpmChange}>
+			<Select defaultValue={ampm} onValueChange={handleAmpmChange}>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>

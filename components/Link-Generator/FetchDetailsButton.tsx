@@ -1,10 +1,11 @@
-//FetchDetailsButton.tsx
+// FetchDetailsButton.tsx
 
 "use client";
 
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
 import { parseDateTime } from "@internationalized/date";
@@ -33,7 +34,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 
 		try {
 			const data = await fetchJobDetails(jobNumber);
-			console.log("Data", data);
 
 			setValue("manualTitle", data.jobNumber);
 			setValue("language", data.language);
@@ -42,7 +42,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			// Here we extract the hours and minutes from the response
 			const hours = Math.floor(data.expectedDurationMins / 60);
 			const minutes = data.expectedDurationMins % 60;
-			console.log(hours, minutes);
 			setValue("hours", hours.toString()); // Update form with hours
 			setValue("minutes", minutes.toString()); // Update form with minutes
 
@@ -59,17 +58,27 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	};
 
 	return (
-		<div className="flex justify-center">
+		<div className="flex flex-col items-center">
 			<Button
 				onClick={handleFetchDetails}
-				className={`bg-orange-600 text-white hover:bg-orange-700 ${
-					loading ? "opacity-50 cursor-not-allowed" : ""
-				}`}
+				className={`
+          text-white 
+          bg-orange-600 hover:bg-orange-700 
+          dark:bg-green-600 dark:hover:bg-green-700
+          ${loading ? "opacity-50 cursor-not-allowed" : ""}
+        `}
 				disabled={loading}
 			>
 				{loading ? "Loading..." : "Fetch Details"}
 			</Button>
-			{error && <div style={{ color: "red" }}>{error}</div>}
+			{error && (
+				<Alert className="mt-2 border-red-500">
+					<AlertTitle className=" text-lg text-red-600 dark:text-orange-500">
+						Error
+					</AlertTitle>
+					<AlertDescription>{error}</AlertDescription>
+				</Alert>
+			)}
 		</div>
 	);
 };
