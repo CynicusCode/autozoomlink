@@ -12,9 +12,9 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onSubmit }) => {
 	const formContext = useFormContext<FormValues>(); // Access all form context data
 
 	// Function to log the form context data
-	const logFormData = () => {
-		console.log(formContext.getValues()); // Logs all form values
-	};
+	// const logFormData = () => {
+	// 	console.log(formContext.getValues()); // Logs all form values
+	// };
 
 	return (
 		<div className="space-x-2">
@@ -25,12 +25,12 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onSubmit }) => {
 			>
 				Generate Zoom Link
 			</Button>
-			<Button
+			{/* <Button
 				onClick={logFormData} // Button to log form data
 				className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
 			>
 				Log Form Data
-			</Button>
+			</Button> */}
 		</div>
 	);
 };

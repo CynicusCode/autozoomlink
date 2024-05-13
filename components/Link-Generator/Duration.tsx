@@ -1,4 +1,4 @@
-//Duration.tsx
+// Duration.tsx
 
 import React from "react";
 import { useFormContext } from "react-hook-form";
@@ -11,7 +11,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { FormValues } from "./formSchema";
+import type { FormValues } from "./formSchema"; // Ensure this path is correct
 
 interface DurationProps {
 	disabled: boolean;
@@ -25,8 +25,8 @@ export function Duration({ disabled }: DurationProps) {
 	const onHoursChange = (value: string) => setValue("hours", value);
 	const onMinutesChange = (value: string) => setValue("minutes", value);
 
-	const hoursArray = Array.from({ length: 13 }, (_, i) => i.toString());
-	const minutesArray = ["0", "15", "30", "45"];
+	const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString()); // Assuming 24-hour format, adjust as needed
+	const minutesArray = ["00", "15", "30", "45"];
 
 	return (
 		<div className="flex items-center space-x-4">
