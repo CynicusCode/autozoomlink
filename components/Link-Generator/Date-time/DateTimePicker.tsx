@@ -1,16 +1,20 @@
-//DateTimePicker.tsx
+// External libraries
 import React, { useEffect, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
+import { CalendarIcon } from "@radix-ui/react-icons";
+
+// UI components from your project
 import {
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
 } from "@/components/ui/popover";
+import { InputWithIcon } from "@/components/ui/InputWithIcon";
+
+// Local components
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
-import { InputWithIcon } from "@/components/ui/InputWithIcon";
-import { CalendarIcon } from "@radix-ui/react-icons";
 
 interface DateTimeState {
 	date: Date | null;

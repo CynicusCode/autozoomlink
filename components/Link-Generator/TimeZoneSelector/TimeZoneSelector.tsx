@@ -1,8 +1,18 @@
+// TimeZoneSelector.tsx
 "use client";
+// External libraries
 import { useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+// Utilities and helper functions
 import { cn } from "@/lib/utils";
+// UI components
 import { Button } from "@/components/ui/button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import {
 	Command,
 	CommandEmpty,
@@ -11,12 +21,7 @@ import {
 	CommandItem,
 	CommandList,
 } from "@/components/ui/command";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import { useFormContext, useWatch } from "react-hook-form";
+// Data
 import { timeZones } from "./timeZones";
 
 export const TimeZoneSelector: React.FC<{ disabled: boolean }> = ({

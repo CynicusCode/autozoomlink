@@ -49,7 +49,6 @@ const AutoLinkGenerator: React.FC = () => {
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				{/* Spread all useForm methods into FormProvider to make them available to all child components */}
 				<FormProvider {...methods}>
 					<JobNumberInput
 						jobNumber={jobNumber}
