@@ -27,6 +27,7 @@ import { schema, type FormValues } from "./formSchema";
 import { Separator } from "../ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
+import GenerateZoomLink from "./Zoom/GenerateZoomLink";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -71,7 +72,7 @@ const AutoLinkGenerator: React.FC = () => {
 			<Separator />
 			<CardFooter className="flex justify-between mt-4">
 				<Button type="reset">Clear</Button>
-				<Button type="submit">Generate Link</Button>
+				<GenerateZoomLink onSubmit={methods.handleSubmit(onSubmit)} />
 			</CardFooter>
 			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
 				Contact me: dev.daniel.garcia@gmail.com
