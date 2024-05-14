@@ -1,4 +1,4 @@
-//AutoLinkGenerator.tsx
+// AutoLinkGenerator.tsx
 "use client";
 // 1. External libraries
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,7 +39,7 @@ const AutoLinkGenerator: React.FC = () => {
 	});
 
 	const onSubmit = (data: FormValues) => {
-		console.log(data);
+		console.log(data); // Log all form values
 	};
 
 	return (
@@ -72,7 +72,7 @@ const AutoLinkGenerator: React.FC = () => {
 			<Separator />
 			<CardFooter className="flex justify-between mt-4">
 				<Button type="reset">Clear</Button>
-				<GenerateZoomLink onSubmit={methods.handleSubmit(onSubmit)} />
+				<GenerateZoomLink onClick={methods.handleSubmit(onSubmit)} />
 			</CardFooter>
 			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
 				Contact me: dev.daniel.garcia@gmail.com
