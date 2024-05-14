@@ -1,6 +1,6 @@
 // Duration.tsx
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import {
 	Select,
@@ -18,12 +18,22 @@ interface DurationProps {
 }
 
 export function Duration({ disabled }: DurationProps) {
-	const { setValue, watch } = useFormContext<FormValues>();
+	const { setValue, watch, register } = useFormContext<FormValues>();
 	const hours = watch("hours");
 	const minutes = watch("minutes");
 
-	const onHoursChange = (value: string) => setValue("hours", value);
-	const onMinutesChange = (value: string) => setValue("minutes", value);
+	useEffect(() => {
+		register("hours");
+		register("minutes");
+	}, [register]);
+
+	const onHoursChange = (value: string) => {
+		setValue("hours", value);
+	};
+
+	const onMinutesChange = (value: string) => {
+		setValue("minutes", value);
+	};
 
 	const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString()); // Assuming 24-hour format, adjust as needed
 	const minutesArray = ["00", "15", "30", "45"];

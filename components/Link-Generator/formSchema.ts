@@ -7,6 +7,9 @@ export interface FormValues {
 	manualTitle?: string;
 	hours: string;
 	minutes: string;
+	language?: string;
+	timeZone?: string;
+	expectedStartDate?: string;
 }
 
 // Define the Zod schema for form validation

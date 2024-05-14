@@ -42,9 +42,14 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			const data = await fetchJobDetails(jobNumber);
 
 			// Set form values from fetched data
-			setValue("manualTitle", data.jobNumber);
+			setValue("manualTitle", `Job #${data.jobNumber}`); // Set the manualTitle using the jobNumber
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
+			setValue("hours", String(Math.floor(data.expectedDurationHrs)));
+			setValue(
+				"minutes",
+				String(data.expectedDurationMins % 60).padStart(2, "0"),
+			);
 
 			const formattedStartDate = dayjs(data.expectedStartDate)
 				.utc()
