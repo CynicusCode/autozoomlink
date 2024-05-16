@@ -50,7 +50,10 @@ export const TimeZoneSelector: React.FC<{ disabled: boolean }> = ({
 
 	return (
 		<div className="flex items-center gap-2">
-			<label htmlFor="timezone-select" className="whitespace-nowrap">
+			<label
+				htmlFor="timezone-select"
+				className="whitespace-nowrap text-sm font-medium"
+			>
 				Time Zone:
 			</label>
 			<Popover>

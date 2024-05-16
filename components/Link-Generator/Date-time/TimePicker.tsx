@@ -18,8 +18,8 @@ export const TimePicker = ({
 	disabled = false,
 }: TimePickerProps) => {
 	// Use local state to keep track of changes until they are committed
-	const [hour, setHour] = React.useState("00");
-	const [minute, setMinute] = React.useState("00");
+	const [hour, setHour] = React.useState("12");
+	const [minute, setMinute] = React.useState("30");
 	const [ampm, setAmpm] = React.useState("AM");
 
 	const handleHourChange = (newHour: string) => {
