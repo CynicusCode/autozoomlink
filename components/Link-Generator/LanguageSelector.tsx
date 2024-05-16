@@ -41,7 +41,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
 	return (
 		<div className="flex items-center gap-2">
-			<label className="whitespace-nowrap">Language:</label>
+			<label className="whitespace-nowrap text-sm font-medium">Language:</label>
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button

@@ -1,4 +1,3 @@
-// GenerateZoomLink.tsx
 import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -8,10 +7,12 @@ interface GenerateZoomLinkProps {
 }
 
 const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
-	const formContext = useFormContext(); // Access all form context data
+	const { handleSubmit, getValues } = useFormContext();
 
 	const handleClick = () => {
-		formContext.handleSubmit(onClick)(); // Call handleSubmit with the provided onClick function
+		const currentValues = getValues(); // Get all current form values
+		console.log("Current form values:", currentValues); // Log current form values
+		handleSubmit(onClick)();
 	};
 
 	return (

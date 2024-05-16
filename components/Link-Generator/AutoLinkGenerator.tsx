@@ -4,7 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
 import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, useWatch } from "react-hook-form";
 
 // 2. Component library imports
 import { Button } from "@/components/ui/button";
@@ -28,18 +28,34 @@ import { Separator } from "../ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";
+import { convertToUtc } from "./Date-time/dateUtils";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
 	const [isAutomaticMode, setIsAutomaticMode] = useState(false);
 
-	// Use useForm to manage form state and validation
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
+	const selectedTimeZone = useWatch({
+		control: methods.control,
+		name: "timeZone",
+		defaultValue: "UTC",
+	});
+
 	const onSubmit = (data: FormValues) => {
-		console.log(data); // Log all form values
+		const { expectedStartDate } = data;
+
+		if (expectedStartDate) {
+			data.expectedStartDate = convertToUtc(
+				expectedStartDate,
+				selectedTimeZone || "UTC",
+			);
+		}
+
+		console.log("Form data on submit:", data); // Log all form values with UTC date
+		// Add your Zoom link generation logic here
 	};
 
 	return (
@@ -67,13 +83,13 @@ const AutoLinkGenerator: React.FC = () => {
 					<LanguageSelector disabled={isAutomaticMode} />
 					<DateTimePicker disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
+					<Separator />
+					<CardFooter className="flex justify-between mt-4">
+						<Button type="reset">Clear</Button>
+						<GenerateZoomLink onClick={methods.handleSubmit(onSubmit)} />
+					</CardFooter>
 				</FormProvider>
 			</CardContent>
-			<Separator />
-			<CardFooter className="flex justify-between mt-4">
-				<Button type="reset">Clear</Button>
-				<GenerateZoomLink onClick={methods.handleSubmit(onSubmit)} />
-			</CardFooter>
 			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
 				Contact me: dev.daniel.garcia@gmail.com
 			</p>
