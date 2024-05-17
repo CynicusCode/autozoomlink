@@ -2,8 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
 import { CalendarIcon } from "@radix-ui/react-icons";
 
 // UI components from your project
@@ -17,10 +15,6 @@ import { InputWithIcon } from "@/components/ui/InputWithIcon";
 // Local components
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
-
-// Use the plugins
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 interface DateTimeState {
 	date: Date | null;
@@ -39,7 +33,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 	});
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: formData ? dayjs.utc(formData).toDate() : null,
+		date: formData ? new Date(formData) : null,
 		hour: 12,
 		minute: 0,
 		ampm: "AM",
@@ -48,7 +42,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 	// Effect to update internal component state when watched fields change
 	useEffect(() => {
 		if (formData) {
-			const parsedDate = dayjs.utc(formData);
+			const parsedDate = dayjs(formData);
 			setDateTime({
 				date: parsedDate.toDate(),
 				hour:
@@ -61,29 +55,16 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
-			const updatedDate = dayjs(newDate)
-				.hour(
-					dateTime.ampm === "PM" ? (dateTime.hour % 12) + 12 : dateTime.hour,
-				)
-				.minute(dateTime.minute)
-				.second(0)
-				.millisecond(0)
-				.utc()
-				.toISOString();
-			setValue("expectedStartDate", updatedDate, { shouldValidate: true });
+			setValue("expectedStartDate", dayjs(newDate).toISOString(), {
+				shouldValidate: true,
+			});
 			setDateTime((prev) => ({ ...prev, date: newDate }));
 		}
 	};
 
 	const handleTimeChange = (hour: number, minute: number, ampm: string) => {
 		const updatedDate = dateTime.date
-			? dayjs(dateTime.date)
-					.hour(ampm === "PM" ? (hour % 12) + 12 : hour)
-					.minute(minute)
-					.second(0)
-					.millisecond(0)
-					.utc()
-					.toISOString()
+			? dayjs(dateTime.date).hour(hour).minute(minute).toISOString()
 			: null;
 		setValue("expectedStartDate", updatedDate, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
@@ -91,12 +72,13 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	const formatDateTime = () => {
 		if (!dateTime.date) return "";
-		const localDateTime = dayjs(dateTime.date)
-			.hour(
-				dateTime.ampm === "PM" ? (dateTime.hour % 12) + 12 : dateTime.hour % 12,
-			)
-			.minute(dateTime.minute);
-		return localDateTime.format("MM/DD/YYYY hh:mm A");
+		const dayjsDate = dayjs(dateTime.date);
+		const hour =
+			dateTime.ampm === "PM" ? (dateTime.hour % 12) + 12 : dateTime.hour % 12;
+		return dayjsDate
+			.hour(hour)
+			.minute(dateTime.minute)
+			.format("MM/DD/YYYY hh:mm A");
 	};
 
 	return (
@@ -104,10 +86,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 			<Popover>
 				<PopoverTrigger asChild>
 					<div className="w-full cursor-pointer flex items-center relative">
-						<label
-							htmlFor="timezone-select"
-							className="whitespace-nowrap text-sm font-medium pr-2"
-						>
+						<label htmlFor="timezone-select" className="whitespace-nowrap pr-2">
 							Date & Time:
 						</label>
 						<InputWithIcon
