@@ -41,7 +41,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 
 	return (
 		<div className="flex items-center gap-2">
-			<label className="whitespace-nowrap">Language:</label>
+			<label className="whitespace-nowrap text-sm font-medium">Language:</label>
 			<Popover>
 				<PopoverTrigger asChild>
 					<Button
@@ -59,7 +59,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 						<CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className="w-[200px] p-0">
+				<PopoverContent className="w-[250px] p-0">
 					<Command>
 						<CommandInput
 							placeholder="Search language..."
