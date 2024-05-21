@@ -1,5 +1,4 @@
 // DateTimePicker.tsx
-// General dependencies
 import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
@@ -32,8 +31,15 @@ export const DateTimePicker = ({ disabled = false }) => {
 		defaultValue: null,
 	});
 
+	const parseDate = (dateString: string) => {
+		if (dayjs(dateString).isValid()) {
+			return dayjs(dateString).toDate();
+		}
+		return dayjs(dateString, "MM/DD/YYYY hh:mm A").toDate();
+	};
+
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: expectedStartDate ? new Date(expectedStartDate) : null,
+		date: expectedStartDate ? parseDate(expectedStartDate) : null,
 		hour: expectedStartDate ? dayjs(expectedStartDate).hour() % 12 || 12 : 12,
 		minute: expectedStartDate ? dayjs(expectedStartDate).minute() : 0,
 		ampm: expectedStartDate
@@ -45,7 +51,10 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	useEffect(() => {
 		if (expectedStartDate) {
-			const parsedDate = dayjs(expectedStartDate, "MM/DD/YYYY hh:mm A");
+			const parsedDate = dayjs(expectedStartDate, [
+				"MM/DD/YYYY hh:mm A",
+				"YYYY-MM-DDTHH:mm:ss.SSSZ",
+			]);
 			setDateTime({
 				date: parsedDate.toDate(),
 				hour: parsedDate.hour() % 12 || 12,
