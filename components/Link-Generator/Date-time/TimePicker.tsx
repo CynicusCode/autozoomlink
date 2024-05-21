@@ -1,4 +1,3 @@
-// TimePicker.tsx
 import React from "react";
 import {
 	Select,
@@ -10,17 +9,27 @@ import {
 
 interface TimePickerProps {
 	onTimeChange: (hour: number, minute: number, ampm: string) => void;
+	hour: number;
+	minute: number;
+	ampm: string;
 	disabled?: boolean;
 }
 
 export const TimePicker = ({
 	onTimeChange,
+	hour: initialHour,
+	minute: initialMinute,
+	ampm: initialAmpm,
 	disabled = false,
 }: TimePickerProps) => {
 	// Use local state to keep track of changes until they are committed
-	const [hour, setHour] = React.useState("12");
-	const [minute, setMinute] = React.useState("30");
-	const [ampm, setAmpm] = React.useState("AM");
+	const [hour, setHour] = React.useState(
+		initialHour.toString().padStart(2, "0"),
+	);
+	const [minute, setMinute] = React.useState(
+		initialMinute.toString().padStart(2, "0"),
+	);
+	const [ampm, setAmpm] = React.useState(initialAmpm);
 
 	const handleHourChange = (newHour: string) => {
 		setHour(newHour);
@@ -39,17 +48,15 @@ export const TimePicker = ({
 
 	return (
 		<div className="flex gap-2 justify-center">
-			<Select
-				defaultValue={hour}
-				onValueChange={handleHourChange}
-				disabled={disabled}
-			>
+			<Select value={hour} onValueChange={handleHourChange} disabled={disabled}>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>
-					{Array.from({ length: 12 }, (_, index) => index + 1).map((hour) => (
-						<SelectItem key={hour} value={hour.toString()} disabled={disabled}>
+					{Array.from({ length: 12 }, (_, index) =>
+						(index + 1).toString().padStart(2, "0"),
+					).map((hour) => (
+						<SelectItem key={hour} value={hour} disabled={disabled}>
 							{hour}
 						</SelectItem>
 					))}
@@ -57,7 +64,7 @@ export const TimePicker = ({
 			</Select>
 			<span>:</span>
 			<Select
-				defaultValue={minute}
+				value={minute}
 				onValueChange={handleMinuteChange}
 				disabled={disabled}
 			>
@@ -65,25 +72,20 @@ export const TimePicker = ({
 					<SelectValue />
 				</SelectTrigger>
 				<SelectContent>
-					{Array.from({ length: 60 }, (_, index) => {
-						const minute = index.toString().padStart(2, "0");
-						return (
-							<SelectItem
-								key={`minute-${minute}`}
-								value={minute}
-								disabled={disabled}
-							>
-								{minute}
-							</SelectItem>
-						);
-					})}
+					{Array.from({ length: 60 }, (_, index) =>
+						index.toString().padStart(2, "0"),
+					).map((minute) => (
+						<SelectItem
+							key={`minute-${minute}`}
+							value={minute}
+							disabled={disabled}
+						>
+							{minute}
+						</SelectItem>
+					))}
 				</SelectContent>
 			</Select>
-			<Select
-				defaultValue={ampm}
-				onValueChange={handleAmpmChange}
-				disabled={disabled}
-			>
+			<Select value={ampm} onValueChange={handleAmpmChange} disabled={disabled}>
 				<SelectTrigger>
 					<SelectValue />
 				</SelectTrigger>
