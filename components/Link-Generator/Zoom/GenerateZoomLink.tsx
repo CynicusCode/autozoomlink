@@ -1,4 +1,4 @@
-//GenerateZoomLink.tsx
+// GenerateZoomLink.tsx
 import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ interface GenerateZoomLinkProps {
 }
 
 const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
-	const { handleSubmit, getValues } = useFormContext();
+	const { handleSubmit, getValues, setValue } = useFormContext();
 
 	const handleClick = () => {
 		const currentValues = getValues(); // Get all current form values
@@ -18,10 +18,9 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 		const timeZone = currentValues.timeZone || "UTC";
 		const expectedStartDate = currentValues.expectedStartDate;
 		if (expectedStartDate) {
-			currentValues.expectedStartDate = convertToUtc(
-				expectedStartDate,
-				timeZone,
-			);
+			const utcDate = convertToUtc(expectedStartDate, timeZone);
+			setValue("expectedStartDate", utcDate); // Update the form value with the UTC date
+			currentValues.expectedStartDate = utcDate;
 		}
 
 		console.log("Current form values after conversion:", currentValues); // Log current form values after conversion

@@ -52,7 +52,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			);
 
 			const formattedStartDate = dayjs(data.expectedStartDate)
-				.utc()
 				.tz("America/Denver")
 				.format("MM/DD/YYYY hh:mm A");
 

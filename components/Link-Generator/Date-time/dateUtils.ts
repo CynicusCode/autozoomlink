@@ -17,5 +17,6 @@ dayjs.extend(customParseFormat);
 export const convertToUtc = (dateTime: string, timeZone: string): string => {
 	const format = "MM/DD/YYYY hh:mm A"; // Ensure this matches your input format
 	const utcDate = dayjs.tz(dateTime, format, timeZone).utc();
+	console.log("Converted UTC date:", utcDate.toISOString()); // Log the converted UTC date for debugging
 	return utcDate.toISOString();
 };
