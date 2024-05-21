@@ -1,5 +1,4 @@
-// External libraries
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -26,23 +25,27 @@ interface DateTimeState {
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
 
-	// Watch specific form fields
-	const formData = useWatch({
+	// Watch the expectedStartDate field
+	const expectedStartDate = useWatch({
 		control,
-		name: "expectedStartDate", // Assuming this is a singular field you're watching
+		name: "expectedStartDate",
+		defaultValue: null,
 	});
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: formData ? new Date(formData) : null,
-		hour: 12,
-		minute: 0,
-		ampm: "AM",
+		date: expectedStartDate ? new Date(expectedStartDate) : null,
+		hour: expectedStartDate ? dayjs(expectedStartDate).hour() % 12 : 12,
+		minute: expectedStartDate ? dayjs(expectedStartDate).minute() : 0,
+		ampm: expectedStartDate
+			? dayjs(expectedStartDate).hour() >= 12
+				? "PM"
+				: "AM"
+			: "AM",
 	});
 
-	// Effect to update internal component state when watched fields change
 	useEffect(() => {
-		if (formData) {
-			const parsedDate = dayjs(formData);
+		if (expectedStartDate) {
+			const parsedDate = dayjs(expectedStartDate);
 			setDateTime({
 				date: parsedDate.toDate(),
 				hour:
@@ -50,8 +53,15 @@ export const DateTimePicker = ({ disabled = false }) => {
 				minute: parsedDate.minute(),
 				ampm: parsedDate.hour() >= 12 ? "PM" : "AM",
 			});
+		} else {
+			setDateTime({
+				date: null,
+				hour: 12,
+				minute: 0,
+				ampm: "AM",
+			});
 		}
-	}, [formData]);
+	}, [expectedStartDate]);
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
@@ -59,6 +69,14 @@ export const DateTimePicker = ({ disabled = false }) => {
 				shouldValidate: true,
 			});
 			setDateTime((prev) => ({ ...prev, date: newDate }));
+		} else {
+			setValue("expectedStartDate", null, { shouldValidate: true });
+			setDateTime({
+				date: null,
+				hour: 12,
+				minute: 0,
+				ampm: "AM",
+			});
 		}
 	};
 
@@ -105,10 +123,17 @@ export const DateTimePicker = ({ disabled = false }) => {
 				<PopoverContent className="w-auto p-0">
 					<div className="rounded-lg shadow-lg p-8">
 						<CalendarPicker
+							selectedDate={dateTime.date}
 							onDateChange={handleDateChange}
 							disabled={disabled}
 						/>
-						<TimePicker onTimeChange={handleTimeChange} disabled={disabled} />
+						<TimePicker
+							onTimeChange={handleTimeChange}
+							disabled={disabled}
+							hour={dateTime.hour}
+							minute={dateTime.minute}
+							ampm={dateTime.ampm}
+						/>
 					</div>
 				</PopoverContent>
 			</Popover>
