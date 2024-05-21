@@ -1,5 +1,4 @@
-// External libraries
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
 import { CalendarIcon } from "@radix-ui/react-icons";
@@ -26,23 +25,23 @@ interface DateTimeState {
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
 
-	// Watch specific form fields
-	const formData = useWatch({
+	// Watch the expectedStartDate field
+	const expectedStartDate = useWatch({
 		control,
-		name: "expectedStartDate", // Assuming this is a singular field you're watching
+		name: "expectedStartDate",
+		defaultValue: null,
 	});
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: formData ? new Date(formData) : null,
+		date: expectedStartDate ? new Date(expectedStartDate) : null,
 		hour: 12,
 		minute: 0,
 		ampm: "AM",
 	});
 
-	// Effect to update internal component state when watched fields change
 	useEffect(() => {
-		if (formData) {
-			const parsedDate = dayjs(formData);
+		if (expectedStartDate) {
+			const parsedDate = dayjs(expectedStartDate);
 			setDateTime({
 				date: parsedDate.toDate(),
 				hour:
@@ -51,7 +50,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 				ampm: parsedDate.hour() >= 12 ? "PM" : "AM",
 			});
 		}
-	}, [formData]);
+	}, [expectedStartDate]);
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
