@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { promises as fs } from "node:fs";
+import path from "node:path";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -36,7 +36,6 @@ export default async function handler(
 			bookingMode,
 			expectedDurationHrs,
 			expectedDurationMins,
-			expectedEndDate,
 			expectedStartDate,
 			expectedStartTime,
 			timeZone,
@@ -47,35 +46,36 @@ export default async function handler(
 		} = appointmentDetails;
 
 		const videoLinkField =
-			refs?.find((ref: any) => ref.name?.toLowerCase().includes("video link"))
-				?.referenceValue || "No video link available";
+			refs?.find((ref: { name?: string }) =>
+				ref.name?.toLowerCase().includes("video link"),
+			)?.referenceValue || "No 3rd party video link field was found";
 
-		const isVirtual = actualLocation?.addrEntered?.includes("VR");
+		const isVirtual = actualLocation?.displayLabel
+			?.toLowerCase()
+			.includes("vr");
+		const isVriType = bookingMode?.description?.toLowerCase().includes("video");
 
 		const filteredJobDetails = {
 			jobNumber: id.toString(), // Convert to string if necessary
 			language: defaultLanguage?.displayName || "Default Language",
-			location: actualLocation?.addrEntered || "Default Location",
-			appType: bookingMode?.name || "Default Booking Mode",
-			locationLabel: actualLocation?.displayLabel || "Default Location Label",
-			isLocationLabel: !!isVirtual,
+			IsVriType: !!isVriType,
+			isVirtualLabelInAddress: !!isVirtual,
 			expectedDurationHrs,
 			expectedDurationMins,
-			expectedEndDate,
 			expectedStartDate,
 			expectedStartTime,
 			timeZone: timeZone.toString(),
 			timeZoneDisplayName: timeZoneDisplayName.toString(),
-			notificationEmail: requestor?.email || "noemail@example.com",
+			requestorEmail: requestor?.email || "noemail@example.com",
 			requestorName: requestor?.name || "Unknown Requestor",
 			jobStatus: status?.name || "Status Unknown",
 			videoLinkField,
 		};
 
 		res.status(200).json(filteredJobDetails);
-	} catch (error) {
+	} catch (error: unknown) {
 		console.error("Error fetching appointment details:", error);
-		if (error.code === "ENOENT") {
+		if ((error as NodeJS.ErrnoException).code === "ENOENT") {
 			return res.status(404).json({ error: "Appointment details not found" });
 		}
 		res.status(500).json({ error: "Failed to fetch appointment details" });

@@ -15,9 +15,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+import { Badge } from "@/components/ui/badge";
 
 // 3. Local project files
+import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
@@ -27,8 +28,10 @@ import { Separator } from "../ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";
-import { convertToUtc } from "./Date-time/dateUtils";
 import ManualTitle from "./ManualTitle";
+import VriApproved from "./VriApproved";
+import VriType from "./VriType";
+import VriLabel from "./VriLabel";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -38,23 +41,8 @@ const AutoLinkGenerator: React.FC = () => {
 		resolver: zodResolver(schema),
 	});
 
-	const selectedTimeZone = useWatch({
-		control: methods.control,
-		name: "timeZone",
-		defaultValue: "UTC",
-	});
-
 	const onSubmit = (data: FormValues) => {
-		const { expectedStartDate } = data;
-
-		if (expectedStartDate) {
-			data.expectedStartDate = convertToUtc(
-				expectedStartDate,
-				selectedTimeZone || "UTC",
-			);
-		}
-
-		console.log("Form data on submit:", data); // Log all form values with UTC date
+		console.log("Form data on submit:", data); // Log all form values with local date-time
 		// Add your Zoom link generation logic here
 	};
 
@@ -83,6 +71,7 @@ const AutoLinkGenerator: React.FC = () => {
 					<LanguageSelector disabled={isAutomaticMode} />
 					<DateTimePicker disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
+					<VriApproved /> <VriLabel /> <VriType />
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
