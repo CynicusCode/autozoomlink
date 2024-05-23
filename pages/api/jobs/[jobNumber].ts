@@ -1,5 +1,5 @@
 import { promises as fs } from "node:fs";
-import path, { join } from "node:path";
+import path from "node:path";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -50,14 +50,16 @@ export default async function handler(
 				ref.name?.toLowerCase().includes("video link"),
 			)?.referenceValue || "No 3rd party video link field was found";
 
-		const isVirtual = actualLocation?.addrEntered?.includes("VR");
+		const isVirtual = actualLocation?.displayLabel
+			?.toLowerCase()
+			.includes("vr");
+		const isVriType = bookingMode?.description?.toLowerCase().includes("video");
 
 		const filteredJobDetails = {
 			jobNumber: id.toString(), // Convert to string if necessary
 			language: defaultLanguage?.displayName || "Default Language",
-			appType: bookingMode?.name || "Default Booking Mode",
-			locationLabel: actualLocation?.displayLabel || "Default Location Label",
-			isVirtualLabelInAdress: !!isVirtual,
+			IsVriType: !!isVriType,
+			isVirtualLabelInAddress: !!isVirtual,
 			expectedDurationHrs,
 			expectedDurationMins,
 			expectedStartDate,

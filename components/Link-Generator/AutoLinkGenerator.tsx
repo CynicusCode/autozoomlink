@@ -29,6 +29,9 @@ import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";
 import ManualTitle from "./ManualTitle";
+import VriApproved from "./VriApproved";
+import VriType from "./VriType";
+import VriLabel from "./VriLabel";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -68,7 +71,7 @@ const AutoLinkGenerator: React.FC = () => {
 					<LanguageSelector disabled={isAutomaticMode} />
 					<DateTimePicker disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
-
+					<VriApproved /> <VriLabel /> <VriType />
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
