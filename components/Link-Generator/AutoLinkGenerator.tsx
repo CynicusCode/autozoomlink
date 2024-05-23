@@ -15,9 +15,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+import { Badge } from "@/components/ui/badge";
 
 // 3. Local project files
+import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
@@ -67,6 +68,7 @@ const AutoLinkGenerator: React.FC = () => {
 					<LanguageSelector disabled={isAutomaticMode} />
 					<DateTimePicker disabled={isAutomaticMode} />
 					<TimeZoneSelector disabled={isAutomaticMode} />
+
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
