@@ -41,7 +41,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		try {
 			const data = await fetchJobDetails(jobNumber);
 
-			// Set form values from fetched data
+			// Set form values from	fetched data
 			setValue("manualTitle", `Job #${data.jobNumber}`); // Set the manualTitle using the jobNumber
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);

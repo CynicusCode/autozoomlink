@@ -13,7 +13,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 
 	const handleClick = () => {
 		const currentValues = getValues(); // Get all current form values
-		console.log("Current form values before conversion:", currentValues); // Log current form values
 
 		const timeZone = currentValues.timeZone || "UTC";
 		const expectedStartDate = currentValues.expectedStartDate;
