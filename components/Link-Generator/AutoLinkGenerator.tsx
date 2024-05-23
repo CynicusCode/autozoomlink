@@ -22,13 +22,12 @@ import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
 import ManualEntrySwitch from "./ManualEntryswitch";
-import ManualTitle from "./ManualTitle";
 import { schema, type FormValues } from "./formSchema";
 import { Separator } from "../ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";
-import { convertToUtc } from "./Date-time/dateUtils";
+import ManualTitle from "./ManualTitle";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -38,23 +37,8 @@ const AutoLinkGenerator: React.FC = () => {
 		resolver: zodResolver(schema),
 	});
 
-	const selectedTimeZone = useWatch({
-		control: methods.control,
-		name: "timeZone",
-		defaultValue: "UTC",
-	});
-
 	const onSubmit = (data: FormValues) => {
-		const { expectedStartDate } = data;
-
-		if (expectedStartDate) {
-			data.expectedStartDate = convertToUtc(
-				expectedStartDate,
-				selectedTimeZone || "UTC",
-			);
-		}
-
-		console.log("Form data on submit:", data); // Log all form values with UTC date
+		console.log("Form data on submit:", data); // Log all form values with local date-time
 		// Add your Zoom link generation logic here
 	};
 

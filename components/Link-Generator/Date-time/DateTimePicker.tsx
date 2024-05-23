@@ -1,17 +1,15 @@
-// External libraries
-import React, { useEffect, useState } from "react";
+// DateTimePicker.tsx
+import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
 import { CalendarIcon } from "@radix-ui/react-icons";
-
-// UI components from your project
+// UI components
 import {
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
 } from "@/components/ui/popover";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
-
 // Local components
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
@@ -26,47 +24,79 @@ interface DateTimeState {
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
 
-	// Watch specific form fields
-	const formData = useWatch({
+	// Watch the expectedStartDate field
+	const expectedStartDate = useWatch({
 		control,
-		name: "expectedStartDate", // Assuming this is a singular field you're watching
+		name: "expectedStartDate",
+		defaultValue: null,
 	});
+
+	const parseDate = (dateString: string) => {
+		if (dayjs(dateString).isValid()) {
+			return dayjs(dateString).toDate();
+		}
+		return dayjs(dateString, "MM/DD/YYYY hh:mm A").toDate();
+	};
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: formData ? new Date(formData) : null,
-		hour: 12,
-		minute: 0,
-		ampm: "AM",
+		date: expectedStartDate ? parseDate(expectedStartDate) : null,
+		hour: expectedStartDate ? dayjs(expectedStartDate).hour() % 12 || 12 : 12,
+		minute: expectedStartDate ? dayjs(expectedStartDate).minute() : 0,
+		ampm: expectedStartDate
+			? dayjs(expectedStartDate).hour() >= 12
+				? "PM"
+				: "AM"
+			: "AM",
 	});
 
-	// Effect to update internal component state when watched fields change
 	useEffect(() => {
-		if (formData) {
-			const parsedDate = dayjs(formData);
+		if (expectedStartDate) {
+			const parsedDate = dayjs(expectedStartDate, [
+				"MM/DD/YYYY hh:mm A",
+				"YYYY-MM-DDTHH:mm:ss.SSSZ",
+			]);
 			setDateTime({
 				date: parsedDate.toDate(),
-				hour:
-					parsedDate.hour() > 12 ? parsedDate.hour() - 12 : parsedDate.hour(),
+				hour: parsedDate.hour() % 12 || 12,
 				minute: parsedDate.minute(),
 				ampm: parsedDate.hour() >= 12 ? "PM" : "AM",
 			});
+		} else {
+			setDateTime({
+				date: null,
+				hour: 12,
+				minute: 0,
+				ampm: "AM",
+			});
 		}
-	}, [formData]);
+	}, [expectedStartDate]);
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
-			setValue("expectedStartDate", dayjs(newDate).toISOString(), {
+			const formattedDate = dayjs(newDate).format("MM/DD/YYYY");
+			const existingTime = `${dateTime.hour}:${dateTime.minute} ${dateTime.ampm}`;
+			const combinedDateTime = `${formattedDate} ${existingTime}`;
+			setValue("expectedStartDate", combinedDateTime, {
 				shouldValidate: true,
 			});
 			setDateTime((prev) => ({ ...prev, date: newDate }));
+		} else {
+			setValue("expectedStartDate", null, { shouldValidate: true });
+			setDateTime({
+				date: null,
+				hour: 12,
+				minute: 0,
+				ampm: "AM",
+			});
 		}
 	};
 
 	const handleTimeChange = (hour: number, minute: number, ampm: string) => {
-		const updatedDate = dateTime.date
-			? dayjs(dateTime.date).hour(hour).minute(minute).toISOString()
-			: null;
-		setValue("expectedStartDate", updatedDate, { shouldValidate: true });
+		const formattedDate = dateTime.date
+			? dayjs(dateTime.date).format("MM/DD/YYYY")
+			: dayjs().format("MM/DD/YYYY");
+		const combinedDateTime = `${formattedDate} ${hour}:${minute} ${ampm}`;
+		setValue("expectedStartDate", combinedDateTime, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
 	};
 
@@ -105,10 +135,17 @@ export const DateTimePicker = ({ disabled = false }) => {
 				<PopoverContent className="w-auto p-0">
 					<div className="rounded-lg shadow-lg p-8">
 						<CalendarPicker
+							selectedDate={dateTime.date}
 							onDateChange={handleDateChange}
 							disabled={disabled}
 						/>
-						<TimePicker onTimeChange={handleTimeChange} disabled={disabled} />
+						<TimePicker
+							onTimeChange={handleTimeChange}
+							disabled={disabled}
+							hour={dateTime.hour}
+							minute={dateTime.minute}
+							ampm={dateTime.ampm}
+						/>
 					</div>
 				</PopoverContent>
 			</Popover>
