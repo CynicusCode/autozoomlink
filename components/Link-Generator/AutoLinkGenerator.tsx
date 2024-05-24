@@ -1,4 +1,4 @@
-// AutoLinkGenerator.tsx
+// AutoLinkGenerator: Main component for creating Zoom links, handles input modes, integrates sub-components, and submits form data.
 "use client";
 // 1. External libraries
 import { zodResolver } from "@hookform/resolvers/zod";

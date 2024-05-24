@@ -1,5 +1,3 @@
-///schema.prisma
-
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -13,23 +11,24 @@ generator client {
 model Appointment {
   id              String   @id @default(uuid())
   jobNumber       Int      @unique
-  date            DateTime
-  time            DateTime
-  durationHrs     Int
-  durationMins    Int
+  date            DateTime?
+  time            DateTime?
+  durationHrs     Int?
+  durationMins    Int?
   endDateTime     DateTime?
-  timeZone        String
+  timeZone        String?
   vriApproved     Boolean  @default(false)
-  videoScheduled  Boolean  @default(false)
-  status          String
+  vriLabel        Boolean  @default(false)
+  vriType         Boolean  @default(false)
+  status          String?
   videoLink       String?
-  videoLinkField  String
-  requestorName   String
-  requestorEmail  String
+  videoLinkField  String?
+  requestorName   String?
+  requestorEmail  String?
   createdByLLS    Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  ///Zoom releated fields
+  ///Zoom related fields
   zoomMeetingId   String?  // The unique identifier for the Zoom meeting
   zoomStartLink   String?  // The URL to start the Zoom meeting
   zoomJoinLink    String?  // The URL for participants to join the Zoom meeting
