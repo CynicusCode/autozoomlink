@@ -1,4 +1,7 @@
-//pages/api/zoom/createMeeting.js
+// pages/api/zoom/createMeeting.js
+
+import fetch from "node-fetch";
+
 export default async function handler(req, res) {
 	const { ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET } = process.env;
 
@@ -9,7 +12,7 @@ export default async function handler(req, res) {
 
 	try {
 		// Request access token from Zoom using fetch
-		const response = await fetch("https://zoom.us/oauth/token", {
+		const tokenResponse = await fetch("https://zoom.us/oauth/token", {
 			method: "POST",
 			headers: {
 				Authorization: `Basic ${token}`,
@@ -21,26 +24,55 @@ export default async function handler(req, res) {
 			}),
 		});
 
-		const data = await response.json();
+		const tokenData = await tokenResponse.json();
 
 		// Check if the response contains an access token
-		if (data?.access_token) {
-			res.status(200).json({
-				success: true,
-				message: "Connected to Zoom successfully!",
-				token: data.access_token,
-			});
-		} else {
-			res.status(500).json({
+		if (!tokenData?.access_token) {
+			return res.status(500).json({
 				success: false,
 				message: "Failed to get access token from Zoom",
 			});
 		}
+
+		const accessToken = tokenData.access_token;
+
+		// Create Zoom meeting
+		const meetingResponse = await fetch(
+			"https://api.zoom.us/v2/users/me/meetings",
+			{
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					topic: "New Appointment Meeting",
+					type: 2, // Scheduled meeting
+					start_time: req.body.start_time, // Start time in ISO format
+					duration: req.body.duration, // Duration in minutes
+					timezone: req.body.timezone,
+				}),
+			},
+		);
+
+		const meetingData = await meetingResponse.json();
+
+		if (meetingResponse.status !== 201) {
+			return res.status(meetingResponse.status).json({
+				success: false,
+				message: meetingData.message,
+			});
+		}
+
+		res.status(201).json({
+			success: true,
+			meeting: meetingData,
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({
 			success: false,
-			message: "Error connecting to Zoom",
+			message: "Error creating Zoom meeting",
 			error: error.message,
 		});
 	}

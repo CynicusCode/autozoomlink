@@ -41,7 +41,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		try {
 			const data = await fetchJobDetails(jobNumber);
 
-			// Set form values from	fetched data
+			// Set form values from fetched data
 			setValue("manualTitle", `Job #${data.jobNumber}`); // Set the manualTitle using the jobNumber
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
@@ -59,6 +59,8 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
 			setValue("isVriType", data.isVriType);
+			setValue("requestorName", data.requestorName);
+			setValue("requestorEmail", data.requestorEmail);
 
 			setLoading(false);
 		} catch (err) {
