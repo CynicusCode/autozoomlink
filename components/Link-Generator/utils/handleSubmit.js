@@ -34,16 +34,16 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			vriApproved: data.isVriApproved,
 			vriLabel: data.isVirtualLabelInAddress,
 			vriType: data.isVriType,
-			status: "Scheduled",
+			status: data.jobStatus,
 			videoLink: zoomData.meeting.join_url,
-			requestorName: "Your Name",
-			requestorEmail: "your-email@example.com",
+			requestorName: data.requestorName,
+			requestorEmail: data.requestorEmail,
 			createdByLLS: true,
 			zoomMeetingId: zoomData.meeting.id,
 			zoomStartLink: zoomData.meeting.start_url,
 			zoomJoinLink: zoomData.meeting.join_url,
 			zoomInvitation: zoomData.meeting.password,
-			vriRoomNumber: null,
+			vriRoomNumber: 1,
 		};
 
 		// Add your database submission logic here

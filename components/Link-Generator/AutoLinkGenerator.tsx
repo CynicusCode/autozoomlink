@@ -76,6 +76,7 @@ const AutoLinkGenerator: React.FC = () => {
 						<VriLabel />
 						<VriType />
 					</div>
+
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>

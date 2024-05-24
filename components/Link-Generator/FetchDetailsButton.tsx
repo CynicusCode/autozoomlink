@@ -1,5 +1,3 @@
-// FetchDetailsButton.tsx
-
 "use client";
 
 import type React from "react";
@@ -12,7 +10,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 
-// Use the plugins
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -30,7 +27,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
 
-		// Check if the jobNumber is exactly 5 digits and numeric
 		if (!/^\d{5}$/.test(jobNumber)) {
 			setError("Job number must be exactly 5 digits and numeric.");
 			return;
@@ -61,6 +57,8 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("isVriType", data.isVriType);
 			setValue("requestorName", data.requestorName);
 			setValue("requestorEmail", data.requestorEmail);
+			setValue("jobStatus", data.jobStatus);
+			setValue("videoLinkField", data.videoLinkField);
 
 			setLoading(false);
 		} catch (err) {
@@ -75,11 +73,11 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			<Button
 				onClick={handleFetchDetails}
 				className={`
-                    text-white 
-                    bg-orange-600 hover:bg-orange-700 
-                    dark:bg-green-600 dark:hover:bg-green-700
-                    ${loading ? "opacity-50 cursor-not-allowed" : ""}
-                `}
+          text-white 
+          bg-orange-600 hover:bg-orange-700 
+          dark:bg-green-600 dark:hover:bg-green-700
+          ${loading ? "opacity-50 cursor-not-allowed" : ""}
+        `}
 				disabled={loading}
 			>
 				{loading ? "Loading..." : "Fetch Details"}
