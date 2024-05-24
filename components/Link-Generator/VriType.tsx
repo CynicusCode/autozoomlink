@@ -1,8 +1,26 @@
 "use client";
-import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { useFormContext } from "react-hook-form";
+import type React from "react";
 
-const VriType = () => {
-	return <div>VriType</div>;
+const VriType: React.FC = () => {
+	const { watch } = useFormContext();
+	const isVriType = watch("isVriType");
+
+	if (isVriType === undefined) {
+		return null;
+	}
+
+	return (
+		<Badge
+			className={`
+        ${isVriType ? "bg-green-500" : "bg-red-500"}
+        text-white
+      `}
+		>
+			VRI Approved Filter
+		</Badge>
+	);
 };
 
 export default VriType;

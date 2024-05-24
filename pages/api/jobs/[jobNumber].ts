@@ -28,7 +28,8 @@ export default async function handler(
 		const filePath = path.join(dirPath, matchedFile);
 		const fileData = await fs.readFile(filePath, "utf8");
 		const appointmentDetails = JSON.parse(fileData);
-		// Extract the ID from the appointment details
+
+		// Extract the necessary fields from the appointment details
 		const {
 			id, // make sure this is part of your JSON structure
 			defaultLanguage,
@@ -43,23 +44,34 @@ export default async function handler(
 			requestor,
 			status,
 			refs,
+			criteria, // Extract criteria from the JSON structure
 		} = appointmentDetails;
 
+		// Find video link field if available
 		const videoLinkField =
 			refs?.find((ref: { name?: string }) =>
 				ref.name?.toLowerCase().includes("video link"),
 			)?.referenceValue || "No 3rd party video link field was found";
 
+		// Check if the location or booking mode indicate a virtual session
 		const isVirtual = actualLocation?.displayLabel
 			?.toLowerCase()
 			.includes("vr");
 		const isVriType = bookingMode?.description?.toLowerCase().includes("video");
 
+		// Check for VRI Approved criteria
+		const isVriApproved = appointmentDetails.requirements?.some(
+			(req: { criteria?: { name: string } }) =>
+				req.criteria?.name === "VRI Approved",
+		);
+
+		// Prepare the filtered job details
 		const filteredJobDetails = {
 			jobNumber: id.toString(), // Convert to string if necessary
 			language: defaultLanguage?.displayName || "Default Language",
-			IsVriType: !!isVriType,
+			isVriType: !!isVriType,
 			isVirtualLabelInAddress: !!isVirtual,
+			isVriApproved, // Include the VRI Approved status
 			expectedDurationHrs,
 			expectedDurationMins,
 			expectedStartDate,

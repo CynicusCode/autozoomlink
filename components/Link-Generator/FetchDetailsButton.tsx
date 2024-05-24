@@ -56,6 +56,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				.format("MM/DD/YYYY hh:mm A");
 
 			setValue("expectedStartDate", formattedStartDate); // Update the form with formatted date
+			setValue("isVriApproved", data.isVriApproved);
+			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
+			setValue("isVriType", data.isVriType);
 
 			setLoading(false);
 		} catch (err) {
