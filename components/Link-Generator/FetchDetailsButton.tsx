@@ -59,7 +59,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("requestorEmail", data.requestorEmail);
 			setValue("jobStatus", data.jobStatus);
 			setValue("videoLinkField", data.videoLinkField);
-
 			setLoading(false);
 		} catch (err) {
 			console.error("Failed to fetch details:", err);

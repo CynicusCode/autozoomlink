@@ -1,6 +1,9 @@
-// utils/handleSubmit.js
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-import { convertToUtc } from "@/components/Link-Generator/Date-time/dateUtils";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
@@ -23,12 +26,12 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			throw new Error(zoomData.message || "Failed to create Zoom meeting");
 		}
 
-		// Calculate endDateTime
+		// Calculate endDateTime using day.js
 		const durationInMinutes =
 			data.hours * 60 + Number.parseInt(data.minutes, 10);
-		const endDateTime = new Date(
-			new Date(data.expectedStartDate).getTime() + durationInMinutes * 60000,
-		).toISOString();
+		const endDateTime = dayjs(data.expectedStartDate)
+			.add(durationInMinutes, "minute")
+			.toISOString();
 
 		// Prepare the payload for the database
 		const payload = {
