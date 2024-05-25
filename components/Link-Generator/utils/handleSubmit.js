@@ -23,13 +23,22 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			throw new Error(zoomData.message || "Failed to create Zoom meeting");
 		}
 
+		// Calculate endDateTime
+		const durationInMinutes =
+			data.hours * 60 + Number.parseInt(data.minutes, 10);
+		const endDateTime = new Date(
+			new Date(data.expectedStartDate).getTime() + durationInMinutes * 60000,
+		).toISOString();
+
 		// Prepare the payload for the database
 		const payload = {
 			jobNumber: data.jobNumber,
+			manualTitle: data.manualTitle,
 			date: new Date(data.expectedStartDate),
 			time: new Date(data.expectedStartDate),
 			durationHrs: data.hours,
 			durationMins: data.minutes,
+			endDateTime: endDateTime, // Set calculated endDateTime
 			timeZone: data.timeZone,
 			vriApproved: data.isVriApproved,
 			vriLabel: data.isVirtualLabelInAddress,

@@ -32,6 +32,7 @@ import ManualTitle from "./ManualTitle";
 import VriType from "./VriType";
 import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
+import VideoLinkField from "./videoLinkField";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -75,6 +76,9 @@ const AutoLinkGenerator: React.FC = () => {
 						<VriApproved />
 						<VriLabel />
 						<VriType />
+					</div>
+					<div className="flex justify-center">
+						<VideoLinkField />
 					</div>
 
 					<Separator />
