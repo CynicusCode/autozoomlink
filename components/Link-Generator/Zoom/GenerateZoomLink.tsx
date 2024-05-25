@@ -1,17 +1,13 @@
-// GenerateZoomLink.tsx
 import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { convertToUtc } from "../Date-time/dateUtils";
+import { handleSubmit as handleZoomSubmit } from "../utils/handleSubmit";
 
-interface GenerateZoomLinkProps {
-	onClick: () => void; // Expect an onClick function as a prop
-}
+const GenerateZoomLink: React.FC = () => {
+	const { handleSubmit, getValues, setValue, setError } = useFormContext();
 
-const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
-	const { handleSubmit, getValues, setValue } = useFormContext();
-
-	const handleClick = () => {
+	const handleClick = async () => {
 		const currentValues = getValues(); // Get all current form values
 
 		const timeZone = currentValues.timeZone || "UTC";
@@ -21,9 +17,8 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 			setValue("expectedStartDate", utcDate); // Update the form value with the UTC date
 			currentValues.expectedStartDate = utcDate;
 		}
-
-		console.log("Current form values after conversion:", currentValues); // Log current form values after conversion
-		handleSubmit(onClick)();
+		// Call the Zoom API using handleZoomSubmit function
+		await handleZoomSubmit(currentValues, setValue, getValues, setError);
 	};
 
 	return (

@@ -7,6 +7,9 @@ dayjs.extend(timezone);
 
 export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
+		// Log the initial data to debug
+		console.log("Initial form data:", data);
+
 		// Create Zoom meeting
 		const zoomResponse = await fetch("/api/zoom/createMeeting", {
 			method: "POST",
@@ -14,26 +17,36 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
+				topic: data.manualTitle,
 				start_time: data.expectedStartDate,
 				duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
 				timezone: data.timeZone,
+				settings: {
+					join_before_host: true,
+					participant_video: true,
+					host_video: true,
+				},
 			}),
 		});
 
-		const zoomData = await zoomResponse.json();
-
-		if (!zoomData.success) {
-			throw new Error(zoomData.message || "Failed to create Zoom meeting");
+		if (!zoomResponse.ok) {
+			const errorText = await zoomResponse.text();
+			throw new Error(`Zoom API error: ${errorText}`);
 		}
 
-		// Calculate endDateTime using day.js
+		const zoomData = await zoomResponse.json();
+
+		// Log the entire Zoom API response to study the structure
+		console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
+
+		// Calculate endDateTime using dayjs
 		const durationInMinutes =
 			data.hours * 60 + Number.parseInt(data.minutes, 10);
 		const endDateTime = dayjs(data.expectedStartDate)
 			.add(durationInMinutes, "minute")
 			.toISOString();
 
-		// Prepare the payload for the database
+		// Prepare the payload for logging
 		const payload = {
 			jobNumber: data.jobNumber,
 			manualTitle: data.manualTitle,
@@ -41,13 +54,13 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			time: new Date(data.expectedStartDate),
 			durationHrs: data.hours,
 			durationMins: data.minutes,
-			endDateTime: endDateTime, // Set calculated endDateTime
+			endDateTime: endDateTime,
 			timeZone: data.timeZone,
 			vriApproved: data.isVriApproved,
 			vriLabel: data.isVirtualLabelInAddress,
 			vriType: data.isVriType,
 			status: data.jobStatus,
-			videoLink: zoomData.meeting.join_url,
+			videoLink: data.videoLinkField,
 			requestorName: data.requestorName,
 			requestorEmail: data.requestorEmail,
 			createdByLLS: true,
@@ -58,17 +71,8 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			vriRoomNumber: 1,
 		};
 
-		// Add your database submission logic here
-		const response = await fetch("/api/appointments", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(payload),
-		});
-
-		const result = await response.json();
-		console.log("Appointment created:", result);
+		// Log the payload for now
+		console.log("Meeting created, payload:", payload);
 	} catch (error) {
 		console.error("Error creating appointment:", error);
 		setError("submit", { message: error.message });
