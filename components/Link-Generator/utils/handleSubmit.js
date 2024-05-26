@@ -1,57 +1,70 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import { DateTimeHandler } from "../Date-time/dateUtils";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
-		// Log the initial data to debug
 		console.log("Initial form data:", data);
 
-		// Create Zoom meeting
-		const zoomResponse = await fetch("/api/zoom/createMeeting", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
+		// Commented out the Zoom API call
+		/*
+    const zoomResponse = await fetch("/api/zoom/createMeeting", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic: data.manualTitle,
+        start_time: data.expectedStartDate,
+        duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
+        timezone: data.timeZone,
+        settings: {
+          join_before_host: true,
+          participant_video: true,
+          host_video: true,
+        },
+      }),
+    });
+
+    if (!zoomResponse.ok) {
+      const errorText = await zoomResponse.text();
+      throw new Error(`Zoom API error: ${errorText}`);
+    }
+
+    const zoomData = await zoomResponse.json();
+    console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
+    */
+
+		const zoomData = {
+			meeting: {
+				id: "123456789",
+				start_url: "https://zoom.us/start_url",
+				join_url: "https://zoom.us/join_url",
+				password: "password123",
 			},
-			body: JSON.stringify({
-				topic: data.manualTitle,
-				start_time: data.expectedStartDate,
-				duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
-				timezone: data.timeZone,
-				settings: {
-					join_before_host: true,
-					participant_video: true,
-					host_video: true,
-				},
-			}),
-		});
+		};
 
-		if (!zoomResponse.ok) {
-			const errorText = await zoomResponse.text();
-			throw new Error(`Zoom API error: ${errorText}`);
-		}
+		// Convert expectedStartDate to UTC using DateTimeHandler
+		const utcStartDate = DateTimeHandler.convertToUtc(
+			data.expectedStartDate,
+			data.timeZone,
+		);
+		data.expectedStartDate = utcStartDate;
 
-		const zoomData = await zoomResponse.json();
-
-		// Log the entire Zoom API response to study the structure
-		console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
-
-		// Calculate endDateTime using dayjs
 		const durationInMinutes =
 			data.hours * 60 + Number.parseInt(data.minutes, 10);
 		const endDateTime = dayjs(data.expectedStartDate)
 			.add(durationInMinutes, "minute")
 			.toISOString();
 
-		// Prepare the payload for logging
 		const payload = {
-			jobNumber: data.jobNumber,
+			jobNumber: data.manualTitle,
 			manualTitle: data.manualTitle,
-			date: new Date(data.expectedStartDate),
-			time: new Date(data.expectedStartDate),
+			date: data.expectedStartDate,
 			durationHrs: data.hours,
 			durationMins: data.minutes,
 			endDateTime: endDateTime,
@@ -71,7 +84,6 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			vriRoomNumber: 1,
 		};
 
-		// Log the payload for now
 		console.log("Meeting created, payload:", payload);
 	} catch (error) {
 		console.error("Error creating appointment:", error);

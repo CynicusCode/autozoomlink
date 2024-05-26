@@ -1,17 +1,10 @@
-"use client";
-
 import type React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { DateTimeHandler } from "./Date-time/dateUtils";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -22,7 +15,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 }) => {
 	const [error, setError] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-	const { setValue } = useFormContext();
+	const { setValue, getValues } = useFormContext();
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
@@ -38,7 +31,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			const data = await fetchJobDetails(jobNumber);
 
 			// Set form values from fetched data
-			setValue("manualTitle", `Job #${data.jobNumber}`); // Set the manualTitle using the jobNumber
+			setValue("manualTitle", `Job #${data.jobNumber}`);
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
 			setValue("hours", String(Math.floor(data.expectedDurationHrs)));
@@ -47,11 +40,13 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				String(data.expectedDurationMins % 60).padStart(2, "0"),
 			);
 
-			const formattedStartDate = dayjs(data.expectedStartDate)
-				.tz("America/Denver")
-				.format("MM/DD/YYYY hh:mm A");
+			const formattedStartDate = DateTimeHandler.formatDateTimeForDisplay(
+				data.expectedStartDate,
+				data.timeZone,
+			);
+			console.log(`Formatted start date: ${formattedStartDate}`);
+			setValue("expectedStartDate", formattedStartDate);
 
-			setValue("expectedStartDate", formattedStartDate); // Update the form with formatted date
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
 			setValue("isVriType", data.isVriType);
@@ -59,6 +54,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("requestorEmail", data.requestorEmail);
 			setValue("jobStatus", data.jobStatus);
 			setValue("videoLinkField", data.videoLinkField);
+
 			setLoading(false);
 		} catch (err) {
 			console.error("Failed to fetch details:", err);
@@ -71,12 +67,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		<div className="flex flex-col items-center">
 			<Button
 				onClick={handleFetchDetails}
-				className={`
-          text-white 
-          bg-orange-600 hover:bg-orange-700 
-          dark:bg-green-600 dark:hover:bg-green-700
-          ${loading ? "opacity-50 cursor-not-allowed" : ""}
-        `}
+				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
+					loading ? "opacity-50 cursor-not-allowed" : ""
+				}`}
 				disabled={loading}
 			>
 				{loading ? "Loading..." : "Fetch Details"}

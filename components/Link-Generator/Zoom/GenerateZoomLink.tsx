@@ -1,22 +1,33 @@
 import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { convertToUtc } from "../Date-time/dateUtils";
 import { handleSubmit as handleZoomSubmit } from "../utils/handleSubmit";
+import { DateTimeHandler } from "../Date-time/dateUtils";
 
 const GenerateZoomLink: React.FC = () => {
 	const { handleSubmit, getValues, setValue, setError } = useFormContext();
 
 	const handleClick = async () => {
-		const currentValues = getValues(); // Get all current form values
+		const currentValues = getValues();
+		console.log("Initial form values:", currentValues);
 
 		const timeZone = currentValues.timeZone || "UTC";
 		const expectedStartDate = currentValues.expectedStartDate;
+
 		if (expectedStartDate) {
-			const utcDate = convertToUtc(expectedStartDate, timeZone);
-			setValue("expectedStartDate", utcDate); // Update the form value with the UTC date
+			const utcDate = DateTimeHandler.convertToUtc(expectedStartDate, timeZone);
+			setValue("expectedStartDate", utcDate);
 			currentValues.expectedStartDate = utcDate;
+			console.log("Converted to UTC date:", utcDate);
 		}
+
+		// Ensure manualTitle is set correctly
+		if (!currentValues.manualTitle) {
+			setError("manualTitle", { message: "Manual title is required" });
+			console.error("Manual title is missing");
+			return;
+		}
+
 		// Call the Zoom API using handleZoomSubmit function
 		await handleZoomSubmit(currentValues, setValue, getValues, setError);
 	};
