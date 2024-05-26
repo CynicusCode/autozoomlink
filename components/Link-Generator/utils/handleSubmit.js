@@ -10,34 +10,15 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
 		console.log("Initial form data:", data);
 
-		// Commented out the Zoom API call
-		/*
-    const zoomResponse = await fetch("/api/zoom/createMeeting", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        topic: data.manualTitle,
-        start_time: data.expectedStartDate,
-        duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
-        timezone: data.timeZone,
-        settings: {
-          join_before_host: true,
-          participant_video: true,
-          host_video: true,
-        },
-      }),
-    });
-
-    if (!zoomResponse.ok) {
-      const errorText = await zoomResponse.text();
-      throw new Error(`Zoom API error: ${errorText}`);
-    }
-
-    const zoomData = await zoomResponse.json();
-    console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
-    */
+		// Convert expectedStartDate to UTC using DateTimeHandler only once
+		if (data.expectedStartDate) {
+			const utcStartDate = DateTimeHandler.convertToUtc(
+				data.expectedStartDate,
+				data.timeZone,
+			);
+			data.expectedStartDate = utcStartDate;
+			console.log("Converted to UTC date:", utcStartDate);
+		}
 
 		const zoomData = {
 			meeting: {
@@ -47,13 +28,6 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 				password: "password123",
 			},
 		};
-
-		// Convert expectedStartDate to UTC using DateTimeHandler
-		const utcStartDate = DateTimeHandler.convertToUtc(
-			data.expectedStartDate,
-			data.timeZone,
-		);
-		data.expectedStartDate = utcStartDate;
 
 		const durationInMinutes =
 			data.hours * 60 + Number.parseInt(data.minutes, 10);

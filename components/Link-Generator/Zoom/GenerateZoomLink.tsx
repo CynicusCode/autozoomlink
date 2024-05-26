@@ -11,9 +11,7 @@ const GenerateZoomLink: React.FC = () => {
 		const currentValues = getValues();
 		console.log("Initial form values:", currentValues);
 
-		const timeZone = currentValues.timeZone || "UTC";
-		const expectedStartDate = currentValues.expectedStartDate;
-
+		const { expectedStartDate, timeZone } = currentValues;
 		if (expectedStartDate) {
 			const utcDate = DateTimeHandler.convertToUtc(expectedStartDate, timeZone);
 			setValue("expectedStartDate", utcDate);
