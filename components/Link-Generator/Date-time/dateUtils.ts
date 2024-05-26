@@ -11,7 +11,10 @@ export const DateTimeHandler = {
 		console.log(
 			`formatDateTimeForDisplay - dateTime: ${dateTime}, timeZone: ${timeZone}`,
 		);
-		const formatted = dayjs.tz(dateTime, timeZone).format("MM/DD/YYYY hh:mm A");
+		const formatted = dayjs
+			.utc(dateTime)
+			.tz(timeZone)
+			.format("MM/DD/YYYY hh:mm A");
 		console.log(`Formatted date-time for display: ${formatted}`);
 		return formatted;
 	},
