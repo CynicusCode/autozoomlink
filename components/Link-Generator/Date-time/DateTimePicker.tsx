@@ -1,18 +1,19 @@
-// DateTimePicker.tsx
 import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import { CalendarIcon } from "@radix-ui/react-icons";
-// UI components
 import {
 	Popover,
 	PopoverTrigger,
 	PopoverContent,
 } from "@/components/ui/popover";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
-// Local components
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
+
+// Extend dayjs with customParseFormat
+dayjs.extend(customParseFormat);
 
 interface DateTimeState {
 	date: Date | null;
@@ -32,10 +33,10 @@ export const DateTimePicker = ({ disabled = false }) => {
 	});
 
 	const parseDate = (dateString: string) => {
-		if (dayjs(dateString).isValid()) {
-			return dayjs(dateString).toDate();
+		if (dayjs(dateString, "MM/DD/YYYY hh:mm A", true).isValid()) {
+			return dayjs(dateString, "MM/DD/YYYY hh:mm A").toDate();
 		}
-		return dayjs(dateString, "MM/DD/YYYY hh:mm A").toDate();
+		return dayjs(dateString).toDate();
 	};
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
@@ -105,10 +106,11 @@ export const DateTimePicker = ({ disabled = false }) => {
 		const dayjsDate = dayjs(dateTime.date);
 		const hour =
 			dateTime.ampm === "PM" ? (dateTime.hour % 12) + 12 : dateTime.hour % 12;
-		return dayjsDate
-			.hour(hour)
-			.minute(dateTime.minute)
+		const formattedDateTime = dayjsDate
+			.set("hour", hour)
+			.set("minute", dateTime.minute)
 			.format("MM/DD/YYYY hh:mm A");
+		return formattedDateTime;
 	};
 
 	return (
