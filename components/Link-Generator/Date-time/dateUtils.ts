@@ -24,8 +24,10 @@ export const DateTimeHandler = {
 		console.log(`convertToUtc - dateTime: ${dateTime}, timeZone: ${timeZone}`);
 		let localDateTime: dayjs.Dayjs;
 		if (dayjs(dateTime, "MM/DD/YYYY hh:mm A", true).isValid()) {
+			// Assuming dateTime is in the local time zone format "MM/DD/YYYY hh:mm A"
 			localDateTime = dayjs.tz(dateTime, "MM/DD/YYYY hh:mm A", timeZone);
 		} else {
+			// Assuming dateTime is in a well-formed ISO format
 			localDateTime = dayjs.utc(dateTime).tz(timeZone);
 		}
 		console.log(`Local date-time: ${localDateTime.format()}`);

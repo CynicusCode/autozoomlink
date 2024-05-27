@@ -110,6 +110,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 			.set("hour", hour)
 			.set("minute", dateTime.minute)
 			.format("MM/DD/YYYY hh:mm A");
+		console.log(`Formatted dateTime: ${formattedDateTime}`);
 		return formattedDateTime;
 	};
 
