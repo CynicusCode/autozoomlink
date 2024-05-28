@@ -12,7 +12,6 @@ import { InputWithIcon } from "@/components/ui/InputWithIcon";
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
 
-// Extend dayjs with customParseFormat
 dayjs.extend(customParseFormat);
 
 interface DateTimeState {
@@ -25,7 +24,6 @@ interface DateTimeState {
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
 
-	// Watch the uiExpectedStartDate field
 	const uiExpectedStartDate = useWatch({
 		control,
 		name: "uiExpectedStartDate",

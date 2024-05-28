@@ -10,16 +10,6 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
 		console.log("Initial form data:", data);
 
-		// Convert expectedStartDate to UTC using DateTimeHandler only once
-		if (data.expectedStartDate) {
-			const utcStartDate = DateTimeHandler.convertToUtc(
-				data.expectedStartDate,
-				data.timeZone,
-			);
-			data.expectedStartDate = utcStartDate;
-			console.log("Converted to UTC date:", utcStartDate);
-		}
-
 		const zoomData = {
 			meeting: {
 				id: "123456789",
