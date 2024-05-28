@@ -45,7 +45,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				data.expectedStartDate,
 				data.timeZone,
 			);
-			console.log(`Formatted start date: ${formattedStartDate}`);
 
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
 			setValue("uiExpectedStartDate", formattedStartDate); // For UI display

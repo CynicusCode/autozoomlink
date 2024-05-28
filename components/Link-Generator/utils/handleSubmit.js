@@ -8,8 +8,6 @@ dayjs.extend(timezone);
 
 export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
-		console.log("Initial form data:", data);
-
 		const zoomData = {
 			meeting: {
 				id: "123456789",
