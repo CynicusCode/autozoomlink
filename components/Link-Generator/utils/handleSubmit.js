@@ -22,6 +22,32 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		const endDateTime = dayjs(data.expectedStartDate)
 			.add(durationInMinutes, "minute")
 			.toISOString();
+		// Commented out the Zoom API call
+		/*
+    const zoomResponse = await fetch("/api/zoom/createMeeting", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic: data.manualTitle,
+        start_time: data.expectedStartDate,
+        duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
+        timezone: data.timeZone,
+        settings: {
+          join_before_host: true,
+          participant_video: true,
+          host_video: true,
+        },
+      }),
+    });
+    if (!zoomResponse.ok) {
+      const errorText = await zoomResponse.text();
+      throw new Error(`Zoom API error: ${errorText}`);
+    }
+    const zoomData = await zoomResponse.json();
+    console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
+    */
 
 		const payload = {
 			jobNumber: data.manualTitle,
