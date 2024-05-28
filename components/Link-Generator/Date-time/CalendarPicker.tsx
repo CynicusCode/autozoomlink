@@ -20,6 +20,7 @@ export const CalendarPicker = ({
 			onSelect={onDateChange}
 			className="mb-4"
 			disabled={disabled}
+			defaultMonth={selectedDate || new Date()} // Ensure calendar opens on the selected date or today's date
 		/>
 	);
 };

@@ -5,6 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
 import { DateTimeHandler } from "./Date-time/dateUtils";
+import ManualTitle from "./ManualTitle";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
@@ -45,7 +46,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				data.timeZone,
 			);
 			console.log(`Formatted start date: ${formattedStartDate}`);
-			setValue("expectedStartDate", formattedStartDate);
+
+			setValue("expectedStartDate", data.expectedStartDate); // For server use
+			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
 
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);

@@ -25,10 +25,10 @@ interface DateTimeState {
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
 
-	// Watch the expectedStartDate field
-	const expectedStartDate = useWatch({
+	// Watch the uiExpectedStartDate field
+	const uiExpectedStartDate = useWatch({
 		control,
-		name: "expectedStartDate",
+		name: "uiExpectedStartDate",
 		defaultValue: null,
 	});
 
@@ -40,19 +40,21 @@ export const DateTimePicker = ({ disabled = false }) => {
 	};
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
-		date: expectedStartDate ? parseDate(expectedStartDate) : null,
-		hour: expectedStartDate ? dayjs(expectedStartDate).hour() % 12 || 12 : 12,
-		minute: expectedStartDate ? dayjs(expectedStartDate).minute() : 0,
-		ampm: expectedStartDate
-			? dayjs(expectedStartDate).hour() >= 12
+		date: uiExpectedStartDate ? parseDate(uiExpectedStartDate) : null,
+		hour: uiExpectedStartDate
+			? dayjs(uiExpectedStartDate).hour() % 12 || 12
+			: 12,
+		minute: uiExpectedStartDate ? dayjs(uiExpectedStartDate).minute() : 0,
+		ampm: uiExpectedStartDate
+			? dayjs(uiExpectedStartDate).hour() >= 12
 				? "PM"
 				: "AM"
 			: "AM",
 	});
 
 	useEffect(() => {
-		if (expectedStartDate) {
-			const parsedDate = dayjs(expectedStartDate, [
+		if (uiExpectedStartDate) {
+			const parsedDate = dayjs(uiExpectedStartDate, [
 				"MM/DD/YYYY hh:mm A",
 				"YYYY-MM-DDTHH:mm:ss.SSSZ",
 			]);
@@ -70,19 +72,19 @@ export const DateTimePicker = ({ disabled = false }) => {
 				ampm: "AM",
 			});
 		}
-	}, [expectedStartDate]);
+	}, [uiExpectedStartDate]);
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
 			const formattedDate = dayjs(newDate).format("MM/DD/YYYY");
 			const existingTime = `${dateTime.hour}:${dateTime.minute} ${dateTime.ampm}`;
 			const combinedDateTime = `${formattedDate} ${existingTime}`;
-			setValue("expectedStartDate", combinedDateTime, {
+			setValue("uiExpectedStartDate", combinedDateTime, {
 				shouldValidate: true,
 			});
 			setDateTime((prev) => ({ ...prev, date: newDate }));
 		} else {
-			setValue("expectedStartDate", null, { shouldValidate: true });
+			setValue("uiExpectedStartDate", null, { shouldValidate: true });
 			setDateTime({
 				date: null,
 				hour: 12,
@@ -97,7 +99,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 			? dayjs(dateTime.date).format("MM/DD/YYYY")
 			: dayjs().format("MM/DD/YYYY");
 		const combinedDateTime = `${formattedDate} ${hour}:${minute} ${ampm}`;
-		setValue("expectedStartDate", combinedDateTime, { shouldValidate: true });
+		setValue("uiExpectedStartDate", combinedDateTime, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
 	};
 
