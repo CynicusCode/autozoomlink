@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
 import { DateTimeHandler } from "./Date-time/dateUtils";
-import ManualTitle from "./ManualTitle";
 
 interface FetchDetailsButtonProps {
 	jobNumber: string;
 }
 
-const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({ jobNumber }) => {
+const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
+	jobNumber,
+}) => {
 	const [error, setError] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const { setValue, getValues } = useFormContext();
@@ -30,12 +32,15 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({ jobNumber }) =>
 
 			// Set form values from fetched data
 			setValue("jobNumber", data.jobNumber);
-			console.log(jobNumber)
 			setValue("manualTitle", `Job #${data.jobNumber}`);
+			setValue("isJobNumberFetched", true); // Set the flag indicating the job number was fetched
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
 			setValue("hours", String(Math.floor(data.expectedDurationHrs)));
-			setValue("minutes", String(data.expectedDurationMins % 60).padStart(2, "0"));
+			setValue(
+				"minutes",
+				String(data.expectedDurationMins % 60).padStart(2, "0"),
+			);
 
 			const formattedStartDate = DateTimeHandler.formatDateTimeForDisplay(
 				data.expectedStartDate,
