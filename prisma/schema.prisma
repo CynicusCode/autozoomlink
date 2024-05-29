@@ -10,7 +10,7 @@ generator client {
 
 model Appointment {
   id              String   @id @default(uuid())
-  jobNumber       Int      @unique
+  jobNumber       String      @unique
   manualTitle     Int
   date            DateTime?
   time            DateTime?
