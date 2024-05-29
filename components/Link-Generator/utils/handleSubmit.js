@@ -33,10 +33,6 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		const expectedStartDate = parsedDate.toISOString();
 		console.log("Converted expectedStartDate to ISO:", expectedStartDate);
 
-		// Convert start time to UTC
-		const UtcDateTime = parsedDate.utc().toISOString();
-		console.log("Converted startTime to UTC:", UtcDateTime);
-
 		const durationInMinutes =
 			data.hours * 60 + Number.parseInt(data.minutes, 10);
 		const endDateTimeUTC = parsedDate
@@ -46,45 +42,36 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		console.log("Calculated endDateTime:", endDateTimeUTC);
 
 		// Make Zoom API call to create a meeting
-		// const zoomResponse = await fetch("/api/zoom/createMeetings", {
-		//   method: "POST",
-		//   headers: {
-		//     "Content-Type": "application/json",
-		//   },
-		//   body: JSON.stringify({
-		//     topic: data.manualTitle,
-		//     start_time: UtcDateTime,
-		//     duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
-		//     timezone: "UTC",
-		//     settings: {
-		//       join_before_host: true,
-		//       participant_video: true,
-		//       host_video: true,
-		//     },
-		//   }),
-		// });
-
-		// if (!zoomResponse.ok) {
-		//   const errorText = await zoomResponse.text();
-		//   throw new Error(`Zoom API error: ${errorText}`);
-		// }
-
-		// const zoomData = await zoomResponse.json();
-		// console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
-
-		const zoomData = {
-			meeting: {
-				id: "1234567890",
-				start_url: "https://zoom.us/start",
-				join_url: "https://zoom.us/join",
-				password: "password123",
+		const zoomResponse = await fetch("/api/zoom/createMeeting", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
 			},
-		};
+			body: JSON.stringify({
+				topic: data.manualTitle,
+				start_time: parsedDate.format(), // Local time in ISO format
+				duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
+				timezone: timeZone, // Pass the user's timezone
+				settings: {
+					join_before_host: true,
+					participant_video: true,
+					host_video: true,
+				},
+			}),
+		});
+
+		if (!zoomResponse.ok) {
+			const errorText = await zoomResponse.text();
+			throw new Error(`Zoom API error: ${errorText}`);
+		}
+
+		const zoomData = await zoomResponse.json();
+		console.log("Zoom API response:", JSON.stringify(zoomData, null, 2));
 
 		const payload = {
 			jobNumber,
 			manualTitle: jobNumber,
-			date: UtcDateTime, // Keep this as an ISO string in UTC
+			date: expectedStartDate, // Keep this as an ISO string in UTC
 			durationHrs: data.hours ? Number.parseInt(data.hours, 10) : null,
 			durationMins: data.minutes ? Number.parseInt(data.minutes, 10) : null,
 			endDateTime: endDateTimeUTC, // Keep this as an ISO string in UTC

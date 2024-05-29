@@ -1,4 +1,4 @@
-// pages/api/zoom/createMeeting.js This file is an API route that creates a Zoom meeting using the Zoom API. It takes the meeting details from the request body and sends a POST request to the Zoom API to create a meeting. The response from the Zoom API is then returned as a JSON object in the response.
+// pages/api/zoom/createMeeting.js
 export default async function handler(req, res) {
 	const { ZOOM_ACCOUNT_ID, ZOOM_CLIENT_ID, ZOOM_CLIENT_SECRET } = process.env;
 
@@ -50,9 +50,9 @@ export default async function handler(req, res) {
 				body: JSON.stringify({
 					topic: req.body.topic,
 					type: 2,
-					start_time: req.body.start_time,
+					start_time: req.body.start_time, // Local time
 					duration: req.body.duration,
-					timezone: req.body.timezone,
+					timezone: req.body.timezone, // Time zone
 					settings: {
 						join_before_host: true,
 						participant_video: true,
