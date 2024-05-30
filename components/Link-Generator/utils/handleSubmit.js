@@ -10,6 +10,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
 		// Ensure manualTitle is a number or use UUID
 		const isJobNumberFetched = getValues("isJobNumberFetched");
+		const manualTitleInput = getValues("manualTitle");
 		let jobNumber;
 		let manualTitle;
 
@@ -18,11 +19,25 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			manualTitle = `Job #${jobNumber}`;
 		} else {
 			jobNumber = uuidv4();
-			manualTitle = jobNumber;
+			manualTitle = manualTitleInput || jobNumber;
 		}
 
 		const uiExpectedStartDate = getValues("uiExpectedStartDate");
 		const timeZone = getValues("timeZone");
+
+		// Log the input values for debugging
+		console.log("Received uiExpectedStartDate:", uiExpectedStartDate);
+		console.log("Received timeZone:", timeZone);
+		console.log("Manual Title:", manualTitle);
+
+		// Validate the uiExpectedStartDate
+		if (
+			!uiExpectedStartDate ||
+			!dayjs(uiExpectedStartDate, "MM/DD/YYYY hh:mm A", true).isValid()
+		) {
+			console.error("Invalid date format:", uiExpectedStartDate);
+			throw new Error("Invalid date format");
+		}
 
 		// Parse the uiExpectedStartDate in the user's timezone
 		const parsedDate = dayjs.tz(
@@ -30,6 +45,14 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			"MM/DD/YYYY hh:mm A",
 			timeZone,
 		);
+		console.log("Parsed date:", parsedDate.format());
+
+		// Check if parsedDate is valid
+		if (!parsedDate.isValid()) {
+			console.error("Failed to parse date:", parsedDate);
+			throw new Error("Failed to parse date");
+		}
+
 		const expectedStartDate = parsedDate.toISOString();
 		console.log("Converted expectedStartDate to ISO:", expectedStartDate);
 
@@ -42,13 +65,22 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		console.log("Calculated endDateTime:", endDateTimeUTC);
 
 		// Make Zoom API call to create a meeting
+		console.log("Creating Zoom meeting with the following details:");
+		console.log("Topic:", manualTitle);
+		console.log("Start time:", parsedDate.format());
+		console.log(
+			"Duration:",
+			data.hours * 60 + Number.parseInt(data.minutes, 10),
+		);
+		console.log("Timezone:", timeZone);
+
 		const zoomResponse = await fetch("/api/zoom/createMeeting", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				topic: data.manualTitle,
+				topic: manualTitle,
 				start_time: parsedDate.format(), // Local time in ISO format
 				duration: data.hours * 60 + Number.parseInt(data.minutes, 10),
 				timezone: timeZone, // Pass the user's timezone
@@ -62,6 +94,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 
 		if (!zoomResponse.ok) {
 			const errorText = await zoomResponse.text();
+			console.error("Zoom API error response:", errorText);
 			throw new Error(`Zoom API error: ${errorText}`);
 		}
 
@@ -70,7 +103,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 
 		const payload = {
 			jobNumber,
-			manualTitle: jobNumber,
+			manualTitle,
 			date: expectedStartDate, // Keep this as an ISO string in UTC
 			durationHrs: data.hours ? Number.parseInt(data.hours, 10) : null,
 			durationMins: data.minutes ? Number.parseInt(data.minutes, 10) : null,

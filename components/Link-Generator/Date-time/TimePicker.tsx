@@ -50,7 +50,7 @@ export const TimePicker = ({
 		<div className="flex gap-2 justify-center">
 			<Select value={hour} onValueChange={handleHourChange} disabled={disabled}>
 				<SelectTrigger>
-					<SelectValue />
+					<SelectValue placeholder="HH" />
 				</SelectTrigger>
 				<SelectContent>
 					{Array.from({ length: 12 }, (_, index) =>
@@ -69,7 +69,7 @@ export const TimePicker = ({
 				disabled={disabled}
 			>
 				<SelectTrigger>
-					<SelectValue />
+					<SelectValue placeholder="MM" />
 				</SelectTrigger>
 				<SelectContent>
 					{Array.from({ length: 60 }, (_, index) =>
@@ -87,7 +87,7 @@ export const TimePicker = ({
 			</Select>
 			<Select value={ampm} onValueChange={handleAmpmChange} disabled={disabled}>
 				<SelectTrigger>
-					<SelectValue />
+					<SelectValue placeholder="AM/PM" />
 				</SelectTrigger>
 				<SelectContent>
 					<SelectItem value="AM" disabled={disabled}>

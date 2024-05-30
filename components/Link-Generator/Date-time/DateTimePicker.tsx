@@ -75,7 +75,10 @@ export const DateTimePicker = ({ disabled = false }) => {
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
 			const formattedDate = dayjs(newDate).format("MM/DD/YYYY");
-			const existingTime = `${dateTime.hour}:${dateTime.minute} ${dateTime.ampm}`;
+			const existingTime = `${dateTime.hour}:${String(dateTime.minute).padStart(
+				2,
+				"0",
+			)} ${dateTime.ampm}`;
 			const combinedDateTime = `${formattedDate} ${existingTime}`;
 			setValue("uiExpectedStartDate", combinedDateTime, {
 				shouldValidate: true,
@@ -96,7 +99,10 @@ export const DateTimePicker = ({ disabled = false }) => {
 		const formattedDate = dateTime.date
 			? dayjs(dateTime.date).format("MM/DD/YYYY")
 			: dayjs().format("MM/DD/YYYY");
-		const combinedDateTime = `${formattedDate} ${hour}:${minute} ${ampm}`;
+		const combinedDateTime = `${formattedDate} ${String(hour).padStart(
+			2,
+			"0",
+		)}:${String(minute).padStart(2, "0")} ${ampm}`;
 		setValue("uiExpectedStartDate", combinedDateTime, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
 	};
