@@ -1,42 +1,22 @@
-// testSeed.js is a script that seeds the database with test data.
 import { PrismaClient } from "@prisma/client";
+import dotenv from "dotenv";
+
+dotenv.config({ path: ".env.local" });
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL); // Debug line
 
 const prisma = new PrismaClient();
 
-async function main() {
-	// Create a new appointment with a third-party video link
-	const appointment = await prisma.appointment.create({
-		data: {
-			jobNumber: 12345,
-			date: new Date("2024-05-24"),
-			time: new Date("2024-05-24T10:00:00"),
-			durationHrs: 2,
-			durationMins: 30,
-			timeZone: "America/New_York",
-			vriApproved: true,
-			vriLabel: false,
-			vriType: true,
-			status: "Scheduled",
-			videoLink: "https://example.com/video-link",
-			requestorName: "John Doe",
-			requestorEmail: "john.doe@example.com",
-			createdByLLS: true,
-			zoomMeetingId: null,
-			zoomStartLink: null,
-			zoomJoinLink: null,
-			zoomInvitation: null,
-			vriRoomNumber: null,
-		},
-	});
-
-	console.log("Seeded appointment:", appointment);
+async function testConnection() {
+	try {
+		// Test the connection by querying the database for the first 1 record from any table, e.g., the Appointment table
+		await prisma.$queryRaw`SELECT 1`;
+		console.log("Database connection successful!");
+	} catch (error) {
+		console.error("Database connection failed:", error);
+	} finally {
+		await prisma.$disconnect();
+	}
 }
 
-main()
-	.catch((e) => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
+testConnection();
