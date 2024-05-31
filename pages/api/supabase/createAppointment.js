@@ -4,17 +4,25 @@ export default async function handler(req, res) {
 	if (req.method === "POST") {
 		const data = req.body;
 
-		// Validate the request body
-		if (
-			!data.jobNumber ||
-			!data.manualTitle ||
-			!data.date ||
-			!data.durationHrs ||
-			!data.durationMins ||
-			!data.endDateTime ||
-			!data.timeZone
-		) {
-			return res.status(400).json({ error: "Missing required fields" });
+		console.log("Received data:", data); // Log the received data
+
+		// Validate the request body and check for correct data types
+		const missingFields = [];
+		if (!data.jobNumber) missingFields.push("jobNumber");
+		if (!data.manualTitle) missingFields.push("manualTitle");
+		if (!data.date) missingFields.push("date");
+		if (data.durationHrs === undefined || data.durationHrs === null)
+			missingFields.push("durationHrs");
+		if (data.durationMins === undefined || data.durationMins === null)
+			missingFields.push("durationMins");
+		if (!data.endDateTime) missingFields.push("endDateTime");
+		if (!data.timeZone) missingFields.push("timeZone");
+
+		if (missingFields.length > 0) {
+			console.error("Missing required fields:", missingFields);
+			return res
+				.status(400)
+				.json({ error: "Missing required fields", missingFields });
 		}
 
 		try {

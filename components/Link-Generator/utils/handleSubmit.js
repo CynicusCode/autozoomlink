@@ -90,14 +90,16 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			requestorName: data.requestorName,
 			requestorEmail: data.requestorEmail,
 			createdByLLS: true,
-			zoomMeetingId: zoomData.meeting.id,
+			zoomMeetingId: zoomData.meeting.id.toString(), // Convert to string
 			zoomStartLink: zoomData.meeting.start_url,
 			zoomJoinLink: zoomData.meeting.join_url,
 			zoomInvitation: zoomData.meeting.password,
 			vriRoomNumber: 1,
 		};
 
-		const dbResponse = await fetch("/api/zoom/createAppointment", {
+		console.log("Payload being sent:", payload);
+
+		const dbResponse = await fetch("/api/supabase/createAppointment", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
