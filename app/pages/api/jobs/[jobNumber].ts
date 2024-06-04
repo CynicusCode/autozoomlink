@@ -44,6 +44,7 @@ export default async function handler(
 			requestor,
 			status,
 			refs,
+
 			criteria, // Extract criteria from the JSON structure
 		} = appointmentDetails;
 

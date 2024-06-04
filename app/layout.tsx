@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { poppins } from "./font";
 import "./globals.css";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "@/app/components/theme-provider";
 
 // Metadata configuration for the entire application
 export const metadata: Metadata = {
-	title: "ALG",
+	title: "AZLG",
 	description: "Auto Zoom Link Generator",
 };
 
