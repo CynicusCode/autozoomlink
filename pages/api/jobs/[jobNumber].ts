@@ -1,3 +1,5 @@
+//pages/api/jobs/[jobNumber].ts This file will be responsible for fetching the appointment details based on the job number provided in the URL. The job number will be used to find the corresponding JSON file in the mockdata/api directory. The file will be read and the necessary fields will be extracted and returned as a response.
+
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import type { NextApiRequest, NextApiResponse } from "next";

@@ -1,8 +1,9 @@
 import type React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { fetchJobDetails } from "./JobDetailsApi";
+import useJobDetails from "../../hooks/useJobDetails";
 import { useFormContext } from "react-hook-form";
 import { DateTimeHandler } from "./Date-time/dateUtils";
 
@@ -13,23 +14,12 @@ interface FetchDetailsButtonProps {
 const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 	jobNumber,
 }) => {
-	const [error, setError] = useState<string>("");
-	const [loading, setLoading] = useState<boolean>(false);
-	const { setValue, getValues } = useFormContext();
+	const { setValue } = useFormContext();
+	const { data, error, isLoading } = useJobDetails(jobNumber);
+	const [localError, setLocalError] = useState<string>("");
 
-	const handleFetchDetails = async () => {
-		setError(""); // Clear previous errors
-
-		if (!/^\d{5}$/.test(jobNumber)) {
-			setError("Job number must be exactly 5 digits and numeric.");
-			return;
-		}
-
-		setLoading(true);
-
-		try {
-			const data = await fetchJobDetails(jobNumber);
-
+	useEffect(() => {
+		if (data) {
 			// Set form values from fetched data
 			setValue("jobNumber", data.jobNumber);
 			setValue("manualTitle", `Job #${data.jobNumber}`);
@@ -56,12 +46,14 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("requestorEmail", data.requestorEmail);
 			setValue("jobStatus", data.jobStatus);
 			setValue("videoLinkField", data.videoLinkField);
+		}
+	}, [data, setValue]);
 
-			setLoading(false);
-		} catch (err) {
-			console.error("Failed to fetch details:", err);
-			setError("Failed to fetch details. Please try again.");
-			setLoading(false);
+	const handleFetchDetails = async () => {
+		setLocalError(""); // Clear previous errors
+
+		if (!/^\d{5}$/.test(jobNumber)) {
+			setLocalError("Job number must be exactly 5 digits and numeric.");
 		}
 	};
 
@@ -70,18 +62,18 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			<Button
 				onClick={handleFetchDetails}
 				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
-					loading ? "opacity-50 cursor-not-allowed" : ""
+					isLoading ? "opacity-50 cursor-not-allowed" : ""
 				}`}
-				disabled={loading}
+				disabled={isLoading}
 			>
-				{loading ? "Loading..." : "Fetch Details"}
+				{isLoading ? "Loading..." : "Fetch Details"}
 			</Button>
-			{error && (
+			{(error || localError) && (
 				<Alert className="mt-2 border-red-500">
 					<AlertTitle className="text-lg text-red-600 dark:text-orange-500">
 						Error
 					</AlertTitle>
-					<AlertDescription>{error}</AlertDescription>
+					<AlertDescription>{localError || error.message}</AlertDescription>
 				</Alert>
 			)}
 		</div>
