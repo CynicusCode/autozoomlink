@@ -5,7 +5,7 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select";
+} from "../../ui/select";
 
 interface TimePickerProps {
 	onTimeChange: (hour: number, minute: number, ampm: string) => void;

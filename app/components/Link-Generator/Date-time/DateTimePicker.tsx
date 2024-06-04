@@ -3,12 +3,8 @@ import { useFormContext, useWatch } from "react-hook-form";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import {
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-} from "@/components/ui/popover";
-import { InputWithIcon } from "@/components/ui/InputWithIcon";
+import { Popover, PopoverTrigger, PopoverContent } from "../../ui/popover";
+import { InputWithIcon } from "../../ui/InputWithIcon";
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
 

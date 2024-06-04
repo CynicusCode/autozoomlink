@@ -1,10 +1,15 @@
+"use client";
 import type React from "react";
 import { useFormContext } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../ui/button";
 import { handleSubmit as handleZoomSubmit } from "../utils/handleSubmit";
 import { DateTimeHandler } from "../Date-time/dateUtils";
 
-const GenerateZoomLink: React.FC = () => {
+interface GenerateZoomLinkProps {
+	onClick: (e?: React.BaseSyntheticEvent) => Promise<void>;
+}
+
+const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 	const { handleSubmit, getValues, setValue, setError } = useFormContext();
 
 	const handleClick = async () => {
@@ -33,7 +38,7 @@ const GenerateZoomLink: React.FC = () => {
 	return (
 		<div className="space-x-2">
 			<Button
-				onClick={handleClick}
+				onClick={onClick} // Use the passed onClick prop
 				style={{ backgroundColor: "#0B5CFF" }}
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
 			>

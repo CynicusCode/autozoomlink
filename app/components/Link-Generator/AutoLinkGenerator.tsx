@@ -1,24 +1,23 @@
-// AutoLinkGenerator: Main component for creating Zoom links, handles input modes, integrates sub-components, and submits form data.
 "use client";
 // 1. External libraries
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
 import { useState } from "react";
-import { useForm, FormProvider, useWatch } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 // 2. Component library imports
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from "../ui/card";
+import { Badge } from "../ui/badge";
 
 // 3. Local project files
-import DateTimePicker from "@/components/Link-Generator/Date-time/DateTimePicker";
+import DateTimePicker from "./Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
@@ -32,7 +31,7 @@ import ManualTitle from "./ManualTitle";
 import VriType from "./VriType";
 import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
-import VideoLinkField from "./videoLinkField";
+import VideoLinkField from "./VideoLinkField";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");

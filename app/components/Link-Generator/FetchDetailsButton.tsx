@@ -1,7 +1,7 @@
 import type React from "react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "../ui/button";
+import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { fetchJobDetails } from "./JobDetailsApi";
 import { useFormContext } from "react-hook-form";
 import { DateTimeHandler } from "./Date-time/dateUtils";

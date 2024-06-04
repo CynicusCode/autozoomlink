@@ -10,7 +10,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select";
+} from "../ui/select";
 import type { FormValues } from "./formSchema"; // Ensure this path is correct
 
 interface DurationProps {

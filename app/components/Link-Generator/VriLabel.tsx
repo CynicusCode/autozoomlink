@@ -1,20 +1,20 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../ui/badge";
 import { useFormContext } from "react-hook-form";
 import type React from "react";
 
-const VriType: React.FC = () => {
+const VriLabel: React.FC = () => {
 	const { watch } = useFormContext();
-	const isVriType = watch("isVriType");
+	const isVriLabel = watch("isVirtualLabelInAddress");
 
-	if (isVriType === undefined) {
+	if (isVriLabel === undefined) {
 		return null;
 	}
 
 	return (
 		<Badge
 			className={`
-        ${isVriType ? "bg-green-500" : "bg-red-500"}
+        ${isVriLabel ? "bg-green-500" : "bg-red-500"}
         text-white
       `}
 		>
@@ -23,4 +23,4 @@ const VriType: React.FC = () => {
 	);
 };
 
-export default VriType;
+export default VriLabel;
