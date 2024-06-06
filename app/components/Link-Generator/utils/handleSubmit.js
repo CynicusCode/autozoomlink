@@ -1,3 +1,4 @@
+//components/link-generator/utils/handleSubmit.js This file contains the handleSubmit function that is called when the user submits the form. This function is responsible for creating the appointment and inserting it into the database.
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
