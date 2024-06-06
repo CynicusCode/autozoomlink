@@ -1,7 +1,9 @@
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { poppins } from "./font";
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/theme-provider";
+import QueryProvider from "@/app/components/QueryProvider"; // Adjust the import path according to your project structure
 
 // Metadata configuration for the entire application
 export const metadata: Metadata = {
@@ -11,7 +13,7 @@ export const metadata: Metadata = {
 
 // Type definition for the properties expected by the RootLayout component
 interface RootLayoutProps {
-	children: React.ReactNode; // Accepts any valid React node
+	children: ReactNode; // Accepts any valid React node
 }
 
 /**
@@ -26,20 +28,18 @@ interface RootLayoutProps {
  */
 export default function RootLayout({ children }: RootLayoutProps) {
 	return (
-		<>
-			<html lang="en" suppressHydrationWarning>
-				<head />
-				<body className={poppins.className}>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-						{children}
-					</ThemeProvider>
-				</body>
-			</html>
-		</>
+		<html lang="en" suppressHydrationWarning>
+			<head />
+			<body className={poppins.className}>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<QueryProvider>{children}</QueryProvider>
+				</ThemeProvider>
+			</body>
+		</html>
 	);
 }

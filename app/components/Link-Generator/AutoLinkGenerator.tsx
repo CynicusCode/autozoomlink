@@ -50,7 +50,7 @@ const AutoLinkGenerator: React.FC = () => {
 		<Card className="w-[650px]">
 			<CardHeader>
 				<CardTitle className="flex items-center justify-center">
-					Auto Link Generator
+					Auto Zoom Link Generator
 				</CardTitle>
 			</CardHeader>
 			<CardContent className="space-y-4">
