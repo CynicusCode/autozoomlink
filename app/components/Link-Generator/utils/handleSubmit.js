@@ -23,6 +23,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		}
 
 		const uiExpectedStartDate = getValues("uiExpectedStartDate");
+		console.log("uiExpectedStartDate at handleSubmit:", uiExpectedStartDate);
 		const timeZone = getValues("timeZone");
 
 		if (
@@ -49,6 +50,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			.add(durationInMinutes, "minute")
 			.utc()
 			.toISOString();
+		console.log("Parsed date:", parsedDate.format());
 
 		const zoomResponse = await fetch("/api/zoom/createMeeting", {
 			method: "POST",

@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "28469 Berge Forks, Port Skyeview, Arizona 06249",
+    "addrEntered": "1258 O'Reilly View, Ferrymouth, Michigan 49184",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n28469 Berge Forks, Port Skyeview, Arizona 06249",
+    "displayLabel": "Virtual Session (VRI)\\n1258 O'Reilly View, Ferrymouth, Michigan 49184",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "28469 Berge Forks, Port Skyeview, Arizona 06249",
+    "addrEntered": "1258 O'Reilly View, Ferrymouth, Michigan 49184",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "28469 Berge Forks, Port Skyeview, Arizona 06249",
+    "displayLabel": "1258 O'Reilly View, Ferrymouth, Michigan 49184",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Hayes LLC",
-    "name": "Hayes LLC",
+    "displayName": "Cummings, Reichert and D'Amore",
+    "name": "Cummings, Reichert and D'Amore",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -167,11 +167,11 @@
   "esignatureRequired": false,
   "excludeFromAutoOffer": false,
   "excludeFromJobOfferPool": false,
-  "expectedDurationHrs": 2,
-  "expectedDurationMins": 120,
-  "expectedEndDate": "2024-06-02T22:00:00Z",
-  "expectedStartDate": "2024-06-02T20:00:00Z",
-  "expectedStartTime": "2024-06-02T20:00:00Z",
+  "expectedDurationHrs": 4,
+  "expectedDurationMins": 240,
+  "expectedEndDate": "2024-06-28T23:00:00Z",
+  "expectedStartDate": "2024-06-28T19:00:00Z",
+  "expectedStartTime": "2024-06-28T19:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "28469 Berge Forks, Port Skyeview, Arizona 06249",
+    "addrEntered": "1258 O'Reilly View, Ferrymouth, Michigan 49184",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Elijah_Cartwright@yahoo.com",
+  "notificationEmail": "Brook13@hotmail.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Melanie Robel (533) 813-1915 x4327",
-    "displayName": "Melanie Robel (533) 813-1915 x4327",
-    "name": "Melanie Robel",
+    "displayLabel": "Casey Schuster 1-993-642-2525 x7117",
+    "displayName": "Casey Schuster 1-993-642-2525 x7117",
+    "name": "Casey Schuster",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Assign",
-      "nameKey": "assign"
+      "name": "Cancelled",
+      "nameKey": "cancelled"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },

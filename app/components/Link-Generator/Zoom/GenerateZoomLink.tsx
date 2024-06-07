@@ -11,7 +11,7 @@ interface FormValues extends JobDetails {
 	uiExpectedStartDate: string;
 	hours: string;
 	minutes: string;
-	expectedStartDate: string;
+	expectedStartDate: string; // remove the optional modifier
 	manualTitle: string;
 }
 
@@ -25,18 +25,26 @@ const GenerateZoomLink: React.FC = () => {
 		useCreateAppointment();
 	const isCreatingAppointment = createAppointmentStatus === "pending";
 
-	const onSubmit = (data: FormValues) => {
+	const onSubmit = async (data: FormValues) => {
 		try {
 			const { uiExpectedStartDate, timeZone } = data;
+
+			console.log(
+				"uiExpectedStartDate before conversion:",
+				uiExpectedStartDate,
+			);
 
 			if (uiExpectedStartDate) {
 				const utcDate = DateTimeHandler.convertToUtc(
 					uiExpectedStartDate,
 					timeZone,
 				);
+				console.log("Converted UTC date:", utcDate);
 				setValue("expectedStartDate", utcDate);
 				data.expectedStartDate = utcDate;
 			}
+
+			console.log("Data after conversion:", data);
 
 			if (!data.manualTitle) {
 				setError("manualTitle", {
@@ -47,13 +55,28 @@ const GenerateZoomLink: React.FC = () => {
 				return;
 			}
 
-			const startDate = data.expectedStartDate || "";
+			if (!data.expectedStartDate) {
+				console.error("Expected start date is missing after conversion.");
+				throw new Error("Invalid start date");
+			}
+
+			const startDate = new Date(data.expectedStartDate);
+			if (Number.isNaN(startDate.getTime())) {
+				console.error("Invalid start date:", data.expectedStartDate);
+				throw new Error("Invalid start date");
+			}
+
+			console.log("Start date:", startDate);
+
 			const duration = Number(data.hours) * 60 + Number(data.minutes);
+			const endDateTime = new Date(
+				startDate.getTime() + duration * 60000,
+			).toISOString();
 
 			createZoomMeeting(
 				{
 					topic: data.manualTitle,
-					start_time: startDate,
+					start_time: startDate.toISOString(),
 					duration,
 					timezone: timeZone,
 					settings: {
@@ -64,14 +87,10 @@ const GenerateZoomLink: React.FC = () => {
 				},
 				{
 					onSuccess: (zoomData) => {
-						const endDateTime = new Date(
-							new Date(startDate).getTime() + duration * 60000,
-						).toISOString();
-
 						const payload = {
 							jobNumber: data.jobNumber,
 							manualTitle: data.manualTitle,
-							date: startDate,
+							date: startDate.toISOString(),
 							durationHrs: data.hours ? Number(data.hours) : null,
 							durationMins: data.minutes ? Number(data.minutes) : null,
 							endDateTime,

@@ -43,7 +43,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			);
 
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
+			console.log("expected start date:", data.expectedStartDate);
 			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
+			console.log("formatted start date:", formattedStartDate);
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
 			setValue("isVriType", data.isVriType);
@@ -56,6 +58,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setShouldFetch(false);
 		}
 	}, [data, setValue]);
+	console.log("fetched data:", data);
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors

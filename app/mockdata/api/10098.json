@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "5439 Princess Street, West Lisa, Minnesota 55010-3091",
+    "addrEntered": "334 N Front Street, San Tan Valley, West Virginia 58608",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n5439 Princess Street, West Lisa, Minnesota 55010-3091",
+    "displayLabel": "Virtual Session (VRI)\\n334 N Front Street, San Tan Valley, West Virginia 58608",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "5439 Princess Street, West Lisa, Minnesota 55010-3091",
+    "addrEntered": "334 N Front Street, San Tan Valley, West Virginia 58608",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "5439 Princess Street, West Lisa, Minnesota 55010-3091",
+    "displayLabel": "334 N Front Street, San Tan Valley, West Virginia 58608",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Koch and Sons",
-    "name": "Koch and Sons",
+    "displayName": "Orn - Konopelski",
+    "name": "Orn - Konopelski",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -167,11 +167,11 @@
   "esignatureRequired": false,
   "excludeFromAutoOffer": false,
   "excludeFromJobOfferPool": false,
-  "expectedDurationHrs": 1.5,
-  "expectedDurationMins": 90,
-  "expectedEndDate": "2024-06-10T17:30:00Z",
-  "expectedStartDate": "2024-06-10T16:00:00Z",
-  "expectedStartTime": "2024-06-10T16:00:00Z",
+  "expectedDurationHrs": 2.5,
+  "expectedDurationMins": 150,
+  "expectedEndDate": "2024-06-29T00:30:00Z",
+  "expectedStartDate": "2024-06-28T22:00:00Z",
+  "expectedStartTime": "2024-06-28T22:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "5439 Princess Street, West Lisa, Minnesota 55010-3091",
+    "addrEntered": "334 N Front Street, San Tan Valley, West Virginia 58608",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Camylle_Pfeffer0@gmail.com",
+  "notificationEmail": "Elsa84@yahoo.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -702,8 +702,8 @@
       "dependentId": null,
       "description": null,
       "name": "3rd Party Video Link",
-      "ref": "http://customer.generated.link",
-      "referenceValue": "http://customer.generated.link",
+      "ref": "Demo generate link",
+      "referenceValue": "Demo generate link",
       "referenceValueUrl": null,
       "superBooking": {
         "id": 1107524,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Olga Fahey 600-879-7586 x48938",
-    "displayName": "Olga Fahey 600-879-7586 x48938",
-    "name": "Olga Fahey",
+    "displayLabel": "Troy Stehr (708) 858-0367 x07796",
+    "displayName": "Troy Stehr (708) 858-0367 x07796",
+    "name": "Troy Stehr",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Open",
-      "nameKey": "open"
+      "name": "Assign",
+      "nameKey": "assign"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },
