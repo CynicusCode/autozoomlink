@@ -8,6 +8,7 @@ import QueryProvider from "@/app/components/QueryProvider"; // Adjust the import
 // Metadata configuration for the entire application
 export const metadata: Metadata = {
 	title: "AZLG",
+	title: "AZLG",
 	description: "Auto Zoom Link Generator",
 };
 
@@ -19,6 +20,7 @@ interface RootLayoutProps {
 /**
  * RootLayout defines the structure of the main HTML document for the Next.js application.
  * It includes setting the global CSS, font, and managing themes using the ThemeProvider.
+ *
  *
  * Props:
  * - children: React.ReactNode - The child components that will be rendered inside the ThemeProvider.

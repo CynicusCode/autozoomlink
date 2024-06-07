@@ -80,9 +80,12 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				onClick={handleFetchDetails}
 				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
 					isLoading ? "opacity-50 cursor-not-allowed" : ""
+					isLoading ? "opacity-50 cursor-not-allowed" : ""
 				}`}
 				disabled={isLoading}
+				disabled={isLoading}
 			>
+				{isLoading ? "Loading..." : "Fetch Details"}
 				{isLoading ? "Loading..." : "Fetch Details"}
 			</Button>
 			{(error || queryError) && (
