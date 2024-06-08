@@ -8,7 +8,6 @@ import QueryProvider from "@/app/components/QueryProvider"; // Adjust the import
 // Metadata configuration for the entire application
 export const metadata: Metadata = {
 	title: "AZLG",
-	title: "AZLG",
 	description: "Auto Zoom Link Generator",
 };
 

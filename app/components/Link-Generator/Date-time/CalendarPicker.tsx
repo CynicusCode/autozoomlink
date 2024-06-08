@@ -24,3 +24,5 @@ export const CalendarPicker = ({
 		/>
 	);
 };
+
+export default CalendarPicker;

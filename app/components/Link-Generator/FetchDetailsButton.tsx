@@ -28,7 +28,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			// Set form values from fetched data
 			setValue("jobNumber", data.jobNumber);
 			setValue("manualTitle", `Job #${data.jobNumber}`);
-			setValue("isJobNumberFetched", true); // Set the flag indicating the job number was fetched
+			setValue("isJobNumberFetched", true);
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
 			setValue("hours", String(Math.floor(data.expectedDurationHrs)));
@@ -41,11 +41,17 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				data.expectedStartDate,
 				data.timeZone,
 			);
-
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
-			console.log("expected start date:", data.expectedStartDate);
-			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
-			console.log("formatted start date:", formattedStartDate);
+			setValue("uiExpectedStartDate", data.expectedStartDate); // For UI display
+			console.log(
+				"uiExpectedStartDate in FetchDetailsButton:",
+				data.expectedStartDate,
+			);
+			console.log(
+				"expectedStartDate in FetchDetailsButton:",
+				data.expectedStartDate,
+			);
+
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
 			setValue("isVriType", data.isVriType);
@@ -58,7 +64,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setShouldFetch(false);
 		}
 	}, [data, setValue]);
-	console.log("fetched data:", data);
+	console.log("data in FetchDetailsButton:", data);
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
@@ -80,12 +86,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				onClick={handleFetchDetails}
 				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
 					isLoading ? "opacity-50 cursor-not-allowed" : ""
-					isLoading ? "opacity-50 cursor-not-allowed" : ""
 				}`}
 				disabled={isLoading}
-				disabled={isLoading}
 			>
-				{isLoading ? "Loading..." : "Fetch Details"}
 				{isLoading ? "Loading..." : "Fetch Details"}
 			</Button>
 			{(error || queryError) && (

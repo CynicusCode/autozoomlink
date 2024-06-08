@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
-import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Popover, PopoverTrigger, PopoverContent } from "../../ui/popover";
 import { InputWithIcon } from "../../ui/InputWithIcon";
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
+import dayjs, { type Dayjs } from "dayjs";
 
 dayjs.extend(customParseFormat);
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 interface DateTimeState {
-	date: Date | null;
+	date: Dayjs | null;
 	hour: number;
 	minute: number;
 	ampm: string;
@@ -19,6 +23,7 @@ interface DateTimeState {
 
 export const DateTimePicker = ({ disabled = false }) => {
 	const { setValue, control } = useFormContext();
+	const timeZone = useWatch({ control, name: "timeZone" });
 
 	const uiExpectedStartDate = useWatch({
 		control,
@@ -26,21 +31,27 @@ export const DateTimePicker = ({ disabled = false }) => {
 		defaultValue: null,
 	});
 
-	const parseDate = (dateString: string) => {
-		if (dayjs(dateString, "MM/DD/YYYY hh:mm A", true).isValid()) {
-			return dayjs(dateString, "MM/DD/YYYY hh:mm A").toDate();
-		}
-		return dayjs(dateString).toDate();
-	};
+	const parseDate = useCallback(
+		(dateString: string): Dayjs => {
+			let parsedDate: Dayjs = dayjs.utc(dateString);
+			if (!parsedDate.isValid()) {
+				parsedDate = dayjs.tz(dateString, "MM/DD/YYYY hh:mm A", timeZone);
+			}
+			return parsedDate;
+		},
+		[timeZone],
+	);
 
 	const [dateTime, setDateTime] = useState<DateTimeState>({
 		date: uiExpectedStartDate ? parseDate(uiExpectedStartDate) : null,
 		hour: uiExpectedStartDate
-			? dayjs(uiExpectedStartDate).hour() % 12 || 12
+			? dayjs.tz(uiExpectedStartDate, timeZone).hour() % 12 || 12
 			: 12,
-		minute: uiExpectedStartDate ? dayjs(uiExpectedStartDate).minute() : 0,
+		minute: uiExpectedStartDate
+			? dayjs.tz(uiExpectedStartDate, timeZone).minute()
+			: 0,
 		ampm: uiExpectedStartDate
-			? dayjs(uiExpectedStartDate).hour() >= 12
+			? dayjs.tz(uiExpectedStartDate, timeZone).hour() >= 12
 				? "PM"
 				: "AM"
 			: "AM",
@@ -48,12 +59,9 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	useEffect(() => {
 		if (uiExpectedStartDate) {
-			const parsedDate = dayjs(uiExpectedStartDate, [
-				"MM/DD/YYYY hh:mm A",
-				"YYYY-MM-DDTHH:mm:ss.SSSZ",
-			]);
+			const parsedDate = parseDate(uiExpectedStartDate);
 			setDateTime({
-				date: parsedDate.toDate(),
+				date: parsedDate,
 				hour: parsedDate.hour() % 12 || 12,
 				minute: parsedDate.minute(),
 				ampm: parsedDate.hour() >= 12 ? "PM" : "AM",
@@ -66,46 +74,36 @@ export const DateTimePicker = ({ disabled = false }) => {
 				ampm: "AM",
 			});
 		}
-	}, [uiExpectedStartDate]);
+	}, [uiExpectedStartDate, parseDate]);
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
-			const formattedDate = dayjs(newDate).format("MM/DD/YYYY");
-			const existingTime = `${dateTime.hour}:${String(dateTime.minute).padStart(
-				2,
-				"0",
-			)} ${dateTime.ampm}`;
+			const dayjsDate = dayjs.tz(newDate, timeZone);
+			const formattedDate = dayjsDate.format("MM/DD/YYYY");
+			const existingTime = `${dateTime.hour}:${String(dateTime.minute).padStart(2, "0")} ${dateTime.ampm}`;
 			const combinedDateTime = `${formattedDate} ${existingTime}`;
 			setValue("uiExpectedStartDate", combinedDateTime, {
 				shouldValidate: true,
 			});
-			setDateTime((prev) => ({ ...prev, date: newDate }));
+			setDateTime({ ...dateTime, date: dayjsDate });
 		} else {
 			setValue("uiExpectedStartDate", null, { shouldValidate: true });
-			setDateTime({
-				date: null,
-				hour: 12,
-				minute: 0,
-				ampm: "AM",
-			});
+			setDateTime({ date: null, hour: 12, minute: 0, ampm: "AM" });
 		}
 	};
 
 	const handleTimeChange = (hour: number, minute: number, ampm: string) => {
 		const formattedDate = dateTime.date
-			? dayjs(dateTime.date).format("MM/DD/YYYY")
-			: dayjs().format("MM/DD/YYYY");
-		const combinedDateTime = `${formattedDate} ${String(hour).padStart(
-			2,
-			"0",
-		)}:${String(minute).padStart(2, "0")} ${ampm}`;
+			? dayjs.tz(dateTime.date.toDate(), timeZone).format("MM/DD/YYYY")
+			: dayjs.tz(timeZone).format("MM/DD/YYYY");
+		const combinedDateTime = `${formattedDate} ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")} ${ampm}`;
 		setValue("uiExpectedStartDate", combinedDateTime, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
 	};
 
 	const formatDateTime = () => {
 		if (!dateTime.date) return "";
-		const dayjsDate = dayjs(dateTime.date);
+		const dayjsDate = dayjs.tz(dateTime.date.toDate(), timeZone);
 		const hour =
 			dateTime.ampm === "PM" ? (dateTime.hour % 12) + 12 : dateTime.hour % 12;
 		const formattedDateTime = dayjsDate
@@ -139,7 +137,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 				<PopoverContent className="w-auto p-0">
 					<div className="rounded-lg shadow-lg p-8">
 						<CalendarPicker
-							selectedDate={dateTime.date}
+							selectedDate={dateTime.date ? dateTime.date.toDate() : null}
 							onDateChange={handleDateChange}
 							disabled={disabled}
 						/>

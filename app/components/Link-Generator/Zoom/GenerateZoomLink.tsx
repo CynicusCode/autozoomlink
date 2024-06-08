@@ -6,14 +6,7 @@ import { DateTimeHandler } from "../Date-time/dateUtils";
 import { useCreateZoomMeeting } from "../../../hooks/useCreateZoomMeeting";
 import { useCreateAppointment } from "../../../hooks/useCreateAppointment";
 import type { JobDetails } from "../../../types/jobDetails";
-
-interface FormValues extends JobDetails {
-	uiExpectedStartDate: string;
-	hours: string;
-	minutes: string;
-	expectedStartDate: string; // remove the optional modifier
-	manualTitle: string;
-}
+import type { FormValues } from "../formSchema";
 
 const GenerateZoomLink: React.FC = () => {
 	const { handleSubmit, getValues, setValue, setError } =
@@ -27,8 +20,9 @@ const GenerateZoomLink: React.FC = () => {
 
 	const onSubmit = async (data: FormValues) => {
 		try {
-			const { uiExpectedStartDate, timeZone } = data;
+			console.log("Initial form values:", data);
 
+			const { uiExpectedStartDate, timeZone } = data;
 			console.log(
 				"uiExpectedStartDate before conversion:",
 				uiExpectedStartDate,
@@ -37,7 +31,7 @@ const GenerateZoomLink: React.FC = () => {
 			if (uiExpectedStartDate) {
 				const utcDate = DateTimeHandler.convertToUtc(
 					uiExpectedStartDate,
-					timeZone,
+					timeZone ?? "",
 				);
 				console.log("Converted UTC date:", utcDate);
 				setValue("expectedStartDate", utcDate);
@@ -78,7 +72,7 @@ const GenerateZoomLink: React.FC = () => {
 					topic: data.manualTitle,
 					start_time: startDate.toISOString(),
 					duration,
-					timezone: timeZone,
+					timezone: timeZone ?? "", // Provide default timeZone value
 					settings: {
 						join_before_host: true,
 						participant_video: true,
@@ -89,19 +83,19 @@ const GenerateZoomLink: React.FC = () => {
 					onSuccess: (zoomData) => {
 						const payload = {
 							jobNumber: data.jobNumber,
-							manualTitle: data.manualTitle,
+							manualTitle: data.manualTitle ?? "",
 							date: startDate.toISOString(),
 							durationHrs: data.hours ? Number(data.hours) : null,
 							durationMins: data.minutes ? Number(data.minutes) : null,
 							endDateTime,
-							timeZone: data.timeZone,
-							vriApproved: data.isVriApproved,
-							vriLabel: data.isVirtualLabelInAddress,
-							vriType: data.isVriType,
-							status: data.jobStatus,
-							videoLink: data.videoLinkField,
-							requestorName: data.requestorName,
-							requestorEmail: data.requestorEmail,
+							timeZone: data.timeZone ?? "",
+							vriApproved: data.isVriApproved ?? false,
+							vriLabel: data.isVirtualLabelInAddress ?? false,
+							vriType: data.isVriType ?? false,
+							status: data.jobStatus ?? "",
+							videoLink: data.videoLinkField ?? "",
+							requestorName: data.requestorName ?? "",
+							requestorEmail: data.requestorEmail ?? "",
 							createdByLLS: true,
 							zoomMeetingId: zoomData.meeting.id.toString(),
 							zoomStartLink: zoomData.meeting.start_url,
