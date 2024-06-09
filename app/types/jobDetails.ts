@@ -8,6 +8,7 @@ export interface JobDetails {
 	expectedDurationHrs: number;
 	expectedDurationMins: number;
 	expectedStartDate: string;
+	uiExpectedStartDate: string;
 	expectedStartTime: string;
 	timeZone: string;
 	timeZoneDisplayName: string;

@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import useJobDetails from "../../hooks/useJobDetails";
@@ -23,6 +23,13 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		refetch,
 	} = useJobDetails(jobNumber, shouldFetch);
 
+	const setFormattedStartDate = useCallback(
+		(startDate: string, timeZone: string): string => {
+			return DateTimeHandler.formatDateTimeForDisplay(startDate, timeZone);
+		},
+		[],
+	);
+
 	useEffect(() => {
 		if (data) {
 			// Set form values from fetched data
@@ -37,15 +44,15 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				String(data.expectedDurationMins % 60).padStart(2, "0"),
 			);
 
-			const formattedStartDate = DateTimeHandler.formatDateTimeForDisplay(
+			const formattedStartDate = setFormattedStartDate(
 				data.expectedStartDate,
 				data.timeZone,
 			);
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
-			setValue("uiExpectedStartDate", data.expectedStartDate); // For UI display
+			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
 			console.log(
 				"uiExpectedStartDate in FetchDetailsButton:",
-				data.expectedStartDate,
+				formattedStartDate,
 			);
 			console.log(
 				"expectedStartDate in FetchDetailsButton:",
@@ -63,7 +70,8 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			// Reset fetch state
 			setShouldFetch(false);
 		}
-	}, [data, setValue]);
+	}, [data, setValue, setFormattedStartDate]);
+
 	console.log("data in FetchDetailsButton:", data);
 
 	const handleFetchDetails = async () => {
