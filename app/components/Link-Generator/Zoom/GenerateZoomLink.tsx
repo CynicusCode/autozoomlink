@@ -5,15 +5,13 @@ import { Button } from "../../ui/button";
 import { DateTimeHandler } from "../Date-time/dateUtils";
 import { useCreateZoomMeeting } from "../../../hooks/useCreateZoomMeeting";
 import { useCreateAppointment } from "../../../hooks/useCreateAppointment";
-import type { JobDetails } from "../../../types/jobDetails";
+import type { FormValues } from "../formSchema";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
-interface FormValues extends JobDetails {
-	uiExpectedStartDate: string;
-	hours: string;
-	minutes: string;
-	expectedStartDate: string; // remove the optional modifier
-	manualTitle: string;
-}
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const GenerateZoomLink: React.FC = () => {
 	const { handleSubmit, getValues, setValue, setError } =
@@ -27,17 +25,19 @@ const GenerateZoomLink: React.FC = () => {
 
 	const onSubmit = async (data: FormValues) => {
 		try {
-			const { uiExpectedStartDate, timeZone } = data;
+			console.log("Initial form values:", data);
 
+			const { uiExpectedStartDate, timeZone } = data;
 			console.log(
 				"uiExpectedStartDate before conversion:",
 				uiExpectedStartDate,
 			);
 
+			let utcDate: string | undefined;
 			if (uiExpectedStartDate) {
-				const utcDate = DateTimeHandler.convertToUtc(
+				utcDate = DateTimeHandler.convertToUtc(
 					uiExpectedStartDate,
-					timeZone,
+					timeZone ?? "",
 				);
 				console.log("Converted UTC date:", utcDate);
 				setValue("expectedStartDate", utcDate);
@@ -60,25 +60,25 @@ const GenerateZoomLink: React.FC = () => {
 				throw new Error("Invalid start date");
 			}
 
-			const startDate = new Date(data.expectedStartDate);
-			if (Number.isNaN(startDate.getTime())) {
+			const startDate = dayjs.utc(data.expectedStartDate);
+			if (!startDate.isValid()) {
 				console.error("Invalid start date:", data.expectedStartDate);
 				throw new Error("Invalid start date");
 			}
 
-			console.log("Start date:", startDate);
+			console.log("Start date:", startDate.toISOString());
 
 			const duration = Number(data.hours) * 60 + Number(data.minutes);
-			const endDateTime = new Date(
-				startDate.getTime() + duration * 60000,
-			).toISOString();
+			const endDateTime = startDate.add(duration, "minute").toISOString();
+
+			console.log("End date time:", endDateTime);
 
 			createZoomMeeting(
 				{
 					topic: data.manualTitle,
-					start_time: startDate.toISOString(),
+					start_time: startDate.tz(timeZone).format(), // Convert to the specified time zone format
 					duration,
-					timezone: timeZone,
+					timezone: timeZone ?? "", // Provide default timeZone value
 					settings: {
 						join_before_host: true,
 						participant_video: true,
@@ -87,21 +87,33 @@ const GenerateZoomLink: React.FC = () => {
 				},
 				{
 					onSuccess: (zoomData) => {
+						console.log("Data sent to Zoom API:", {
+							topic: data.manualTitle,
+							start_time: startDate.tz(timeZone).format(),
+							duration,
+							timezone: timeZone ?? "",
+							settings: {
+								join_before_host: true,
+								participant_video: true,
+								host_video: true,
+							},
+						});
+
 						const payload = {
 							jobNumber: data.jobNumber,
-							manualTitle: data.manualTitle,
+							manualTitle: data.manualTitle ?? "",
 							date: startDate.toISOString(),
 							durationHrs: data.hours ? Number(data.hours) : null,
 							durationMins: data.minutes ? Number(data.minutes) : null,
-							endDateTime,
-							timeZone: data.timeZone,
-							vriApproved: data.isVriApproved,
-							vriLabel: data.isVirtualLabelInAddress,
-							vriType: data.isVriType,
-							status: data.jobStatus,
-							videoLink: data.videoLinkField,
-							requestorName: data.requestorName,
-							requestorEmail: data.requestorEmail,
+							endDateTime: endDateTime,
+							timeZone: data.timeZone ?? "",
+							vriApproved: data.isVriApproved ?? false,
+							vriLabel: data.isVirtualLabelInAddress ?? false,
+							vriType: data.isVriType ?? false,
+							status: data.jobStatus ?? "",
+							videoLink: data.videoLinkField ?? "",
+							requestorName: data.requestorName ?? "",
+							requestorEmail: data.requestorEmail ?? "",
 							createdByLLS: true,
 							zoomMeetingId: zoomData.meeting.id.toString(),
 							zoomStartLink: zoomData.meeting.start_url,
@@ -109,6 +121,8 @@ const GenerateZoomLink: React.FC = () => {
 							zoomInvitation: zoomData.meeting.password,
 							vriRoomNumber: 1,
 						};
+
+						console.log("Payload for createAppointment:", payload);
 
 						createAppointment(payload, {
 							onSuccess: (dbData) => {

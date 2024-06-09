@@ -1,5 +1,5 @@
 import type React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "../ui/button";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import useJobDetails from "../../hooks/useJobDetails";
@@ -23,12 +23,19 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		refetch,
 	} = useJobDetails(jobNumber, shouldFetch);
 
+	const setFormattedStartDate = useCallback(
+		(startDate: string, timeZone: string): string => {
+			return DateTimeHandler.formatDateTimeForDisplay(startDate, timeZone);
+		},
+		[],
+	);
+
 	useEffect(() => {
 		if (data) {
 			// Set form values from fetched data
 			setValue("jobNumber", data.jobNumber);
 			setValue("manualTitle", `Job #${data.jobNumber}`);
-			setValue("isJobNumberFetched", true); // Set the flag indicating the job number was fetched
+			setValue("isJobNumberFetched", true);
 			setValue("language", data.language);
 			setValue("timeZone", data.timeZone);
 			setValue("hours", String(Math.floor(data.expectedDurationHrs)));
@@ -37,15 +44,21 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				String(data.expectedDurationMins % 60).padStart(2, "0"),
 			);
 
-			const formattedStartDate = DateTimeHandler.formatDateTimeForDisplay(
+			const formattedStartDate = setFormattedStartDate(
 				data.expectedStartDate,
 				data.timeZone,
 			);
-
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
-			console.log("expected start date:", data.expectedStartDate);
 			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
-			console.log("formatted start date:", formattedStartDate);
+			console.log(
+				"uiExpectedStartDate in FetchDetailsButton:",
+				formattedStartDate,
+			);
+			console.log(
+				"expectedStartDate in FetchDetailsButton:",
+				data.expectedStartDate,
+			);
+
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
 			setValue("isVriType", data.isVriType);
@@ -57,8 +70,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			// Reset fetch state
 			setShouldFetch(false);
 		}
-	}, [data, setValue]);
-	console.log("fetched data:", data);
+	}, [data, setValue, setFormattedStartDate]);
+
+	console.log("data in FetchDetailsButton:", data);
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors
@@ -80,12 +94,9 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 				onClick={handleFetchDetails}
 				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
 					isLoading ? "opacity-50 cursor-not-allowed" : ""
-					isLoading ? "opacity-50 cursor-not-allowed" : ""
 				}`}
 				disabled={isLoading}
-				disabled={isLoading}
 			>
-				{isLoading ? "Loading..." : "Fetch Details"}
 				{isLoading ? "Loading..." : "Fetch Details"}
 			</Button>
 			{(error || queryError) && (
