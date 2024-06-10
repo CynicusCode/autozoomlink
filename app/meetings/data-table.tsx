@@ -23,16 +23,17 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@/app/components/ui/table";
-import { Button } from "@/app/components/ui/button";
-import { Checkbox } from "@/app/components/ui/checkbox";
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
-import { Input } from "@/app/components/ui/input";
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/Input";
+import MeetingTabs from "./MeetingTabs";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -72,40 +73,43 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex items-center py-4">
-				<Input
-					placeholder="Filter by job number..."
-					value={
-						(table.getColumn("jobNumber")?.getFilterValue() as string) ?? ""
-					}
-					onChange={(event) =>
-						table.getColumn("jobNumber")?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm"
-				/>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="outline" className="ml-auto">
-							Columns
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						{table
-							.getAllColumns()
-							.filter((column) => column.getCanHide())
-							.map((column) => (
-								<DropdownMenuCheckboxItem
-									key={column.id}
-									checked={column.getIsVisible()}
-									onCheckedChange={(value) => column.toggleVisibility(!!value)}
-								>
-									{column.id}
-								</DropdownMenuCheckboxItem>
-							))}
-					</DropdownMenuContent>
-				</DropdownMenu>
+			<div className="flex py-4 justify-evenly">
+				<div className="flex flex-wrap justify-evenly gap-4 w-full">
+					<MeetingTabs />
+					<Input
+						placeholder="Filter by job number..."
+						value={
+							(table.getColumn("jobNumber")?.getFilterValue() as string) ?? ""
+						}
+						onChange={(event) =>
+							table.getColumn("jobNumber")?.setFilterValue(event.target.value)
+						}
+						className="max-w-sm"
+					/>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="outline">Columns</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							{table
+								.getAllColumns()
+								.filter((column) => column.getCanHide())
+								.map((column) => (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										checked={column.getIsVisible()}
+										onCheckedChange={(value) =>
+											column.toggleVisibility(!!value)
+										}
+									>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								))}
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
-			<div className="rounded-md border">
+			<div className="rounded-md border text-center">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
@@ -127,13 +131,6 @@ export function DataTable<TData, TValue>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow key={row.id}>
-									<TableCell>
-										<Checkbox
-											checked={row.getIsSelected()}
-											onCheckedChange={(value) => row.toggleSelected(!!value)}
-											aria-label="Select row"
-										/>
-									</TableCell>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>
 											{flexRender(

@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { Popover, PopoverTrigger, PopoverContent } from "../../ui/popover";
-import { InputWithIcon } from "../../ui/InputWithIcon";
+import {
+	Popover,
+	PopoverTrigger,
+	PopoverContent,
+} from "../../../../components/ui/popover";
+import { InputWithIcon } from "../../../../components/ui/InputWithIcon";
 import { CalendarPicker } from "./CalendarPicker";
 import { TimePicker } from "./TimePicker";
 

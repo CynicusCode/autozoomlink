@@ -4,7 +4,7 @@ import {
 	TabsList,
 	TabsTrigger,
 	TabsContent,
-} from "../components/ui/tabs";
+} from "../../components/ui/tabs";
 
 function MeetingTabs() {
 	const [activeTab, setActiveTab] = useState("all"); // Declare the activeTab state variable and the setActiveTab function

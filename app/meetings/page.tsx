@@ -12,9 +12,8 @@ import MeetingTabs from "./MeetingTabs";
 const fakeData: Meeting[] = [
 	{
 		jobNumber: "20010",
-		date: "06/11/2024",
-		time: "04:00p.m.",
-		timeZone: "America/New_York",
+		date: "06/11/24 12:00 PM",
+		timeZone: "EDT",
 		requiresAttention: "vriFilter missing",
 		thirdPartyVideoLink: "Demo to generate link",
 		status: "Pending",
@@ -23,9 +22,8 @@ const fakeData: Meeting[] = [
 	},
 	{
 		jobNumber: "20011",
-		date: "06/11/2024",
-		time: "04:00p.m.",
-		timeZone: "America/New_York",
+		date: "06/11/24 09:00 PM",
+		timeZone: "EDT",
 		requiresAttention: "vriFilter missing",
 		thirdPartyVideoLink: "Demo to generate link",
 		status: "Pending",
@@ -43,11 +41,8 @@ export default function MeetingsPage() {
 				<ThemeToggle />
 			</header>
 			<main>
-				<div className="container mx-auto mt-16">
+				<div className="container mx-auto mt-20">
 					<h1 className="text-2xl font-bold mb-4 text-center">Meetings</h1>
-					<div className="mb-4">
-						<MeetingTabs />
-					</div>
 					<DataTable columns={columns} data={fakeData} />
 				</div>
 			</main>

@@ -7,8 +7,12 @@ import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 // Utilities and helper functions
 import { cn } from "@/lib/utils";
 // UI components
-import { Button } from "../../ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { Button } from "../../../../components/ui/button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "../../../../components/ui/popover";
 import {
 	Command,
 	CommandEmpty,
@@ -16,7 +20,7 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "../../ui/command";
+} from "../../../../components/ui/command";
 // Data
 import { timeZones } from "./timeZones";
 

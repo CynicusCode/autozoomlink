@@ -1,6 +1,6 @@
 // JobNumberInput.tsx
 import type React from "react";
-import { FloatingLabelInput } from "../ui/floatinginput";
+import { FloatingLabelInput } from "../../../components/ui/floatinginput";
 
 interface JobNumberInputProps {
 	jobNumber: string;

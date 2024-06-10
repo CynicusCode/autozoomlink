@@ -1,6 +1,6 @@
 "use client";
 import type React from "react";
-import { Label } from "../ui/label";
+import { Label } from "../../../components/ui/label";
 import { useFormContext } from "react-hook-form";
 
 const VideoLinkField: React.FC = () => {

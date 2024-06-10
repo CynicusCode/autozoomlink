@@ -14,7 +14,7 @@ import {
 import JobNumberInput from "./JobNumberInput";
 import FetchDetailsButton from "./FetchDetailsButton";
 import ManualEntrySwitch from "./ManualEntrySwitch";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../../components/ui/separator";
 import ManualTitle from "./ManualTitle";
 import LanguageSelector from "./LanguageSelector";
 import DatePicker from "./Datepicker";

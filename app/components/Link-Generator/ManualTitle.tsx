@@ -1,7 +1,7 @@
 // ManualTitle.tsx
 import type React from "react";
 import { useFormContext } from "react-hook-form"; // Import useFormContext
-import { FloatingLabelInput } from "../ui/floatinginput";
+import { FloatingLabelInput } from "../../../components/ui/floatinginput";
 import type { FormValues } from "./formSchema";
 
 interface ManualTitleProps {

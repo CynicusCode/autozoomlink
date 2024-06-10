@@ -4,7 +4,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/app/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -12,13 +12,13 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Define the shape of our data
 export type Meeting = {
 	jobNumber: string;
 	date: string;
-	time: string;
 	timeZone: string;
 	requiresAttention: string;
 	thirdPartyVideoLink: string;
@@ -30,6 +30,25 @@ export type Meeting = {
 // Define the columns
 export const columns: ColumnDef<Meeting>[] = [
 	{
+		id: "select",
+		header: ({ table }) => (
+			<Checkbox
+				checked={table.getIsAllPageRowsSelected()}
+				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+				aria-label="Select all"
+			/>
+		),
+		cell: ({ row }) => (
+			<Checkbox
+				checked={row.getIsSelected()}
+				onCheckedChange={(value) => row.toggleSelected(!!value)}
+				aria-label="Select row"
+			/>
+		),
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
 		accessorKey: "jobNumber",
 		header: "Job Number",
 	},
@@ -38,8 +57,7 @@ export const columns: ColumnDef<Meeting>[] = [
 		header: "Date & Time",
 		cell: ({ row }) => {
 			const date = row.getValue("date");
-			const time = row.getValue("time");
-			return `${date} ${time}`;
+			return `${date}`;
 		},
 	},
 	{
@@ -89,6 +107,9 @@ export const columns: ColumnDef<Meeting>[] = [
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>View Details</DropdownMenuItem>
 						<DropdownMenuItem>Edit Meeting</DropdownMenuItem>
+						<DropdownMenuItem>Generate Zoom Link</DropdownMenuItem>
+						<DropdownMenuItem>Generate Link & Notify Customer</DropdownMenuItem>
+						<DropdownMenuItem>Delete</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);
