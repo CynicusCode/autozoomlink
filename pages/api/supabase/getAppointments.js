@@ -1,3 +1,5 @@
+//pages/api/supabase/getAppointments.js this is the file that will be used to fetch the appointments from the Supabase database. This script will be used to fetch the appointments from the Supabase database and return them as a JSON response. The script will be used to fetch the appointments from the Supabase database and return them as a JSON response.
+
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 
