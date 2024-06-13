@@ -6,15 +6,15 @@ import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 
 // 2. Component library imports
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import {
 	Card,
 	CardContent,
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "../ui/card";
-import { Badge } from "../ui/badge";
+} from "../../../components/ui/card";
+import { Badge } from "../../../components/ui/badge";
 
 // 3. Local project files
 import DateTimePicker from "./Date-time/DateTimePicker";
@@ -23,7 +23,7 @@ import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
 import ManualEntrySwitch from "./ManualEntryswitch";
 import { schema, type FormValues } from "./formSchema";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../../components/ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";

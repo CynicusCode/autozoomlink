@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import {
+	Tabs,
+	TabsList,
+	TabsTrigger,
+	TabsContent,
+} from "../../components/ui/tabs";
 
 function MeetingTabs() {
 	const [activeTab, setActiveTab] = useState("all"); // Declare the activeTab state variable and the setActiveTab function

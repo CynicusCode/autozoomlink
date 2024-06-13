@@ -1,5 +1,5 @@
 "use client";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../../components/ui/badge";
 import { useFormContext } from "react-hook-form";
 import type React from "react";
 
