@@ -49,3 +49,31 @@ export default function MeetingsPage() {
 		</div>
 	);
 }
+
+// // app/meetings/page.tsx
+// "use client";
+
+// import React from "react";
+// import MobileNav from "../components/shared/MobileNav";
+// import { Navbar } from "../components/shared/Navbar";
+// import { ThemeToggle } from "../components/shared/ThemeToggle";
+// import AppointmentsPage from "./AppointmentsPage";
+
+// const MeetingsPage = () => {
+//   return (
+//     <div>
+//       <header>
+//         <Navbar />
+//         <MobileNav />
+//         <ThemeToggle />
+//       </header>
+//       <main>
+//         <div className="container mx-auto mt-20">
+//           <AppointmentsPage />
+//         </div>
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default MeetingsPage;

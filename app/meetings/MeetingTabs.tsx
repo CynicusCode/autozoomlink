@@ -21,6 +21,12 @@ function MeetingTabs() {
 					All
 				</TabsTrigger>
 				<TabsTrigger
+					value="linkProvided"
+					onClick={() => handleTabChange("linkProvided")}
+				>
+					Link Provided
+				</TabsTrigger>
+				<TabsTrigger
 					value="attention"
 					onClick={() => handleTabChange("attention")}
 				>
@@ -31,12 +37,6 @@ function MeetingTabs() {
 					onClick={() => handleTabChange("custPending")}
 				>
 					Cust. Pending
-				</TabsTrigger>
-				<TabsTrigger
-					value="linkProvided"
-					onClick={() => handleTabChange("linkProvided")}
-				>
-					Link Provided
 				</TabsTrigger>
 				<TabsTrigger
 					value="demoPending"

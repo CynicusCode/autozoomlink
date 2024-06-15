@@ -73,6 +73,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 
 			// Reset fetch state
 			setShouldFetch(false);
+			setValue("timeZoneDisplayName", data.timeZoneDisplayName);
 		}
 	}, [data, setValue, setFormattedStartDate]);
 

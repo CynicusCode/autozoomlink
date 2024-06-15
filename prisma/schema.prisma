@@ -18,6 +18,7 @@ model Appointment {
   durationMins    Int?
   endDateTime     DateTime?
   timeZone        String?
+  timeZoneDisplayName        String?
   vriApproved     Boolean?  @default(false)
   vriLabel        Boolean?  @default(false)
   vriType         Boolean?  @default(false)

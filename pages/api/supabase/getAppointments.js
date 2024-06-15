@@ -8,9 +8,6 @@ dotenv.config();
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-console.log("Supabase URL:", supabaseUrl);
-console.log("Supabase Anon Key:", supabaseAnonKey ? "Set" : "Not Set");
-
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default async function handler(req, res) {
@@ -19,7 +16,7 @@ export default async function handler(req, res) {
 			const { data, error } = await supabase
 				.from("Appointment")
 				.select(
-					"id, manualTitle, date, durationHrs, durationMins, timeZone, vriApproved, videoLink",
+					"id, manualTitle, date, durationHrs, durationMins, timeZone, vriApproved, vriLabel, vriType, videoLink, requestorName, requestorEmail, createdByLLS, zoomJoinLink, vriRoomNumber",
 				)
 				.order("createdAt", { ascending: false });
 
