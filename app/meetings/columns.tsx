@@ -1,5 +1,3 @@
-// app/meetings/columns.tsx
-
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
@@ -50,68 +48,97 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		accessorKey: "jobNumber",
-		header: "Job Number",
+		header: () => <div className="text-center">Job Number</div>,
+		cell: ({ row }) => (
+			<div className="text-center">{row.getValue("jobNumber") as string}</div>
+		),
 	},
 	{
 		accessorKey: "date",
-		header: "Date & Time",
+		header: () => <div className="text-center">Date & Time</div>,
 		cell: ({ row }) => {
-			const date = row.getValue("date");
-			return `${date}`;
+			const date = row.getValue("date") as string;
+			return <div className="text-center">{date}</div>;
 		},
 	},
 	{
 		accessorKey: "timeZone",
-		header: "Time Zone",
+		header: () => <div className="text-center">Time Zone</div>,
+		cell: ({ row }) => (
+			<div className="text-center">{row.getValue("timeZone") as string}</div>
+		),
 	},
 	{
 		accessorKey: "requiresAttention",
-		header: "Requires Attention",
+		header: () => <div className="text-center">Requires Attention</div>,
+		cell: ({ row }) => (
+			<div className="text-center">
+				{row.getValue("requiresAttention") as string}
+			</div>
+		),
 	},
 	{
 		accessorKey: "thirdPartyVideoLink",
-		header: "3rd Party Video Link",
+		header: () => <div className="text-center">3rd Party Video Link</div>,
+		cell: ({ row }) => (
+			<div className="text-center">
+				{row.getValue("thirdPartyVideoLink") as string}
+			</div>
+		),
 	},
 	{
-		accessorKey: "status",
-		header: "Status",
+		accessorKey: "Link Status",
+		header: () => <div className="text-center">Link Status</div>,
+		cell: ({ row }) => (
+			<div className="text-center">{row.getValue("Link Status") as string}</div>
+		),
 	},
 	{
 		accessorKey: "link",
-		header: "Link",
+		header: () => <div className="text-center">Link</div>,
+		cell: ({ row }) => (
+			<div className="text-center">{row.getValue("link") as string}</div>
+		),
 	},
 	{
 		accessorKey: "vriRoom",
-		header: "Vri Room",
+		header: () => <div className="text-center">Vri Room</div>,
+		cell: ({ row }) => (
+			<div className="text-center">{row.getValue("vriRoom") as string}</div>
+		),
 	},
 	{
 		id: "actions",
-		header: "Actions",
+		header: () => <div className="text-center">Actions</div>,
 		cell: ({ row }) => {
 			const meeting = row.original;
 			return (
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant="ghost" className="h-8 w-8 p-0">
-							<span className="sr-only">Open menu</span>
-							<MoreHorizontal className="h-4 w-4" />
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuLabel>Actions</DropdownMenuLabel>
-						<DropdownMenuItem
-							onClick={() => navigator.clipboard.writeText(meeting.jobNumber)}
-						>
-							Copy Job Number
-						</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem>View Details</DropdownMenuItem>
-						<DropdownMenuItem>Edit Meeting</DropdownMenuItem>
-						<DropdownMenuItem>Generate Zoom Link</DropdownMenuItem>
-						<DropdownMenuItem>Generate Link & Notify Customer</DropdownMenuItem>
-						<DropdownMenuItem>Delete</DropdownMenuItem>
-					</DropdownMenuContent>
-				</DropdownMenu>
+				<div className="text-center">
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="ghost" className="h-8 w-8 p-0">
+								<span className="sr-only">Open menu</span>
+								<MoreHorizontal className="h-4 w-4" />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuLabel>Actions</DropdownMenuLabel>
+							<DropdownMenuItem
+								onClick={() => navigator.clipboard.writeText(meeting.jobNumber)}
+							>
+								Copy Job Number
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem>View Details</DropdownMenuItem>
+							<DropdownMenuItem>Edit Meeting</DropdownMenuItem>
+							<DropdownMenuItem>Generate Zoom Link</DropdownMenuItem>
+							<DropdownMenuItem>
+								Generate Link & Notify Customer
+							</DropdownMenuItem>
+							<DropdownMenuItem>Delete</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			);
 		},
 	},
