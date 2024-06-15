@@ -1,4 +1,5 @@
 "use client";
+
 import type React from "react";
 import { useFormContext } from "react-hook-form";
 import { Button } from "../../../../components/ui/button";
@@ -107,6 +108,7 @@ const GenerateZoomLink: React.FC = () => {
 							durationMins: data.minutes ? Number(data.minutes) : null,
 							endDateTime: endDateTime,
 							timeZone: data.timeZone ?? "",
+							timeZoneDisplayName: data.timeZoneDisplayName ?? "",
 							vriApproved: data.isVriApproved ?? false,
 							vriLabel: data.isVirtualLabelInAddress ?? false,
 							vriType: data.isVriType ?? false,

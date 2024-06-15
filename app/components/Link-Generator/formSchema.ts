@@ -1,3 +1,5 @@
+//app/components/Link-Generator/formSchema.ts
+import { time } from "node:console";
 import { z } from "zod";
 
 // Define the interface for form values
@@ -8,6 +10,7 @@ export interface FormValues {
 	minutes: string;
 	language?: string;
 	timeZone?: string;
+	timeZoneDisplayName?: string;
 	uiExpectedStartDate?: string;
 	expectedStartDate?: string;
 	requestorEmail?: string; // Optional
@@ -35,6 +38,7 @@ export const schema = z.object({
 		.transform((minute) => minute.padStart(2, "0")), // Ensure minutes are always two digits
 	language: z.string().optional(),
 	timeZone: z.string().optional(),
+	timeZoneDisplayName: z.string().optional(),
 	uiExpectedStartDate: z.string().optional(), // Assuming it's a string in the format "MM/DD/YYYY hh:mm A"
 	expectedStartDate: z.string().optional(), // Assuming it's an ISO string
 	requestorEmail: z.string().optional(), // Optional

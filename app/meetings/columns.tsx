@@ -1,4 +1,4 @@
-"use client";
+// app/meetings/columns.tsx
 
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -17,8 +17,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 export type Meeting = {
 	jobNumber: string;
 	date: string;
-	timeZone: string;
-	requiresAttention: string;
+	timeZoneDisplayName: string;
+	requiresAttention: boolean;
 	thirdPartyVideoLink: string;
 	status: string;
 	link: string;
@@ -62,10 +62,12 @@ export const columns: ColumnDef<Meeting>[] = [
 		},
 	},
 	{
-		accessorKey: "timeZone",
+		accessorKey: "timeZoneDisplayName",
 		header: () => <div className="text-center">Time Zone</div>,
 		cell: ({ row }) => (
-			<div className="text-center">{row.getValue("timeZone") as string}</div>
+			<div className="text-center">
+				{row.getValue("timeZoneDisplayName") as string}
+			</div>
 		),
 	},
 	{
@@ -73,7 +75,7 @@ export const columns: ColumnDef<Meeting>[] = [
 		header: () => <div className="text-center">Requires Attention</div>,
 		cell: ({ row }) => (
 			<div className="text-center">
-				{row.getValue("requiresAttention") as string}
+				{row.getValue("requiresAttention") ? "Yes" : "No"}
 			</div>
 		),
 	},
@@ -87,10 +89,10 @@ export const columns: ColumnDef<Meeting>[] = [
 		),
 	},
 	{
-		accessorKey: "Link Status",
-		header: () => <div className="text-center">Link Status</div>,
+		accessorKey: "status",
+		header: () => <div className="text-center">Status</div>,
 		cell: ({ row }) => (
-			<div className="text-center">{row.getValue("Link Status") as string}</div>
+			<div className="text-center">{row.getValue("status") as string}</div>
 		),
 	},
 	{

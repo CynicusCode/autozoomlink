@@ -1,11 +1,22 @@
-// app/meetings/AppointmentsPage.tsx
+// app/meetings/AppointmentsData.tsx
 "use client";
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchAppointments from "@/lib/fetchAppointments";
 import { DataTable } from "./data-table";
-import { columns, type Meeting } from "./columns";
+import { columns } from "./columns";
+
+interface Meeting {
+	jobNumber: string;
+	date: string;
+	timeZoneDisplayName: string;
+	requiresAttention: boolean;
+	thirdPartyVideoLink: string;
+	status: string;
+	link: string;
+	vriRoom: string;
+}
 
 const AppointmentsPage = () => {
 	// Use React Query to fetch appointments data
@@ -24,7 +35,7 @@ const AppointmentsPage = () => {
 	const filteredData = data?.map((appointment) => ({
 		jobNumber: appointment.jobNumber,
 		date: appointment.date,
-		timeZone: appointment.timeZone,
+		timeZoneDisplayName: appointment.timeZoneDisplayName,
 		requiresAttention: appointment.requiresAttention,
 		thirdPartyVideoLink: appointment.thirdPartyVideoLink,
 		status: appointment.status,
