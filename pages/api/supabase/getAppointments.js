@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 			const { data, error } = await supabase
 				.from("Appointment")
 				.select(
-					"id, manualTitle, date, durationHrs, durationMins, timeZone, vriApproved, vriLabel, vriType, videoLink, requestorName, requestorEmail, createdByLLS, zoomJoinLink, vriRoomNumber",
+					"id, jobNumber, manualTitle, date, durationHrs, durationMins, timeZone, timeZoneDisplayName, vriApproved, vriLabel, vriType, videoLink, requestorName, requestorEmail, createdByLLS, zoomJoinLink, vriRoomNumber, requestorName, requestorEmail, createdAt, zoomJoinLink, vriRoomNumber ",
 				)
 				.order("createdAt", { ascending: false });
 
@@ -29,14 +29,22 @@ export default async function handler(req, res) {
 
 			const formattedData = data.map((appointment) => ({
 				id: appointment.id,
+				jobNumber: appointment.jobNumber,
 				manualTitle: appointment.manualTitle,
-				date: new Date(appointment.date).toLocaleString(),
+				date: appointment.date,
 				duration: `${appointment.durationHrs}h ${appointment.durationMins}m`,
 				timeZone: appointment.timeZone,
+				timeZoneDisplayName: appointment.timeZoneDisplayName,
 				vri: appointment.vriApproved,
 				vriLabel: appointment.vriLabel,
 				vriType: appointment.vriType,
 				videoLink: appointment.videoLink,
+				vriRoomNumber: appointment.vriRoomNumber,
+				createdbyLLS: appointment.createdByLLS,
+				requestorName: appointment.requestorName,
+				requestorEmail: appointment.requestorEmail,
+				createdAt: appointment.createdAt,
+				zoomJoinLink: appointment.zoomJoinLink,
 			}));
 
 			console.log("Formatted data:", formattedData);

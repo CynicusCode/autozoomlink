@@ -1,5 +1,4 @@
 // app/meetings/columns.tsx
-
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,20 +11,22 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge"; // Import the Badge component
 
-// Define the shape of our data
 export type Meeting = {
 	jobNumber: string;
 	date: string;
 	timeZoneDisplayName: string;
 	requiresAttention: boolean;
-	thirdPartyVideoLink: string;
+	videoLink: string;
 	status: string;
-	link: string;
-	vriRoom: string;
+	zoomJoinLink: string;
+	vriRoomNumber: number;
+	vri: boolean;
+	vriLabel: boolean;
+	vriType: boolean;
 };
 
-// Define the columns
 export const columns: ColumnDef<Meeting>[] = [
 	{
 		id: "select",
@@ -71,21 +72,26 @@ export const columns: ColumnDef<Meeting>[] = [
 		),
 	},
 	{
-		accessorKey: "requiresAttention",
+		accessorKey: "badge",
 		header: () => <div className="text-center">Requires Attention</div>,
-		cell: ({ row }) => (
-			<div className="text-center">
-				{row.getValue("requiresAttention") ? "Yes" : "No"}
-			</div>
-		),
+		cell: ({ row }) => {
+			const { vri, vriLabel, vriType } = row.original;
+			const badgeColor = vri && vriLabel && vriType ? "green" : "red";
+			const badgeText =
+				vri && vriLabel && vriType ? "OK" : "Requires Attention";
+
+			return (
+				<div className="text-center">
+					<Badge color={badgeColor}>{badgeText}</Badge>
+				</div>
+			);
+		},
 	},
 	{
-		accessorKey: "thirdPartyVideoLink",
+		accessorKey: "videoLink",
 		header: () => <div className="text-center">3rd Party Video Link</div>,
 		cell: ({ row }) => (
-			<div className="text-center">
-				{row.getValue("thirdPartyVideoLink") as string}
-			</div>
+			<div className="text-center">{row.getValue("videoLink") as string}</div>
 		),
 	},
 	{
@@ -96,17 +102,21 @@ export const columns: ColumnDef<Meeting>[] = [
 		),
 	},
 	{
-		accessorKey: "link",
+		accessorKey: "zoomJoinLink",
 		header: () => <div className="text-center">Link</div>,
 		cell: ({ row }) => (
-			<div className="text-center">{row.getValue("link") as string}</div>
+			<div className="text-center">
+				{row.getValue("zoomJoinLink") as string}
+			</div>
 		),
 	},
 	{
-		accessorKey: "vriRoom",
+		accessorKey: "vriRoomNumber",
 		header: () => <div className="text-center">Vri Room</div>,
 		cell: ({ row }) => (
-			<div className="text-center">{row.getValue("vriRoom") as string}</div>
+			<div className="text-center">
+				{row.getValue("vriRoomNumber") as string}
+			</div>
 		),
 	},
 	{

@@ -6,19 +6,24 @@ import { useQuery } from "@tanstack/react-query";
 import fetchAppointments from "@/lib/fetchAppointments";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
+import { DateTimeHandler } from "../components/Link-Generator/Date-time/dateUtils";
 
 interface Meeting {
 	jobNumber: string;
 	date: string;
 	timeZoneDisplayName: string;
 	requiresAttention: boolean;
-	thirdPartyVideoLink: string;
+	videoLink: string;
 	status: string;
-	link: string;
-	vriRoom: string;
+	zoomJoinLink: string;
+	vriRoomNumber: number;
+	timeZone: string;
+	vri: boolean;
+	vriLabel: boolean;
+	vriType: boolean;
 }
 
-const AppointmentsPage = () => {
+const AppointmentsData = () => {
 	// Use React Query to fetch appointments data
 	const { data, error, isLoading } = useQuery<Meeting[]>({
 		queryKey: ["appointments"],
@@ -31,20 +36,26 @@ const AppointmentsPage = () => {
 	// Render error state
 	if (error) return <div>Error: {error.message}</div>;
 
-	// Filter the data to include only the columns you want
+	// Convert the API provided date and time to the customer's local time
 	const filteredData = data?.map((appointment) => ({
 		jobNumber: appointment.jobNumber,
-		date: appointment.date,
+		date: DateTimeHandler.formatDateTimeForDisplay(
+			appointment.date,
+			appointment.timeZone,
+		),
 		timeZoneDisplayName: appointment.timeZoneDisplayName,
 		requiresAttention: appointment.requiresAttention,
-		thirdPartyVideoLink: appointment.thirdPartyVideoLink,
+		videoLink: appointment.videoLink,
 		status: appointment.status,
-		link: appointment.link,
-		vriRoom: appointment.vriRoom,
+		zoomJoinLink: appointment.zoomJoinLink,
+		vriRoomNumber: appointment.vriRoomNumber,
+		vri: appointment.vri,
+		vriLabel: appointment.vriLabel,
+		vriType: appointment.vriType,
 	}));
 
 	// Render data table if data is available
 	return <DataTable columns={columns} data={filteredData || []} />;
 };
 
-export default AppointmentsPage;
+export default AppointmentsData;
