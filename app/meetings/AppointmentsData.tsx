@@ -21,6 +21,7 @@ interface Meeting {
 	vri: boolean;
 	vriLabel: boolean;
 	vriType: boolean;
+	createdbyLLS: boolean;
 }
 
 const AppointmentsData = () => {
@@ -37,7 +38,7 @@ const AppointmentsData = () => {
 	if (error) return <div>Error: {error.message}</div>;
 
 	// Convert the API provided date and time to the customer's local time
-	const filteredData = data?.map((appointment) => ({
+	const formattedData = data?.map((appointment) => ({
 		jobNumber: appointment.jobNumber,
 		date: DateTimeHandler.formatDateTimeForDisplay(
 			appointment.date,
@@ -52,10 +53,10 @@ const AppointmentsData = () => {
 		vri: appointment.vri,
 		vriLabel: appointment.vriLabel,
 		vriType: appointment.vriType,
+		createdbyLLS: appointment.createdbyLLS,
 	}));
 
-	// Render data table if data is available
-	return <DataTable columns={columns} data={filteredData || []} />;
+	return <DataTable columns={columns} data={formattedData || []} />;
 };
 
 export default AppointmentsData;

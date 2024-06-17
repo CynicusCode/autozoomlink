@@ -4,8 +4,6 @@
 import React from "react";
 import MobileNav from "../components/shared/MobileNav";
 import { Navbar } from "../components/shared/Navbar";
-import { columns, type Meeting } from "./columns";
-import { DataTable } from "./data-table";
 import { ThemeToggle } from "../components/shared/ThemeToggle";
 import AppointmentsData from "./AppointmentsData";
 

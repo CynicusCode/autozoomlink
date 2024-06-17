@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge"; // Import the Badge component
+import { Dropdown } from "react-day-picker";
 
 export type Meeting = {
 	jobNumber: string;
@@ -25,6 +26,7 @@ export type Meeting = {
 	vri: boolean;
 	vriLabel: boolean;
 	vriType: boolean;
+	createdbyLLS: boolean;
 };
 
 export const columns: ColumnDef<Meeting>[] = [
@@ -76,13 +78,16 @@ export const columns: ColumnDef<Meeting>[] = [
 		header: () => <div className="text-center">Requires Attention</div>,
 		cell: ({ row }) => {
 			const { vri, vriLabel, vriType } = row.original;
-			const badgeColor = vri && vriLabel && vriType ? "green" : "red";
+			const badgeColor =
+				vri && vriLabel && vriType
+					? "text-green-600 bg-green-100"
+					: "text-red-600 bg-red-100";
 			const badgeText =
 				vri && vriLabel && vriType ? "OK" : "Requires Attention";
 
 			return (
 				<div className="text-center">
-					<Badge color={badgeColor}>{badgeText}</Badge>
+					<Badge className={badgeColor}>{badgeText}</Badge>
 				</div>
 			);
 		},
@@ -97,18 +102,45 @@ export const columns: ColumnDef<Meeting>[] = [
 	{
 		accessorKey: "status",
 		header: () => <div className="text-center">Status</div>,
-		cell: ({ row }) => (
-			<div className="text-center">{row.getValue("status") as string}</div>
-		),
+		cell: ({ row }) => {
+			const { createdbyLLS, videoLink } = row.original;
+
+			let statusText = "Pending Customer";
+			let statusColor = "text-yellow-600 bg-yellow-100";
+
+			if (createdbyLLS) {
+				statusText = "Link Provided";
+				statusColor = "text-green-600 bg-green-100";
+			} else if (videoLink.toLowerCase().includes("demo")) {
+				statusText = "Demo Link Pending";
+				statusColor = "text-red-600 bg-red-100";
+			} else if (videoLink.includes("http")) {
+				statusText = "Cust. Provided Link";
+				statusColor = "text-blue-600 bg-blue-100";
+			}
+
+			return (
+				<div className="text-center">
+					<Badge className={statusColor}>{statusText}</Badge>
+				</div>
+			);
+		},
 	},
 	{
 		accessorKey: "zoomJoinLink",
 		header: () => <div className="text-center">Link</div>,
 		cell: ({ row }) => (
-			<div className="text-center">
-				{row.getValue("zoomJoinLink") as string}
+			<div className="text-center truncate max-w-xs">
+				<a
+					href={row.getValue("zoomJoinLink") as string}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{row.getValue("zoomJoinLink") as string}
+				</a>
 			</div>
 		),
+		size: 150,
 	},
 	{
 		accessorKey: "vriRoomNumber",
@@ -147,6 +179,7 @@ export const columns: ColumnDef<Meeting>[] = [
 							<DropdownMenuItem>
 								Generate Link & Notify Customer
 							</DropdownMenuItem>
+							<DropdownMenuItem>Refetch</DropdownMenuItem>
 							<DropdownMenuItem>Delete</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
