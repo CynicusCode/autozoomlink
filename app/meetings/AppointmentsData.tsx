@@ -1,6 +1,7 @@
 // app/meetings/AppointmentsData.tsx
+"use client";
 
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import fetchAppointments from "@/lib/fetchAppointments";
 import { DataTable } from "./data-table";
@@ -25,9 +26,15 @@ interface Meeting {
 
 interface AppointmentsDataProps {
 	filter: string;
+	onCountsChange: (counts: Record<string, number>) => void;
+	onFilterChange: (filter: string) => void;
 }
 
-const AppointmentsData = ({ filter }: AppointmentsDataProps) => {
+const AppointmentsData = ({
+	filter,
+	onCountsChange,
+	onFilterChange,
+}: AppointmentsDataProps) => {
 	console.log("Current filter:", filter);
 
 	// Use React Query to fetch appointments data
@@ -35,6 +42,79 @@ const AppointmentsData = ({ filter }: AppointmentsDataProps) => {
 		queryKey: ["appointments"],
 		queryFn: fetchAppointments,
 	});
+
+	// Convert the API provided date and time to the customer's local time
+	const formattedData = useMemo(() => {
+		return (
+			data?.map((appointment) => ({
+				jobNumber: appointment.jobNumber,
+				date: DateTimeHandler.formatDateTimeForDisplay(
+					appointment.date,
+					appointment.timeZone,
+				),
+				timeZoneDisplayName: appointment.timeZoneDisplayName,
+				requiresAttention: appointment.requiresAttention || false, // Ensure boolean value
+				videoLink: appointment.videoLink || "", // Ensure string value
+				status: appointment.status || "", // Ensure string value
+				zoomJoinLink: appointment.zoomJoinLink || "", // Ensure string value
+				vriRoomNumber: appointment.vriRoomNumber || null, // Ensure number or null
+				vri: appointment.vri || false, // Ensure boolean value
+				vriLabel: appointment.vriLabel || false, // Ensure boolean value
+				vriType: appointment.vriType || false, // Ensure boolean value
+				createdbyLLS: appointment.createdbyLLS || false, // Ensure boolean value
+			})) || []
+		);
+	}, [data]);
+
+	// I just learned how to use useMemo, I'm aware this is an overkill. I'm just practicing.
+	const counts = useMemo(() => {
+		return {
+			all: formattedData.length,
+			linkProvided: formattedData.filter(
+				(appointment) =>
+					appointment.createdbyLLS || appointment.videoLink.includes("http"),
+			).length,
+			attention: formattedData.filter(
+				(appointment) =>
+					!appointment.vri || !appointment.vriLabel || !appointment.vriType,
+			).length,
+			custPending: formattedData.filter((appointment) =>
+				appointment.videoLink.toLowerCase().includes("customer"),
+			).length,
+			demoPending: formattedData.filter(
+				(appointment) =>
+					appointment.videoLink.toLowerCase().includes("demo") &&
+					!appointment.zoomJoinLink,
+			).length,
+		};
+	}, [formattedData]);
+
+	// Notify parent component of the counts
+	useEffect(() => {
+		onCountsChange(counts);
+	}, [counts, onCountsChange]);
+
+	const filteredData = useMemo(() => {
+		return formattedData.filter((appointment) => {
+			if (filter === "all") return true;
+			if (filter === "linkProvided")
+				return (
+					appointment.createdbyLLS || appointment.videoLink.includes("http")
+				);
+			if (filter === "attention")
+				return (
+					!appointment.vri || !appointment.vriLabel || !appointment.vriType
+				);
+			if (filter === "custPending")
+				return appointment.videoLink.toLowerCase().includes("customer");
+			if (filter === "demoPending")
+				return (
+					!appointment.zoomJoinLink &&
+					appointment.videoLink.toLowerCase().includes("demo")
+				);
+			return true;
+		});
+	}, [formattedData, filter]);
 
 	// Render loading state
 	if (isLoading) {
@@ -51,45 +131,21 @@ const AppointmentsData = ({ filter }: AppointmentsDataProps) => {
 	// Log raw data
 	console.log("Raw data:", data);
 
-	// Convert the API provided date and time to the customer's local time
-	const formattedData = data?.map((appointment) => ({
-		jobNumber: appointment.jobNumber,
-		date: DateTimeHandler.formatDateTimeForDisplay(
-			appointment.date,
-			appointment.timeZone,
-		),
-		timeZoneDisplayName: appointment.timeZoneDisplayName,
-		requiresAttention: appointment.requiresAttention || false, // Ensure boolean value
-		videoLink: appointment.videoLink || "", // Ensure string value
-		status: appointment.status || "", // Ensure string value
-		zoomJoinLink: appointment.zoomJoinLink || "", // Ensure string value
-		vriRoomNumber: appointment.vriRoomNumber || null, // Ensure number or null
-		vri: appointment.vri || false, // Ensure boolean value
-		vriLabel: appointment.vriLabel || false, // Ensure boolean value
-		vriType: appointment.vriType || false, // Ensure boolean value
-		createdbyLLS: appointment.createdbyLLS || false, // Ensure boolean value
-	}));
-
 	// Log formatted data
 	console.log("Formatted data:", formattedData);
-
-	const filteredData = formattedData?.filter((appointment) => {
-		if (filter === "all") return true;
-		if (filter === "linkProvided")
-			return appointment.createdbyLLS || appointment.videoLink.includes("http");
-		if (filter === "attention")
-			return !appointment.vri || !appointment.vriLabel || !appointment.vriType;
-		if (filter === "custPending")
-			return appointment.videoLink.toLowerCase().includes("customer");
-		if (filter === "demoPending")
-			return appointment.videoLink.toLowerCase().includes("demo");
-		return true;
-	});
 
 	// Log filtered data
 	console.log("Filtered data:", filteredData);
 
-	return <DataTable columns={columns} data={filteredData || []} />;
+	return (
+		<DataTable
+			columns={columns}
+			data={filteredData}
+			filter={filter}
+			onFilterChange={onFilterChange}
+			counts={counts}
+		/>
+	);
 };
 
 export default AppointmentsData;

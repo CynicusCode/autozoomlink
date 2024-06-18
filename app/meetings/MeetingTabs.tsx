@@ -6,13 +6,15 @@ import {
 	TabsTrigger,
 	TabsContent,
 } from "../../components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
 
 interface MeetingTabsProps {
 	activeTab: string;
 	onTabChange: (value: string) => void;
+	counts: Record<string, number>;
 }
 
-function MeetingTabs({ activeTab, onTabChange }: MeetingTabsProps) {
+function MeetingTabs({ activeTab, onTabChange, counts }: MeetingTabsProps) {
 	const handleTabChange = (value: string) => {
 		console.log("Tab changed to:", value);
 		onTabChange(value);
@@ -26,11 +28,21 @@ function MeetingTabs({ activeTab, onTabChange }: MeetingTabsProps) {
 			className="max-w-full"
 		>
 			<TabsList>
-				<TabsTrigger value="all">All</TabsTrigger>
-				<TabsTrigger value="linkProvided">Link Provided</TabsTrigger>
-				<TabsTrigger value="attention">Attention Required</TabsTrigger>
-				<TabsTrigger value="custPending">Cust. Pending</TabsTrigger>
-				<TabsTrigger value="demoPending">Demo Pending</TabsTrigger>
+				<TabsTrigger value="all">
+					All <Badge className=" ml-1 ">{counts.all}</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="linkProvided">
+					Link Provided <Badge className="ml-1">{counts.linkProvided}</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="attention">
+					Attention Required <Badge className="ml-1">{counts.attention}</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="custPending">
+					Cust. Pending <Badge className="ml-1">{counts.custPending}</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="demoPending">
+					Demo Pending <Badge className="ml-1">{counts.demoPending}</Badge>
+				</TabsTrigger>
 			</TabsList>
 		</Tabs>
 	);

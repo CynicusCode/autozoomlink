@@ -38,11 +38,17 @@ import MeetingTabs from "./MeetingTabs";
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	filter: string;
+	onFilterChange: (filter: string) => void;
+	counts: Record<string, number>;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	filter,
+	onFilterChange,
+	counts,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = React.useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -75,6 +81,11 @@ export function DataTable<TData, TValue>({
 		<div>
 			<div className="flex py-4 justify-evenly">
 				<div className="flex flex-wrap justify-evenly gap-4 w-full">
+					<MeetingTabs
+						activeTab={filter}
+						onTabChange={onFilterChange}
+						counts={counts}
+					/>
 					<Input
 						placeholder="Filter by job number..."
 						value={
