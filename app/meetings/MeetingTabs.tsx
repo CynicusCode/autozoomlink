@@ -1,4 +1,5 @@
-import { useState } from "react";
+// app/meetings/MeetingTabs.tsx
+import React from "react";
 import {
 	Tabs,
 	TabsList,
@@ -6,48 +7,31 @@ import {
 	TabsContent,
 } from "../../components/ui/tabs";
 
-function MeetingTabs() {
-	const [activeTab, setActiveTab] = useState("all"); // Declare the activeTab state variable and the setActiveTab function
+interface MeetingTabsProps {
+	activeTab: string;
+	onTabChange: (value: string) => void;
+}
 
+function MeetingTabs({ activeTab, onTabChange }: MeetingTabsProps) {
 	const handleTabChange = (value: string) => {
-		setActiveTab(value);
-		// You can add logic here to change the data in the table based on the active tab
+		console.log("Tab changed to:", value);
+		onTabChange(value);
 	};
 
 	return (
-		<Tabs defaultValue="all" className=" max-w-full">
+		<Tabs
+			defaultValue={activeTab}
+			value={activeTab}
+			onValueChange={handleTabChange}
+			className="max-w-full"
+		>
 			<TabsList>
-				<TabsTrigger value="all" onClick={() => handleTabChange("all")}>
-					All
-				</TabsTrigger>
-				<TabsTrigger
-					value="linkProvided"
-					onClick={() => handleTabChange("linkProvided")}
-				>
-					Link Provided
-				</TabsTrigger>
-				<TabsTrigger
-					value="attention"
-					onClick={() => handleTabChange("attention")}
-				>
-					Attention Required
-				</TabsTrigger>
-				<TabsTrigger
-					value="custPending"
-					onClick={() => handleTabChange("custPending")}
-				>
-					Cust. Pending
-				</TabsTrigger>
-				<TabsTrigger
-					value="demoPending"
-					onClick={() => handleTabChange("demoPending")}
-				>
-					Demo Pending
-				</TabsTrigger>
+				<TabsTrigger value="all">All</TabsTrigger>
+				<TabsTrigger value="linkProvided">Link Provided</TabsTrigger>
+				<TabsTrigger value="attention">Attention Required</TabsTrigger>
+				<TabsTrigger value="custPending">Cust. Pending</TabsTrigger>
+				<TabsTrigger value="demoPending">Demo Pending</TabsTrigger>
 			</TabsList>
-			<TabsContent value={activeTab}>
-				{/* This is where the table data will be updated based on the active tab */}
-			</TabsContent>
 		</Tabs>
 	);
 }

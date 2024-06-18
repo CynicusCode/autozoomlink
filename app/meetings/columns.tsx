@@ -11,8 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Badge } from "@/components/ui/badge"; // Import the Badge component
-import { Dropdown } from "react-day-picker";
+import { Badge } from "@/components/ui/badge";
 
 export type Meeting = {
 	jobNumber: string;
@@ -22,7 +21,7 @@ export type Meeting = {
 	videoLink: string;
 	status: string;
 	zoomJoinLink: string;
-	vriRoomNumber: number;
+	vriRoomNumber: number | null;
 	vri: boolean;
 	vriLabel: boolean;
 	vriType: boolean;

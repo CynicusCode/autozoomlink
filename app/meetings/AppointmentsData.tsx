@@ -1,5 +1,4 @@
 // app/meetings/AppointmentsData.tsx
-"use client";
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +15,7 @@ interface Meeting {
 	videoLink: string;
 	status: string;
 	zoomJoinLink: string;
-	vriRoomNumber: number;
+	vriRoomNumber: number | null;
 	timeZone: string;
 	vri: boolean;
 	vriLabel: boolean;
@@ -24,7 +23,13 @@ interface Meeting {
 	createdbyLLS: boolean;
 }
 
-const AppointmentsData = () => {
+interface AppointmentsDataProps {
+	filter: string;
+}
+
+const AppointmentsData = ({ filter }: AppointmentsDataProps) => {
+	console.log("Current filter:", filter);
+
 	// Use React Query to fetch appointments data
 	const { data, error, isLoading } = useQuery<Meeting[]>({
 		queryKey: ["appointments"],
@@ -32,10 +37,19 @@ const AppointmentsData = () => {
 	});
 
 	// Render loading state
-	if (isLoading) return <div>Loading...</div>;
+	if (isLoading) {
+		console.log("Loading data...");
+		return <div>Loading...</div>;
+	}
 
 	// Render error state
-	if (error) return <div>Error: {error.message}</div>;
+	if (error) {
+		console.log("Error loading data:", error.message);
+		return <div>Error: {error.message}</div>;
+	}
+
+	// Log raw data
+	console.log("Raw data:", data);
 
 	// Convert the API provided date and time to the customer's local time
 	const formattedData = data?.map((appointment) => ({
@@ -45,18 +59,37 @@ const AppointmentsData = () => {
 			appointment.timeZone,
 		),
 		timeZoneDisplayName: appointment.timeZoneDisplayName,
-		requiresAttention: appointment.requiresAttention,
-		videoLink: appointment.videoLink,
-		status: appointment.status,
-		zoomJoinLink: appointment.zoomJoinLink,
-		vriRoomNumber: appointment.vriRoomNumber,
-		vri: appointment.vri,
-		vriLabel: appointment.vriLabel,
-		vriType: appointment.vriType,
-		createdbyLLS: appointment.createdbyLLS,
+		requiresAttention: appointment.requiresAttention || false, // Ensure boolean value
+		videoLink: appointment.videoLink || "", // Ensure string value
+		status: appointment.status || "", // Ensure string value
+		zoomJoinLink: appointment.zoomJoinLink || "", // Ensure string value
+		vriRoomNumber: appointment.vriRoomNumber || null, // Ensure number or null
+		vri: appointment.vri || false, // Ensure boolean value
+		vriLabel: appointment.vriLabel || false, // Ensure boolean value
+		vriType: appointment.vriType || false, // Ensure boolean value
+		createdbyLLS: appointment.createdbyLLS || false, // Ensure boolean value
 	}));
 
-	return <DataTable columns={columns} data={formattedData || []} />;
+	// Log formatted data
+	console.log("Formatted data:", formattedData);
+
+	const filteredData = formattedData?.filter((appointment) => {
+		if (filter === "all") return true;
+		if (filter === "linkProvided")
+			return appointment.createdbyLLS || appointment.videoLink.includes("http");
+		if (filter === "attention")
+			return !appointment.vri || !appointment.vriLabel || !appointment.vriType;
+		if (filter === "custPending")
+			return appointment.videoLink.toLowerCase().includes("customer");
+		if (filter === "demoPending")
+			return appointment.videoLink.toLowerCase().includes("demo");
+		return true;
+	});
+
+	// Log filtered data
+	console.log("Filtered data:", filteredData);
+
+	return <DataTable columns={columns} data={filteredData || []} />;
 };
 
 export default AppointmentsData;
