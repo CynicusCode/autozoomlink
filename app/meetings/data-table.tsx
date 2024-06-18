@@ -75,7 +75,6 @@ export function DataTable<TData, TValue>({
 		<div>
 			<div className="flex py-4 justify-evenly">
 				<div className="flex flex-wrap justify-evenly gap-4 w-full">
-					<MeetingTabs />
 					<Input
 						placeholder="Filter by job number..."
 						value={
