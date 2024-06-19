@@ -1,3 +1,4 @@
+//app/components/Link-Generator/AutoLinkGenerator.tsx
 "use client";
 // 1. External libraries
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -79,11 +80,10 @@ const AutoLinkGenerator: React.FC = () => {
 					<div className="flex justify-center">
 						<VideoLinkField />
 					</div>
-
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
-						<GenerateZoomLink onClick={methods.handleSubmit(onSubmit)} />
+						<GenerateZoomLink />
 					</CardFooter>
 				</FormProvider>
 			</CardContent>
