@@ -1,12 +1,10 @@
-//app/components/Link-Generator/AutoLinkGenerator.tsx
+// app/components/Link-Generator/AutoLinkGenerator.tsx
 "use client";
-// 1. External libraries
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import type React from "react";
 import { useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
-
-// 2. Component library imports
 import { Button } from "../../../components/ui/button";
 import {
 	Card,
@@ -16,8 +14,6 @@ import {
 	CardTitle,
 } from "../../../components/ui/card";
 import { Badge } from "../../../components/ui/badge";
-
-// 3. Local project files
 import DateTimePicker from "./Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
@@ -33,18 +29,39 @@ import VriType from "./VriType";
 import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
 import VideoLinkField from "./VideoLinkField";
+import ZoomLinkPopup from "./Zoom/ZoomLinkPopup";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
 	const [isAutomaticMode, setIsAutomaticMode] = useState(false);
+	const [isLinkGenerated, setIsLinkGenerated] = useState(false);
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+	const [zoomDetails, setZoomDetails] = useState({
+		title: "",
+		time: "",
+		joinLink: "",
+		meetingId: "",
+		passcode: "",
+		requestorEmail: "",
+	});
 
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
-	const onSubmit = (data: FormValues) => {
-		console.log("Form data on submit:", data); // Log all form values with local date-time
-		// Add your Zoom link generation logic here
+	const handleGenerateZoomLinkClick = () => {
+		setIsLinkGenerated(true);
+		setIsPopupOpen(true); // Open the popup when the link is generated
+
+		// For demonstration purposes, set the zoomDetails object with mock data
+		setZoomDetails({
+			title: "Demo Meeting",
+			time: "January 1, 2024 10:00 AM",
+			joinLink: "https://example.com/zoom-link",
+			meetingId: "123456789",
+			passcode: "passcode123",
+			requestorEmail: "requestor@example.com",
+		});
 	};
 
 	return (
@@ -83,13 +100,23 @@ const AutoLinkGenerator: React.FC = () => {
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
-						<GenerateZoomLink />
+						{isLinkGenerated && (
+							<Button onClick={() => setIsPopupOpen(true)}>
+								See Invitation
+							</Button>
+						)}
+						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />
 					</CardFooter>
 				</FormProvider>
 			</CardContent>
 			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
 				Contact me: dev.daniel.garcia@gmail.com
 			</p>
+			<ZoomLinkPopup
+				isOpen={isPopupOpen}
+				onClose={() => setIsPopupOpen(false)}
+				zoomDetails={zoomDetails}
+			/>
 		</Card>
 	);
 };
