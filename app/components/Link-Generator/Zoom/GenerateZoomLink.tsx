@@ -13,7 +13,6 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import ZoomLinkPopup from "./ZoomLinkPopup";
-import { useAppointments } from "@/app/meetings/AppointmentsData";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -32,8 +31,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 		useCreateAppointment();
 	const isCreatingAppointment = createAppointmentStatus === "pending";
 
-	const { appointments, setAppointments } = useAppointments();
-
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
 	const [zoomDetails, setZoomDetails] = useState({
 		title: "",
@@ -43,39 +40,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 		passcode: "",
 		requestorEmail: "",
 	});
-
-	const findAvailableRoom = (
-		startDate: string,
-		endDate: string,
-	): number | null => {
-		const occupiedRooms = appointments.reduce((acc, appointment) => {
-			if (appointment.vriRoomNumber !== null) {
-				const appointmentStart = dayjs(appointment.date);
-				const appointmentEnd = appointmentStart.add(
-					appointment.durationMins,
-					"minute",
-				);
-
-				if (
-					(appointmentStart.isBefore(endDate) &&
-						appointmentEnd.isAfter(startDate)) ||
-					appointmentStart.isSame(startDate) ||
-					appointmentEnd.isSame(endDate)
-				) {
-					acc.add(appointment.vriRoomNumber);
-				}
-			}
-			return acc;
-		}, new Set<number>());
-
-		for (let room = 1; room <= 10; room++) {
-			// Assuming you have 10 rooms
-			if (!occupiedRooms.has(room)) {
-				return room;
-			}
-		}
-		return null;
-	};
 
 	const onSubmit = async (data: FormValues) => {
 		try {
@@ -127,19 +91,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 
 			console.log("End date time:", endDateTime);
 
-			const availableRoom = findAvailableRoom(
-				startDate.toISOString(),
-				endDateTime,
-			);
-			if (availableRoom === null) {
-				console.error("No available rooms");
-				setError("uiExpectedStartDate", {
-					type: "manual",
-					message: "No available rooms",
-				});
-				return;
-			}
-
 			createZoomMeeting(
 				{
 					topic: data.manualTitle,
@@ -167,12 +118,11 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 						});
 
 						const payload = {
-							id: "", // Set this if available or let the backend set it
 							jobNumber: data.jobNumber,
 							manualTitle: data.manualTitle ?? "",
 							date: startDate.toISOString(),
-							durationHrs: data.hours ? Number(data.hours) : 0,
-							durationMins: data.minutes ? Number(data.minutes) : 0,
+							durationHrs: data.hours ? Number(data.hours) : null,
+							durationMins: data.minutes ? Number(data.minutes) : null,
 							endDateTime: endDateTime,
 							timeZone: data.timeZone ?? "",
 							timeZoneDisplayName: data.timeZoneDisplayName ?? "",
@@ -184,15 +134,11 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 							requestorName: data.requestorName ?? "",
 							requestorEmail: data.requestorEmail ?? "",
 							createdByLLS: true,
-							zoomJoinLink: zoomData.meeting.join_url,
-							vriRoomNumber: availableRoom, // Assign the available room
-							createdAt: new Date().toISOString(), // Set this appropriately
-							requiresAttention: false, // Set this based on your logic
-							vri: false, // Set this based on your logic
-							createdbyLLS: true, // Set this based on your logic
 							zoomMeetingId: zoomData.meeting.id.toString(),
 							zoomStartLink: zoomData.meeting.start_url,
+							zoomJoinLink: zoomData.meeting.join_url,
 							zoomInvitation: zoomData.meeting.password,
+							vriRoomNumber: 1,
 						};
 
 						console.log("Payload for createAppointment:", payload);
@@ -200,10 +146,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 						createAppointment(payload, {
 							onSuccess: (dbData) => {
 								console.log("Appointment created successfully:", dbData);
-								setAppointments((prevAppointments) => [
-									...prevAppointments,
-									payload,
-								]); // Optimistically update the local state
 								setZoomDetails({
 									title: data.manualTitle || "No Title Provided",
 									time: startDate.tz(timeZone).format("MMMM D, YYYY h:mm A"),
