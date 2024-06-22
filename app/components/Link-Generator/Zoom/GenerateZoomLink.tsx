@@ -46,10 +46,6 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 			console.log("Initial form values:", data);
 
 			const { uiExpectedStartDate, timeZone } = data;
-			console.log(
-				"uiExpectedStartDate before conversion:",
-				uiExpectedStartDate,
-			);
 
 			let utcDate: string | undefined;
 			if (uiExpectedStartDate) {
@@ -57,12 +53,9 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 					uiExpectedStartDate,
 					timeZone ?? "",
 				);
-				console.log("Converted UTC date:", utcDate);
 				setValue("expectedStartDate", utcDate);
 				data.expectedStartDate = utcDate;
 			}
-
-			console.log("Data after conversion:", data);
 
 			if (!data.manualTitle) {
 				setError("manualTitle", {
@@ -84,12 +77,8 @@ const GenerateZoomLink: React.FC<GenerateZoomLinkProps> = ({ onClick }) => {
 				throw new Error("Invalid start date");
 			}
 
-			console.log("Start date:", startDate.toISOString());
-
 			const duration = Number(data.hours) * 60 + Number(data.minutes);
 			const endDateTime = startDate.add(duration, "minute").toISOString();
-
-			console.log("End date time:", endDateTime);
 
 			createZoomMeeting(
 				{

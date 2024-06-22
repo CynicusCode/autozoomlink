@@ -54,14 +54,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			);
 			setValue("expectedStartDate", data.expectedStartDate); // For server use
 			setValue("uiExpectedStartDate", formattedStartDate); // For UI display
-			console.log(
-				"uiExpectedStartDate in FetchDetailsButton:",
-				formattedStartDate,
-			);
-			console.log(
-				"expectedStartDate in FetchDetailsButton:",
-				data.expectedStartDate,
-			);
 
 			setValue("isVriApproved", data.isVriApproved);
 			setValue("isVirtualLabelInAddress", data.isVirtualLabelInAddress);
@@ -76,8 +68,6 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 			setValue("timeZoneDisplayName", data.timeZoneDisplayName);
 		}
 	}, [data, setValue, setFormattedStartDate]);
-
-	console.log("data in FetchDetailsButton:", data);
 
 	const handleFetchDetails = async () => {
 		setError(""); // Clear previous errors

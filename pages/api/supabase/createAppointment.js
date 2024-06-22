@@ -26,9 +26,59 @@ export default async function handler(req, res) {
 		}
 
 		try {
-			const appointment = await prisma.appointment.create({
-				data,
+			// Calculate endDateTime based on the duration
+			const startDateTime = new Date(data.date);
+			const endDateTime = new Date(startDateTime);
+			endDateTime.setHours(endDateTime.getHours() + data.durationHrs);
+			endDateTime.setMinutes(endDateTime.getMinutes() + data.durationMins);
+
+			// Query to find conflicting appointments
+			const conflicts = await prisma.appointment.findMany({
+				where: {
+					AND: [
+						{ date: { equals: startDateTime } },
+						{
+							OR: [
+								{ endDateTime: { gte: startDateTime } },
+								{ date: { lte: endDateTime } },
+							],
+						},
+					],
+				},
+				select: {
+					vriRoomNumber: true,
+				},
 			});
+
+			// Find an available room number
+			const maxRooms = 10; // Assume you have 10 rooms initially
+			const occupiedRooms = new Set(
+				conflicts.map((appointment) => appointment.vriRoomNumber),
+			);
+			let availableRoomNumber = null;
+
+			for (let room = 1; room <= maxRooms; room++) {
+				if (!occupiedRooms.has(room)) {
+					availableRoomNumber = room;
+					break;
+				}
+			}
+
+			// If no room is available, assign a new room number
+			if (!availableRoomNumber) {
+				availableRoomNumber = maxRooms + 1;
+			}
+
+			// Create a new appointment with the assigned room number
+			const appointment = await prisma.appointment.create({
+				data: {
+					...data,
+					date: startDateTime,
+					endDateTime: endDateTime,
+					vriRoomNumber: availableRoomNumber,
+				},
+			});
+
 			res.status(200).json(appointment);
 		} catch (error) {
 			console.error("Error creating appointment:", error);
