@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import {
@@ -37,10 +37,13 @@ export const DateTimePicker = ({ disabled = false }) => {
 	useEffect(() => {
 		if (uiExpectedStartDate) {
 			const [datePart, timePart] = uiExpectedStartDate.split(" ");
-			const [hour, minute] = timePart.split(":");
-			const ampm = minute.split(" ")[1];
+			const [hourMinute, ampm] = timePart.split(" ");
+			const [hour, minute] = hourMinute.split(":");
+
+			const [month, day, year] = datePart.split("/");
+
 			setDateTime({
-				date: new Date(datePart),
+				date: new Date(`${year}-${month}-${day}`),
 				hour: Number.parseInt(hour),
 				minute: Number.parseInt(minute),
 				ampm: ampm,
@@ -57,7 +60,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	const handleDateChange = (newDate: Date | undefined) => {
 		if (newDate) {
-			const formattedDate = newDate.toISOString().split("T")[0];
+			const formattedDate = `${newDate.getMonth() + 1}/${newDate.getDate()}/${newDate.getFullYear()}`;
 			const existingTime = `${String(dateTime.hour).padStart(2, "0")}:${String(dateTime.minute).padStart(2, "0")} ${dateTime.ampm}`;
 			const combinedDateTime = `${formattedDate} ${existingTime}`;
 			setValue("uiExpectedStartDate", combinedDateTime, {
@@ -72,18 +75,11 @@ export const DateTimePicker = ({ disabled = false }) => {
 
 	const handleTimeChange = (hour: number, minute: number, ampm: string) => {
 		const formattedDate = dateTime.date
-			? dateTime.date.toISOString().split("T")[0]
-			: new Date().toISOString().split("T")[0];
+			? `${dateTime.date.getMonth() + 1}/${dateTime.date.getDate()}/${dateTime.date.getFullYear()}`
+			: `${new Date().getMonth() + 1}/${new Date().getDate()}/${new Date().getFullYear()}`;
 		const combinedDateTime = `${formattedDate} ${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")} ${ampm}`;
 		setValue("uiExpectedStartDate", combinedDateTime, { shouldValidate: true });
 		setDateTime((prev) => ({ ...prev, hour, minute, ampm }));
-	};
-
-	const formatDateTime = () => {
-		if (!dateTime.date) return "";
-		const formattedDate = dateTime.date.toISOString().split("T")[0];
-		const formattedTime = `${String(dateTime.hour).padStart(2, "0")}:${String(dateTime.minute).padStart(2, "0")} ${dateTime.ampm}`;
-		return `${formattedDate} ${formattedTime}`;
 	};
 
 	return (
@@ -99,7 +95,7 @@ export const DateTimePicker = ({ disabled = false }) => {
 							id="dateTimeInput"
 							icon={<CalendarIcon />}
 							className="w-full pr-10 pl-10"
-							placeholder="MM/DD/YYYY HH:MM AM/PM"
+							placeholder="MM/DD/YYYY hh:mm A"
 							type="text"
 							value={uiExpectedStartDate}
 							readOnly

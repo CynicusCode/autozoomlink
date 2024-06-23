@@ -1,6 +1,4 @@
 // app/components/Link-Generator/Zoom/GenerateZoomLink.tsx
-"use client";
-
 import type React from "react";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
