@@ -7,6 +7,7 @@ import fetchAppointments from "@/lib/fetchAppointments";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { DateTimeHandler } from "../components/Link-Generator/Date-time/dateUtils";
+import DataTableSkeleton from "../components/Skeleton/DataTableSkeleton"; // Importing the DataTableSkeleton
 
 interface Meeting {
 	jobNumber: string;
@@ -119,7 +120,7 @@ const AppointmentsData = ({
 	// Render loading state
 	if (isLoading) {
 		console.log("Loading data...");
-		return <div>Loading...</div>;
+		return <DataTableSkeleton rows={5} columns={5} />; // Display the DataTableSkeleton component
 	}
 
 	// Render error state

@@ -30,6 +30,7 @@ import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
 import VideoLinkField from "./VideoLinkField";
 import ZoomLinkPopup from "./Zoom/ZoomLinkPopup";
+import SkeletonLoader from "../Skeleton/FormSkeleton";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -44,24 +45,29 @@ const AutoLinkGenerator: React.FC = () => {
 		passcode: "",
 		requestorEmail: "",
 	});
+	const [isLoading, setIsLoading] = useState(false); // New state for loading
 
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
 	});
 
 	const handleGenerateZoomLinkClick = () => {
-		setIsLinkGenerated(true);
-		setIsPopupOpen(true); // Open the popup when the link is generated
+		setIsLoading(true); // Set loading to true when the link generation starts
+		setTimeout(() => {
+			setIsLinkGenerated(true);
+			setIsPopupOpen(true); // Open the popup when the link is generated
 
-		// For demonstration purposes, set the zoomDetails object with mock data
-		setZoomDetails({
-			title: "Demo Meeting",
-			time: "January 1, 2024 10:00 AM",
-			joinLink: "https://example.com/zoom-link",
-			meetingId: "123456789",
-			passcode: "passcode123",
-			requestorEmail: "requestor@example.com",
-		});
+			// For demonstration purposes, set the zoomDetails object with mock data
+			setZoomDetails({
+				title: "Demo Meeting",
+				time: "January 1, 2024 10:00 AM",
+				joinLink: "https://example.com/zoom-link",
+				meetingId: "123456789",
+				passcode: "passcode123",
+				requestorEmail: "requestor@example.com",
+			});
+			setIsLoading(false); // Set loading to false after the link is generated
+		}, 2000); // Simulate a network request
 	};
 
 	return (
@@ -84,11 +90,18 @@ const AutoLinkGenerator: React.FC = () => {
 						setIsAutomaticMode={setIsAutomaticMode}
 					/>
 					<Separator />
-					<ManualTitle disabled={isAutomaticMode} />
-					<Duration disabled={isAutomaticMode} />
-					<LanguageSelector disabled={isAutomaticMode} />
-					<DateTimePicker disabled={isAutomaticMode} />
-					<TimeZoneSelector disabled={isAutomaticMode} />
+					{isLoading ? (
+						<SkeletonLoader />
+					) : (
+						<>
+							<ManualTitle disabled={isAutomaticMode} />
+							<Duration disabled={isAutomaticMode} />
+							<LanguageSelector disabled={isAutomaticMode} />
+							<DateTimePicker disabled={isAutomaticMode} />
+							<TimeZoneSelector disabled={isAutomaticMode} />
+						</>
+					)}
+					<Separator />
 					<div className="flex justify-evenly space-x-2">
 						<VriApproved />
 						<VriLabel />

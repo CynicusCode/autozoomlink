@@ -1,10 +1,10 @@
 import React from "react";
-import FormSkeleton from "../components/Skeleton/FormSkeleton";
+import DataTableSkeleton from "../components/Skeleton/DataTableSkeleton";
 
 const page = () => {
 	return (
 		<div>
-			<FormSkeleton />
+			<DataTableSkeleton />
 		</div>
 	);
 };
