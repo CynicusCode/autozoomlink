@@ -1,10 +1,8 @@
-//app/components/Link-Generator/formSchema.ts
-import { time } from "node:console";
 import { z } from "zod";
 
 // Define the interface for form values
 export interface FormValues {
-	jobNumber: string;
+	jobNumber?: string;
 	manualTitle?: string;
 	hours: string;
 	minutes: string;
@@ -24,10 +22,7 @@ export interface FormValues {
 
 // Define the Zod schema for form validation
 export const schema = z.object({
-	jobNumber: z
-		.string()
-		.min(1, "Job number is required")
-		.regex(/^\d{5}$/, "Job number must be exactly 5 digits"),
+	jobNumber: z.string().optional(),
 	manualTitle: z.string().optional(),
 	hours: z
 		.string()

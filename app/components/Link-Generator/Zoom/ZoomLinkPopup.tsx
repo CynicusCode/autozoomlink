@@ -1,7 +1,4 @@
-// app/components/Link-Generator/Zoom/ZoomLinkPopup.tsx
-"use client";
-
-import type React from "react";
+import React from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import {
 	Dialog,
@@ -33,60 +30,63 @@ interface FormData {
 	email: string;
 }
 
-const ZoomLinkPopup: React.FC<ZoomLinkPopupProps> = ({
-	isOpen,
-	onClose,
-	zoomDetails,
-}) => {
-	const { register, handleSubmit } = useForm<FormData>();
+const ZoomLinkPopup: React.FC<ZoomLinkPopupProps> = React.memo(
+	({ isOpen, onClose, zoomDetails }) => {
+		const { register, handleSubmit } = useForm<FormData>();
 
-	const onCopyLink = () => {
-		navigator.clipboard.writeText(zoomDetails.joinLink);
-	};
+		const onCopyLink = React.useCallback(() => {
+			console.log("Copy Link clicked");
+			navigator.clipboard.writeText(zoomDetails.joinLink);
+		}, [zoomDetails.joinLink]);
 
-	const onCopyInvitation = () => {
-		const invitationText = `
-            Demo is inviting you to a scheduled Zoom meeting.\n
-            Topic: ${zoomDetails.title}\n
-            Time: ${zoomDetails.time}\n
-            Join Zoom Meeting: ${zoomDetails.joinLink}\n
-            Meeting ID: ${zoomDetails.meetingId}\n
-            Passcode: ${zoomDetails.passcode}\n
-            Thank you for choosing demo, please note that if the interpreter has not joined the session within 3 minutes of the start time, please call us at 5008-8888 so we can provide immediate assistance.\n
-            If you have a question, that can be answered within the next 3 hours, please reply to this email.
-        `;
-		navigator.clipboard.writeText(invitationText);
-	};
+		const onCopyInvitation = React.useCallback(() => {
+			console.log("Copy Invitation clicked");
+			const invitationText = `
+        Demo is inviting you to a scheduled Zoom meeting.
 
-	const onSendEmail: SubmitHandler<FormData> = (data) => {
-		// Placeholder for email logic
-		console.log("Email data:", data);
-	};
+        Topic: ${zoomDetails.title}
+        Time: ${zoomDetails.time}
+        Join Zoom Meeting: ${zoomDetails.joinLink}
+        Meeting ID: ${zoomDetails.meetingId}
+        Passcode: ${zoomDetails.passcode}
 
-	return (
-		<Dialog open={isOpen} onOpenChange={onClose}>
-			<DialogContent className="sm:max-w-[600px]">
-				<DialogHeader>
-					<DialogTitle className="text-center">Invite Members</DialogTitle>
-				</DialogHeader>
-				<form onSubmit={handleSubmit(onSendEmail)}>
-					<div className="grid gap-4 py-4">
-						<div>
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								placeholder="Enter email addresses"
-								defaultValue={zoomDetails.requestorEmail}
-								{...register("email")}
-							/>
-						</div>
+        Thank you for choosing demo, please note that if the interpreter has not joined the session within 3 minutes of the start time, please call us at 5008-8888 so we can provide immediate assistance.
 
-						<div>
-							<Label htmlFor="invitation">Invitation</Label>
-							<Textarea
-								id="invitation"
-								rows={3}
-								defaultValue={`
+        If you have a question, that can be answered within the next 3 hours, please reply to this email.
+      `;
+			navigator.clipboard.writeText(invitationText);
+		}, [zoomDetails]);
+
+		const onSendEmail: SubmitHandler<FormData> = React.useCallback((data) => {
+			console.log("Send Email clicked with data:", data);
+			// Placeholder for email logic
+		}, []);
+
+		return (
+			<Dialog open={isOpen} onOpenChange={onClose}>
+				<DialogContent className="sm:max-w-[600px]">
+					<DialogHeader>
+						<DialogTitle className="text-center">Invite Members</DialogTitle>
+					</DialogHeader>
+					<form onSubmit={handleSubmit(onSendEmail)}>
+						<div className="grid gap-4 py-4">
+							<div>
+								<Label htmlFor="email">Email</Label>
+								<Input
+									id="email"
+									placeholder="Enter email addresses"
+									defaultValue={zoomDetails.requestorEmail}
+									{...register("email")}
+								/>
+							</div>
+
+							<div>
+								<Label htmlFor="invitation">Invitation</Label>
+								<Textarea
+									id="invitation"
+									rows={10}
+									style={{ height: "200px" }}
+									defaultValue={`
 Demo is inviting you to a scheduled Zoom meeting.
 
 Topic: ${zoomDetails.title}
@@ -98,45 +98,48 @@ Passcode: ${zoomDetails.passcode}
 Thank you for choosing demo, please note that if the interpreter has not joined the session within 3 minutes of the start time, please call us at 5008-8888 so we can provide immediate assistance.
 
 If you have a question, that can be answered within the next 3 hours, please reply to this email.
-                                `}
-								readOnly
-							/>
-						</div>
-
-						<div>
-							<Label htmlFor="link">Link</Label>
-							<div className="flex items-center">
-								<Input
-									id="link"
-									value={zoomDetails.joinLink}
-									className="flex-1"
+                  `}
 									readOnly
 								/>
 							</div>
-						</div>
-					</div>
 
-					<Separator className="mt-4 mb-4" />
-
-					<DialogFooter>
-						<div className="flex flex-1 gap-2 justify-between">
-							<Button type="button" variant="outline" onClick={onCopyLink}>
-								Copy Link
-							</Button>
-							<Button
-								type="button"
-								variant="outline"
-								onClick={onCopyInvitation}
-							>
-								Copy Invitation
-							</Button>
-							<Button type="submit">Send Email</Button>
+							<div>
+								<Label htmlFor="link">Link</Label>
+								<div className="flex items-center">
+									<Input
+										id="link"
+										value={zoomDetails.joinLink}
+										className="flex-1"
+										readOnly
+									/>
+								</div>
+							</div>
 						</div>
-					</DialogFooter>
-				</form>
-			</DialogContent>
-		</Dialog>
-	);
-};
+
+						<Separator className="mt-4 mb-4" />
+
+						<DialogFooter>
+							<div className="flex flex-1 gap-2 justify-between">
+								<Button type="button" variant="outline" onClick={onCopyLink}>
+									Copy Link
+								</Button>
+								<Button
+									type="button"
+									variant="outline"
+									onClick={onCopyInvitation}
+								>
+									Copy Invitation
+								</Button>
+								<Button type="submit">Send Email</Button>
+							</div>
+						</DialogFooter>
+					</form>
+				</DialogContent>
+			</Dialog>
+		);
+	},
+);
+
+ZoomLinkPopup.displayName = "ZoomLinkPopup";
 
 export default ZoomLinkPopup;

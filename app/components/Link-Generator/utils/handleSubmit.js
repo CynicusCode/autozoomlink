@@ -1,26 +1,23 @@
-//components/link-generator/utils/handleSubmit.js This file contains the handleSubmit function that is called when the user submits the form. This function is responsible for creating the appointment and inserting it into the database.
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
-import { v4 as uuidv4 } from "uuid";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export const handleSubmit = async (data, setValue, getValues, setError) => {
 	try {
+		console.log("Starting handleSubmit with data:", data);
+
 		const isJobNumberFetched = getValues("isJobNumberFetched");
 		const manualTitleInput = getValues("manualTitle");
-		let jobNumber;
-		let manualTitle;
+		let jobNumber = getValues("jobNumber");
 
-		if (isJobNumberFetched) {
-			jobNumber = getValues("jobNumber");
-			manualTitle = `Job #${jobNumber}`;
-		} else {
-			jobNumber = uuidv4();
-			manualTitle = manualTitleInput || jobNumber;
+		if (!jobNumber) {
+			jobNumber = data.jobNumber;
 		}
+
+		const manualTitle = manualTitleInput || jobNumber;
 
 		const uiExpectedStartDate = getValues("uiExpectedStartDate");
 		console.log("uiExpectedStartDate at handleSubmit:", uiExpectedStartDate);
@@ -76,6 +73,7 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 		}
 
 		const zoomData = await zoomResponse.json();
+		console.log("Zoom data received:", zoomData);
 
 		const payload = {
 			jobNumber,
@@ -93,14 +91,14 @@ export const handleSubmit = async (data, setValue, getValues, setError) => {
 			requestorName: data.requestorName,
 			requestorEmail: data.requestorEmail,
 			createdByLLS: true,
-			zoomMeetingId: zoomData.meeting.id.toString(), // Convert to string
+			zoomMeetingId: zoomData.meeting.id.toString(),
 			zoomStartLink: zoomData.meeting.start_url,
 			zoomJoinLink: zoomData.meeting.join_url,
 			zoomInvitation: zoomData.meeting.password,
 			vriRoomNumber: 1,
 		};
 
-		console.log("Payload being sent:", payload);
+		console.log("Payload being sent to database:", payload);
 
 		const dbResponse = await fetch("/api/supabase/createAppointment", {
 			method: "POST",

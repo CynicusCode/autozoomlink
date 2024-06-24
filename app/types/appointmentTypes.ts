@@ -20,6 +20,7 @@ export interface AppointmentData {
 	zoomJoinLink: string;
 	zoomInvitation: string;
 	vriRoomNumber: number;
+	timeZoneDisplayName: string;
 }
 
 export interface AppointmentResponse {
