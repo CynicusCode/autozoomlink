@@ -94,7 +94,7 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 						},
 					},
 					{
-						onSuccess: (zoomData: ZoomMeetingResponse) => {
+						onSuccess: async (zoomData: ZoomMeetingResponse) => {
 							const jobNumber = data.jobNumber || generateUniqueIdentifier();
 							const convertedZoomData: ZoomData = {
 								meeting: {
@@ -104,33 +104,41 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 									password: zoomData.meeting.password,
 								},
 							};
-							const payload = ZoomMeetingDetails.createPayload(
+
+							const appointmentData = ZoomMeetingDetails.createPayload(
 								data,
 								startDate,
 								endDateTime,
 								convertedZoomData,
 								jobNumber,
 							);
-							createAppointment(payload, {
-								onSuccess: (dbData) => {
-									console.log("Appointment created successfully:", dbData);
-									const zoomDetailsData = ZoomMeetingDetails.createZoomDetails(
-										data,
-										startDate,
-										convertedZoomData,
-									);
-									console.log("Setting Zoom details:", zoomDetailsData);
-									setZoomDetails(zoomDetailsData);
-									setIsPopupOpen(true);
-									console.log("Popup state set to open");
+
+							const response = await fetch(
+								"http://localhost:3000/api/supabase/createAppointment",
+								{
+									method: "POST",
+									headers: {
+										"Content-Type": "application/json",
+									},
+									body: JSON.stringify(appointmentData),
 								},
-								onError: (error: Error) => {
-									setError("uiExpectedStartDate", {
-										type: "manual",
-										message: error.message,
-									});
-								},
-							});
+							);
+
+							if (!response.ok) {
+								throw new Error("Error creating appointment");
+							}
+
+							const dbData = await response.json();
+							console.log("Appointment created successfully:", dbData);
+							const zoomDetailsData = ZoomMeetingDetails.createZoomDetails(
+								data,
+								startDate,
+								convertedZoomData,
+							);
+							console.log("Setting Zoom details:", zoomDetailsData);
+							setZoomDetails(zoomDetailsData);
+							setIsPopupOpen(true);
+							console.log("Popup state set to open");
 						},
 						onError: (error: Error) => {
 							setError("uiExpectedStartDate", {
@@ -148,7 +156,7 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 			}
 			onClick();
 		},
-		[createZoomMeeting, createAppointment, setError, setValue, onClick],
+		[createZoomMeeting, setError, setValue, onClick],
 	);
 
 	const handleClosePopup = useCallback(() => {
@@ -163,7 +171,7 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 				onSubmit={onSubmit}
 				errors={errors}
 				isCreatingZoomMeeting={isCreatingZoomMeeting}
-				isCreatingAppointment={isCreatingAppointment}
+				isCreatingAppointment={isCreatingAppointment} // Pass the missing prop
 			/>
 			{isPopupOpen && (
 				<ZoomLinkPopup

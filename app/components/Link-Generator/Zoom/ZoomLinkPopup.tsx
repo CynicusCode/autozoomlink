@@ -35,30 +35,27 @@ const ZoomLinkPopup: React.FC<ZoomLinkPopupProps> = React.memo(
 		const { register, handleSubmit } = useForm<FormData>();
 
 		const onCopyLink = React.useCallback(() => {
-			console.log("Copy Link clicked");
 			navigator.clipboard.writeText(zoomDetails.joinLink);
 		}, [zoomDetails.joinLink]);
 
 		const onCopyInvitation = React.useCallback(() => {
-			console.log("Copy Invitation clicked");
 			const invitationText = `
-        Demo is inviting you to a scheduled Zoom meeting.
+				Demo is inviting you to a scheduled Zoom meeting.
 
-        Topic: ${zoomDetails.title}
-        Time: ${zoomDetails.time}
-        Join Zoom Meeting: ${zoomDetails.joinLink}
-        Meeting ID: ${zoomDetails.meetingId}
-        Passcode: ${zoomDetails.passcode}
+				Topic: ${zoomDetails.title}
+				Time: ${zoomDetails.time}
+				Join Zoom Meeting: ${zoomDetails.joinLink}
+				Meeting ID: ${zoomDetails.meetingId}
+				Passcode: ${zoomDetails.passcode}
 
-        Thank you for choosing demo, please note that if the interpreter has not joined the session within 3 minutes of the start time, please call us at 5008-8888 so we can provide immediate assistance.
+				Thank you for choosing demo, please note that if the interpreter has not joined the session within 3 minutes of the start time, please call us at 5008-8888 so we can provide immediate assistance.
 
-        If you have a question, that can be answered within the next 3 hours, please reply to this email.
-      `;
+				If you have a question, that can be answered within the next 3 hours, please reply to this email.
+			`;
 			navigator.clipboard.writeText(invitationText);
 		}, [zoomDetails]);
 
 		const onSendEmail: SubmitHandler<FormData> = React.useCallback((data) => {
-			console.log("Send Email clicked with data:", data);
 			// Placeholder for email logic
 		}, []);
 

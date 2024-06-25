@@ -1,4 +1,3 @@
-// app/components/Link-Generator/AutoLinkGenerator.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,14 +12,13 @@ import {
 	CardHeader,
 	CardTitle,
 } from "../../../components/ui/card";
-import { Badge } from "../../../components/ui/badge";
+import { Separator } from "../../../components/ui/separator";
 import DateTimePicker from "./Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
 import ManualEntrySwitch from "./ManualEntryswitch";
 import { schema, type FormValues } from "./formSchema";
-import { Separator } from "../../../components/ui/separator";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
 import GenerateZoomLink from "./Zoom/GenerateZoomLink";
@@ -29,23 +27,13 @@ import VriType from "./VriType";
 import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
 import VideoLinkField from "./VideoLinkField";
-import ZoomLinkPopup from "./Zoom/ZoomLinkPopup";
 import SkeletonLoader from "../Skeleton/FormSkeleton";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
 	const [isAutomaticMode, setIsAutomaticMode] = useState(false);
 	const [isLinkGenerated, setIsLinkGenerated] = useState(false);
-	const [isPopupOpen, setIsPopupOpen] = useState(false);
-	const [zoomDetails, setZoomDetails] = useState({
-		title: "",
-		time: "",
-		joinLink: "",
-		meetingId: "",
-		passcode: "",
-		requestorEmail: "",
-	});
-	const [isLoading, setIsLoading] = useState(false); // New state for loading
+	const [isLoading, setIsLoading] = useState(false);
 
 	const methods = useForm<FormValues>({
 		resolver: zodResolver(schema),
@@ -55,17 +43,7 @@ const AutoLinkGenerator: React.FC = () => {
 		setIsLoading(true); // Set loading to true when the link generation starts
 		setTimeout(() => {
 			setIsLinkGenerated(true);
-			setIsPopupOpen(true); // Open the popup when the link is generated
-
-			// For demonstration purposes, set the zoomDetails object with mock data
-			setZoomDetails({
-				title: "Demo Meeting",
-				time: "January 1, 2024 10:00 AM",
-				joinLink: "https://example.com/zoom-link",
-				meetingId: "123456789",
-				passcode: "passcode123",
-				requestorEmail: "requestor@example.com",
-			});
+			// Remove the setZoomDetails and setIsPopupOpen calls
 			setIsLoading(false); // Set loading to false after the link is generated
 		}, 2000); // Simulate a network request
 	};
@@ -114,7 +92,7 @@ const AutoLinkGenerator: React.FC = () => {
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
 						{isLinkGenerated && (
-							<Button onClick={() => setIsPopupOpen(true)}>
+							<Button onClick={() => setIsLinkGenerated(false)}>
 								See Invitation
 							</Button>
 						)}
@@ -125,11 +103,6 @@ const AutoLinkGenerator: React.FC = () => {
 			<p className="text-sm text-muted-foreground items-center justify-center flex pb-2">
 				Contact me: dev.daniel.garcia@gmail.com
 			</p>
-			<ZoomLinkPopup
-				isOpen={isPopupOpen}
-				onClose={() => setIsPopupOpen(false)}
-				zoomDetails={zoomDetails}
-			/>
 		</Card>
 	);
 };
