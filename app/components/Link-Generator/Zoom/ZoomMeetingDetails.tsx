@@ -1,12 +1,14 @@
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import type { FormValues } from "../formSchema";
 import type { AppointmentData } from "@/app/types/appointmentTypes";
 import type { ZoomData } from "@/app/types/ZoomData";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
 
 export const generateUniqueIdentifier = () => {
 	const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -19,7 +21,27 @@ export const generateUniqueIdentifier = () => {
 };
 
 export const convertToUtc = (dateTime: string, timeZone: string): string => {
-	return dayjs.tz(dateTime, "MM/DD/YYYY hh:mm A", timeZone).utc().format();
+	console.log("Converting dateTime to UTC:", dateTime, timeZone);
+
+	// First, try parsing with the exact format
+	let parsedDate = dayjs(dateTime, "M/D/YYYY h:mm A", true);
+
+	// If that fails, try a more lenient parsing
+	if (!parsedDate.isValid()) {
+		parsedDate = dayjs(dateTime);
+	}
+
+	console.log("Parsed Date (local):", parsedDate.format());
+
+	if (!parsedDate.isValid()) {
+		console.error("Invalid date format for:", dateTime);
+		return "";
+	}
+
+	// Set the timezone and convert to UTC
+	const utcDate = parsedDate.tz(timeZone, true).utc().format();
+	console.log("Converted UTC Date:", utcDate);
+	return utcDate;
 };
 
 export const getUtcStartDate = (dateTime: string) => {
@@ -33,7 +55,7 @@ export const createPayload = (
 	zoomData: ZoomData,
 	jobNumber: string,
 ): AppointmentData => {
-	return {
+	const payload = {
 		jobNumber: jobNumber,
 		manualTitle: data.manualTitle ?? "",
 		date: startDate.toISOString(),
@@ -56,6 +78,8 @@ export const createPayload = (
 		zoomInvitation: zoomData.meeting.password,
 		vriRoomNumber: 1,
 	};
+	console.log("Created Payload:", payload);
+	return payload;
 };
 
 export const createZoomDetails = (
@@ -63,7 +87,7 @@ export const createZoomDetails = (
 	startDate: dayjs.Dayjs,
 	zoomData: ZoomData,
 ) => {
-	return {
+	const zoomDetails = {
 		title: data.manualTitle || "No Title Provided",
 		time: startDate.tz(data.timeZone).format("MMMM D, YYYY h:mm A"),
 		joinLink: zoomData.meeting.join_url,
@@ -71,6 +95,8 @@ export const createZoomDetails = (
 		passcode: zoomData.meeting.password || "No Passcode",
 		requestorEmail: data.requestorEmail || "",
 	};
+	console.log("Created Zoom Details:", zoomDetails);
+	return zoomDetails;
 };
 
 export const ZoomMeetingDetails = {

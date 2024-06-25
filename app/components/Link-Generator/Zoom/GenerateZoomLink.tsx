@@ -48,10 +48,19 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 
 				let utcDate: string | undefined;
 				if (uiExpectedStartDate) {
+					console.log("Converting uiExpectedStartDate to UTC");
 					utcDate = ZoomMeetingDetails.convertToUtc(
 						uiExpectedStartDate,
 						timeZone ?? "",
 					);
+					if (!utcDate) {
+						setError("uiExpectedStartDate", {
+							type: "manual",
+							message: "Invalid time value",
+						});
+						return;
+					}
+					console.log("Converted UTC Date:", utcDate);
 					setValue("expectedStartDate", utcDate);
 					data.expectedStartDate = utcDate;
 				}
@@ -111,6 +120,11 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 								endDateTime,
 								convertedZoomData,
 								jobNumber,
+							);
+
+							console.log(
+								"Appointment Data to be sent to API:",
+								appointmentData,
 							);
 
 							const response = await fetch(
