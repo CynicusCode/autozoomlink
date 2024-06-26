@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "76052 Einar Shore, Zachariahview, California 98097",
+    "addrEntered": "2906 Wyman Trace, West Casandrafurt, Alabama 53659-7848",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n76052 Einar Shore, Zachariahview, California 98097",
+    "displayLabel": "Virtual Session (VRI)\\n2906 Wyman Trace, West Casandrafurt, Alabama 53659-7848",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "76052 Einar Shore, Zachariahview, California 98097",
+    "addrEntered": "2906 Wyman Trace, West Casandrafurt, Alabama 53659-7848",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "76052 Einar Shore, Zachariahview, California 98097",
+    "displayLabel": "2906 Wyman Trace, West Casandrafurt, Alabama 53659-7848",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Kihn, Bosco and Barrows",
-    "name": "Kihn, Bosco and Barrows",
+    "displayName": "Bayer, Spencer and Prosacco",
+    "name": "Bayer, Spencer and Prosacco",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -169,9 +169,9 @@
   "excludeFromJobOfferPool": false,
   "expectedDurationHrs": 1,
   "expectedDurationMins": 60,
-  "expectedEndDate": "2024-06-29T22:00:00Z",
-  "expectedStartDate": "2024-06-29T21:00:00Z",
-  "expectedStartTime": "2024-06-29T21:00:00Z",
+  "expectedEndDate": "2024-07-23T23:00:00Z",
+  "expectedStartDate": "2024-07-23T22:00:00Z",
+  "expectedStartTime": "2024-07-23T22:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "76052 Einar Shore, Zachariahview, California 98097",
+    "addrEntered": "2906 Wyman Trace, West Casandrafurt, Alabama 53659-7848",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Toy_DuBuque29@yahoo.com",
+  "notificationEmail": "Anna.Wolff@gmail.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -702,8 +702,8 @@
       "dependentId": null,
       "description": null,
       "name": "3rd Party Video Link",
-      "ref": "Customer will provide link",
-      "referenceValue": "Customer will provide link",
+      "ref": "Demo generate link",
+      "referenceValue": "Demo generate link",
       "referenceValueUrl": null,
       "superBooking": {
         "id": 1107524,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Charles Gibson 474.750.3818 x4839",
-    "displayName": "Charles Gibson 474.750.3818 x4839",
-    "name": "Charles Gibson",
+    "displayLabel": "Stuart Mayert 601-278-8947",
+    "displayName": "Stuart Mayert 601-278-8947",
+    "name": "Stuart Mayert",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Confirm",
-      "nameKey": "confirm"
+      "name": "Open",
+      "nameKey": "open"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },

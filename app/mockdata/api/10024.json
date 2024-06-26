@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "5157 Cummings Mall, Virgilfield, Tennessee 84984-0355",
+    "addrEntered": "5160 Veum Walk, Salt Lake City, Oregon 59849",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n5157 Cummings Mall, Virgilfield, Tennessee 84984-0355",
+    "displayLabel": "Virtual Session (VRI)\\n5160 Veum Walk, Salt Lake City, Oregon 59849",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "5157 Cummings Mall, Virgilfield, Tennessee 84984-0355",
+    "addrEntered": "5160 Veum Walk, Salt Lake City, Oregon 59849",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "5157 Cummings Mall, Virgilfield, Tennessee 84984-0355",
+    "displayLabel": "5160 Veum Walk, Salt Lake City, Oregon 59849",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Pfeffer Inc",
-    "name": "Pfeffer Inc",
+    "displayName": "Boyle, Graham and Pouros",
+    "name": "Boyle, Graham and Pouros",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -169,9 +169,9 @@
   "excludeFromJobOfferPool": false,
   "expectedDurationHrs": 3,
   "expectedDurationMins": 180,
-  "expectedEndDate": "2024-06-29T01:00:00Z",
-  "expectedStartDate": "2024-06-28T22:00:00Z",
-  "expectedStartTime": "2024-06-28T22:00:00Z",
+  "expectedEndDate": "2024-07-22T23:00:00Z",
+  "expectedStartDate": "2024-07-22T20:00:00Z",
+  "expectedStartTime": "2024-07-22T20:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "5157 Cummings Mall, Virgilfield, Tennessee 84984-0355",
+    "addrEntered": "5160 Veum Walk, Salt Lake City, Oregon 59849",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Zachariah28@gmail.com",
+  "notificationEmail": "Logan49@hotmail.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Misty Hammes 643-235-1096 x2298",
-    "displayName": "Misty Hammes 643-235-1096 x2298",
-    "name": "Misty Hammes",
+    "displayLabel": "Mr. Douglas O'Connell 1-560-959-7798",
+    "displayName": "Mr. Douglas O'Connell 1-560-959-7798",
+    "name": "Mr. Douglas O'Connell",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Open",
-      "nameKey": "open"
+      "name": "Offered",
+      "nameKey": "offered"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },

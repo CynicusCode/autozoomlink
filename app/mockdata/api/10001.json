@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "962 Windler Street, Felipeland, New York 42648-8772",
+    "addrEntered": "3971 Nikolaus Drive, Pinkberg, New Mexico 95241",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n962 Windler Street, Felipeland, New York 42648-8772",
+    "displayLabel": "Virtual Session (VRI)\\n3971 Nikolaus Drive, Pinkberg, New Mexico 95241",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "962 Windler Street, Felipeland, New York 42648-8772",
+    "addrEntered": "3971 Nikolaus Drive, Pinkberg, New Mexico 95241",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "962 Windler Street, Felipeland, New York 42648-8772",
+    "displayLabel": "3971 Nikolaus Drive, Pinkberg, New Mexico 95241",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Harris, Walter and Kulas",
-    "name": "Harris, Walter and Kulas",
+    "displayName": "Okuneva - Kerluke",
+    "name": "Okuneva - Kerluke",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -167,11 +167,11 @@
   "esignatureRequired": false,
   "excludeFromAutoOffer": false,
   "excludeFromJobOfferPool": false,
-  "expectedDurationHrs": 0.5,
-  "expectedDurationMins": 30,
-  "expectedEndDate": "2024-06-28T22:30:00Z",
-  "expectedStartDate": "2024-06-28T22:00:00Z",
-  "expectedStartTime": "2024-06-28T22:00:00Z",
+  "expectedDurationHrs": 2.5,
+  "expectedDurationMins": 150,
+  "expectedEndDate": "2024-07-15T22:30:00Z",
+  "expectedStartDate": "2024-07-15T20:00:00Z",
+  "expectedStartTime": "2024-07-15T20:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "962 Windler Street, Felipeland, New York 42648-8772",
+    "addrEntered": "3971 Nikolaus Drive, Pinkberg, New Mexico 95241",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Griffin11@hotmail.com",
+  "notificationEmail": "Berenice44@hotmail.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -702,8 +702,8 @@
       "dependentId": null,
       "description": null,
       "name": "3rd Party Video Link",
-      "ref": "Demo generate link",
-      "referenceValue": "Demo generate link",
+      "ref": "http://customer.generated.link",
+      "referenceValue": "http://customer.generated.link",
       "referenceValueUrl": null,
       "superBooking": {
         "id": 1107524,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Olga Mitchell II 696-897-2703 x228",
-    "displayName": "Olga Mitchell II 696-897-2703 x228",
-    "name": "Olga Mitchell II",
+    "displayLabel": "Isabel Kutch 475.639.2843 x99982",
+    "displayName": "Isabel Kutch 475.639.2843 x99982",
+    "name": "Isabel Kutch",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Cancelled",
-      "nameKey": "cancelled"
+      "name": "Confirm",
+      "nameKey": "confirm"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },
