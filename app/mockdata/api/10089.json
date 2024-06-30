@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "9711 Laurel Close, North Robertocester, Wyoming 26729-8143",
+    "addrEntered": "32786 The Chase, Labadiefurt, Oklahoma 52695-4827",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n9711 Laurel Close, North Robertocester, Wyoming 26729-8143",
+    "displayLabel": "Virtual Session (VRI)\\n32786 The Chase, Labadiefurt, Oklahoma 52695-4827",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "9711 Laurel Close, North Robertocester, Wyoming 26729-8143",
+    "addrEntered": "32786 The Chase, Labadiefurt, Oklahoma 52695-4827",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "9711 Laurel Close, North Robertocester, Wyoming 26729-8143",
+    "displayLabel": "32786 The Chase, Labadiefurt, Oklahoma 52695-4827",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Crooks LLC",
-    "name": "Crooks LLC",
+    "displayName": "Schmidt - Will",
+    "name": "Schmidt - Will",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -169,9 +169,9 @@
   "excludeFromJobOfferPool": false,
   "expectedDurationHrs": 1.5,
   "expectedDurationMins": 90,
-  "expectedEndDate": "2024-07-25T17:30:00Z",
-  "expectedStartDate": "2024-07-25T16:00:00Z",
-  "expectedStartTime": "2024-07-25T16:00:00Z",
+  "expectedEndDate": "2024-07-23T22:30:00Z",
+  "expectedStartDate": "2024-07-23T21:00:00Z",
+  "expectedStartTime": "2024-07-23T21:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "9711 Laurel Close, North Robertocester, Wyoming 26729-8143",
+    "addrEntered": "32786 The Chase, Labadiefurt, Oklahoma 52695-4827",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Chesley39@yahoo.com",
+  "notificationEmail": "Augusta80@yahoo.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -702,8 +702,8 @@
       "dependentId": null,
       "description": null,
       "name": "3rd Party Video Link",
-      "ref": "Demo generate link",
-      "referenceValue": "Demo generate link",
+      "ref": "http://customer.generated.link",
+      "referenceValue": "http://customer.generated.link",
       "referenceValueUrl": null,
       "superBooking": {
         "id": 1107524,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Sarah Hermiston (531) 667-4999 x8382",
-    "displayName": "Sarah Hermiston (531) 667-4999 x8382",
-    "name": "Sarah Hermiston",
+    "displayLabel": "Roberto Stehr (676) 481-1411 x5029",
+    "displayName": "Roberto Stehr (676) 481-1411 x5029",
+    "name": "Roberto Stehr",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -801,7 +801,7 @@
   "timeReconfirmedCustomer": null,
   "timeTrackingEnabled": false,
   "timeZone": "America/Chicago",
-  "timeZoneDisplayName": "CDT",
+  "timeZoneDisplayName": "EDT",
   "unarchivedUpdates": true,
   "unfulfilledDate": null,
   "unfulfilledReason": null,
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Confirm",
-      "nameKey": "confirm"
+      "name": "Open",
+      "nameKey": "open"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },

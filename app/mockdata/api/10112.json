@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "49456 Kenyon Greens, Lake Niko, Missouri 65472",
+    "addrEntered": "507 N Front Street, Deontefield, Massachusetts 54715-4717",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n49456 Kenyon Greens, Lake Niko, Missouri 65472",
+    "displayLabel": "Virtual Session (VRI)\\n507 N Front Street, Deontefield, Massachusetts 54715-4717",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "49456 Kenyon Greens, Lake Niko, Missouri 65472",
+    "addrEntered": "507 N Front Street, Deontefield, Massachusetts 54715-4717",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "49456 Kenyon Greens, Lake Niko, Missouri 65472",
+    "displayLabel": "507 N Front Street, Deontefield, Massachusetts 54715-4717",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Fadel - Wisozk",
-    "name": "Fadel - Wisozk",
+    "displayName": "Fisher Inc",
+    "name": "Fisher Inc",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -169,9 +169,9 @@
   "excludeFromJobOfferPool": false,
   "expectedDurationHrs": 1.5,
   "expectedDurationMins": 90,
-  "expectedEndDate": "2024-07-16T21:30:00Z",
-  "expectedStartDate": "2024-07-16T20:00:00Z",
-  "expectedStartTime": "2024-07-16T20:00:00Z",
+  "expectedEndDate": "2024-07-23T16:30:00Z",
+  "expectedStartDate": "2024-07-23T15:00:00Z",
+  "expectedStartTime": "2024-07-23T15:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "49456 Kenyon Greens, Lake Niko, Missouri 65472",
+    "addrEntered": "507 N Front Street, Deontefield, Massachusetts 54715-4717",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Austin.Bernhard91@gmail.com",
+  "notificationEmail": "Carolyn97@gmail.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -702,8 +702,8 @@
       "dependentId": null,
       "description": null,
       "name": "3rd Party Video Link",
-      "ref": "http://customer.generated.link",
-      "referenceValue": "http://customer.generated.link",
+      "ref": "Demo generate link",
+      "referenceValue": "Demo generate link",
       "referenceValueUrl": null,
       "superBooking": {
         "id": 1107524,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Jasmine Von 492-700-0375 x075",
-    "displayName": "Jasmine Von 492-700-0375 x075",
-    "name": "Jasmine Von",
+    "displayLabel": "Eddie Fritsch 1-890-826-8960 x8165",
+    "displayName": "Eddie Fritsch 1-890-826-8960 x8165",
+    "name": "Eddie Fritsch",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Confirm",
-      "nameKey": "confirm"
+      "name": "Offered",
+      "nameKey": "offered"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },

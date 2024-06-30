@@ -11,11 +11,11 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "20902 Adams Highway, Fort Cordie, Louisiana 49316",
+    "addrEntered": "34110 Blind Lane, West Lamar, Michigan 85807-8393",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n20902 Adams Highway, Fort Cordie, Louisiana 49316",
+    "displayLabel": "Virtual Session (VRI)\\n34110 Blind Lane, West Lamar, Michigan 85807-8393",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
@@ -50,11 +50,11 @@
     "id": 61054,
     "uri": "https://osi.demo.com:443/api/address/61054",
     "active": true,
-    "addrEntered": "20902 Adams Highway, Fort Cordie, Louisiana 49316",
+    "addrEntered": "34110 Blind Lane, West Lamar, Michigan 85807-8393",
     "costCenter": null,
     "costCenterName": null,
     "description": null,
-    "displayLabel": "20902 Adams Highway, Fort Cordie, Louisiana 49316",
+    "displayLabel": "34110 Blind Lane, West Lamar, Michigan 85807-8393",
     "lat": 37.9841,
     "lng": -122.047,
     "uuid": "sa24a5ed-ffdd-483b-a4eb-142b13061fa7"
@@ -76,8 +76,8 @@
   "client": {
     "id": 2151,
     "uri": "https://osi.demo.com:443/api/client/2151",
-    "displayName": "Rempel and Sons",
-    "name": "Rempel and Sons",
+    "displayName": "Cremin, Becker and Orn",
+    "name": "Cremin, Becker and Orn",
     "uuid": "43746ebb-87da-443f-a01d-a3bc9c88d445"
   },
   "company": {
@@ -169,9 +169,9 @@
   "excludeFromJobOfferPool": false,
   "expectedDurationHrs": 1,
   "expectedDurationMins": 60,
-  "expectedEndDate": "2024-07-23T21:00:00Z",
-  "expectedStartDate": "2024-07-23T20:00:00Z",
-  "expectedStartTime": "2024-07-23T20:00:00Z",
+  "expectedEndDate": "2024-07-26T17:00:00Z",
+  "expectedStartDate": "2024-07-26T16:00:00Z",
+  "expectedStartTime": "2024-07-26T16:00:00Z",
   "finalNotes": null,
   "firstAssignmentDate": null,
   "firstConfirmationDate": null,
@@ -240,7 +240,7 @@
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/address/10000",
     "active": true,
-    "addrEntered": "20902 Adams Highway, Fort Cordie, Louisiana 49316",
+    "addrEntered": "34110 Blind Lane, West Lamar, Michigan 85807-8393",
     "costCenter": null,
     "costCenterName": null,
     "description": "Virtual Session (VRI)",
@@ -253,7 +253,7 @@
   "locked": false,
   "mileage": null,
   "notes": null,
-  "notificationEmail": "Destin14@yahoo.com",
+  "notificationEmail": "Karson.Borer46@yahoo.com",
   "notify": true,
   "numJobs": 1,
   "numberAcceptedOffers": 0,
@@ -717,9 +717,9 @@
   "requestor": {
     "id": 10000,
     "uri": "https://osi.demo.com:443/api/requestor/1",
-    "displayLabel": "Terrence Boehm 546-522-9558 x43789",
-    "displayName": "Terrence Boehm 546-522-9558 x43789",
-    "name": "Terrence Boehm",
+    "displayLabel": "Cecilia Macejkovic MD 1-655-379-5149 x519",
+    "displayName": "Cecilia Macejkovic MD 1-655-379-5149 x519",
+    "name": "Cecilia Macejkovic MD",
     "uuid": "e10e43d8-b14f-4e7a-b60b-473f404fe851"
   },
   "requirements": [
@@ -801,7 +801,7 @@
   "timeReconfirmedCustomer": null,
   "timeTrackingEnabled": false,
   "timeZone": "America/New_York",
-  "timeZoneDisplayName": "PDT",
+  "timeZoneDisplayName": "MDT",
   "unarchivedUpdates": true,
   "unfulfilledDate": null,
   "unfulfilledReason": null,
@@ -823,8 +823,8 @@
       "inOrder": 3,
       "l10nKey": "db.BookingStatus.offered",
       "message": null,
-      "name": "Open",
-      "nameKey": "open"
+      "name": "Confirm",
+      "nameKey": "confirm"
     },
     "uuid": "01fdd778-023b-415d-aa90-13d32246cefe"
   },
