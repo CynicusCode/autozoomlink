@@ -12,6 +12,7 @@ import {
 	FiSettings,
 	FiUsers,
 	FiDownload,
+	FiMoreVertical,
 } from "react-icons/fi";
 import {
 	Card,
@@ -20,6 +21,13 @@ import {
 	CardDescription,
 	CardContent,
 } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import {
+	DropdownMenu,
+	DropdownMenuTrigger,
+	DropdownMenuContent,
+	DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 
 const Settings = () => {
 	return (
@@ -262,14 +270,88 @@ const Settings = () => {
 
 							<Card className="bg-card text-card-foreground">
 								<CardHeader>
-									<div className="flex items-center space-x-2">
-										<FiUsers className="h-5 w-5" />
-										<CardTitle>Users</CardTitle>
-									</div>
+									<CardTitle>Users</CardTitle>
 									<CardDescription>Manage your team members.</CardDescription>
 								</CardHeader>
 								<CardContent>
-									{/* User management interface goes here */}
+									<div className="grid gap-4">
+										<div className="flex items-center justify-between">
+											<div className="flex items-center gap-3">
+												<Avatar className="h-10 w-10">
+													<AvatarImage src="/placeholder-user.jpg" />
+													<AvatarFallback>JD</AvatarFallback>
+												</Avatar>
+												<div>
+													<p className="text-sm font-medium">John Doe</p>
+													<p className="text-sm text-muted-foreground">Admin</p>
+												</div>
+											</div>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="ghost" size="icon">
+														<FiMoreVertical className="h-5 w-5" />
+														<span className="sr-only">More</span>
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end">
+													<DropdownMenuItem>Edit</DropdownMenuItem>
+													<DropdownMenuItem>Deactivate</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</div>
+										<div className="flex items-center justify-between">
+											<div className="flex items-center gap-3">
+												<Avatar className="h-10 w-10">
+													<AvatarImage src="/placeholder-user.jpg" />
+													<AvatarFallback>JA</AvatarFallback>
+												</Avatar>
+												<div>
+													<p className="text-sm font-medium">Jane Appleseed</p>
+													<p className="text-sm text-muted-foreground">
+														Editor
+													</p>
+												</div>
+											</div>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="ghost" size="icon">
+														<FiMoreVertical className="h-5 w-5" />
+														<span className="sr-only">More</span>
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end">
+													<DropdownMenuItem>Edit</DropdownMenuItem>
+													<DropdownMenuItem>Deactivate</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</div>
+										<div className="flex items-center justify-between">
+											<div className="flex items-center gap-3">
+												<Avatar className="h-10 w-10">
+													<AvatarImage src="/placeholder-user.jpg" />
+													<AvatarFallback>MS</AvatarFallback>
+												</Avatar>
+												<div>
+													<p className="text-sm font-medium">Michael Smith</p>
+													<p className="text-sm text-muted-foreground">
+														Viewer
+													</p>
+												</div>
+											</div>
+											<DropdownMenu>
+												<DropdownMenuTrigger asChild>
+													<Button variant="ghost" size="icon">
+														<FiMoreVertical className="h-5 w-5" />
+														<span className="sr-only">More</span>
+													</Button>
+												</DropdownMenuTrigger>
+												<DropdownMenuContent align="end">
+													<DropdownMenuItem>Edit</DropdownMenuItem>
+													<DropdownMenuItem>Deactivate</DropdownMenuItem>
+												</DropdownMenuContent>
+											</DropdownMenu>
+										</div>
+									</div>
 								</CardContent>
 							</Card>
 						</div>

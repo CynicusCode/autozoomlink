@@ -315,7 +315,7 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<FiMoreVertical className="h-5 w-5" />
+													<BsThreeDotsVertical className="h-5 w-5" />
 													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
@@ -339,7 +339,7 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<FiMoreVertical className="h-5 w-5" />
+													<BsThreeDotsVertical className="h-5 w-5" />
 													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
@@ -363,7 +363,7 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<FiMoreVertical className="h-5 w-5" />
+													<BsThreeDotsVertical className="h-5 w-5" />
 													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
