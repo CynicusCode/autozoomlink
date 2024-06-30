@@ -1,5 +1,3 @@
-// Duration.tsx
-
 import React, { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import {
@@ -10,7 +8,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from "../../../components/ui/select";
+} from "@/components/ui/select";
 import type { FormValues } from "./formSchema"; // Ensure this path is correct
 
 interface DurationProps {
@@ -23,19 +21,26 @@ export function Duration({ disabled }: DurationProps) {
 	const minutes = watch("minutes");
 
 	useEffect(() => {
-		register("hours");
-		register("minutes");
-	}, [register]);
+		// Set default values when the component mounts
+		setValue("hours", "02", { shouldValidate: true });
+		setValue("minutes", "00", { shouldValidate: true });
+
+		// Register the fields
+		register("hours", { required: true });
+		register("minutes", { required: true });
+	}, [register, setValue]);
 
 	const onHoursChange = (value: string) => {
-		setValue("hours", value);
+		setValue("hours", value, { shouldValidate: true });
 	};
 
 	const onMinutesChange = (value: string) => {
-		setValue("minutes", value);
+		setValue("minutes", value, { shouldValidate: true });
 	};
 
-	const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString()); // Assuming 24-hour format, adjust as needed
+	const hoursArray = Array.from({ length: 24 }, (_, i) =>
+		i.toString().padStart(2, "0"),
+	);
 	const minutesArray = ["00", "15", "30", "45"];
 
 	return (

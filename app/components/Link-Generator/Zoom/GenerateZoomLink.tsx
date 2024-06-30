@@ -10,6 +10,7 @@ import { useCreateZoomMeeting } from "../../../hooks/useCreateZoomMeeting";
 import { useCreateAppointment } from "../../../hooks/useCreateAppointment";
 import type { FormValues } from "../formSchema";
 import type { ZoomData, ZoomMeetingResponse } from "@/app/types/ZoomData";
+import { getTimeZoneDisplayName } from "../utils/timeZoneUtils";
 
 /**
  * GenerateZoomLink Component
@@ -53,14 +54,14 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 				console.log("Initial form values:", data);
 				const { uiExpectedStartDate, timeZone } = data;
 
-				// Generate a unique job number if not provided
+				// Ensure we have a job number
 				if (!data.jobNumber) {
 					const internalId = generateUniqueIdentifier();
 					setValue("jobNumber", internalId);
 					data.jobNumber = internalId;
 				}
 
-				// Convert expected start date to UTC
+				// Handle timezone and convert start date
 				let utcDate: string | undefined;
 				if (uiExpectedStartDate) {
 					console.log("Converting uiExpectedStartDate to UTC");
@@ -78,6 +79,15 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					console.log("Converted UTC Date:", utcDate);
 					setValue("expectedStartDate", utcDate);
 					data.expectedStartDate = utcDate;
+				}
+
+				// Handle missing timeZoneDisplayName
+				if (!data.timeZoneDisplayName && timeZone) {
+					data.timeZoneDisplayName = getTimeZoneDisplayName(timeZone);
+					console.log(
+						"Resolved timeZoneDisplayName:",
+						data.timeZoneDisplayName,
+					);
 				}
 
 				// Validate manual title
@@ -210,7 +220,7 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 				onSubmit={onSubmit}
 				errors={errors}
 				isCreatingZoomMeeting={isCreatingZoomMeeting}
-				isCreatingAppointment={isCreatingAppointment} // Pass the missing prop
+				isCreatingAppointment={isCreatingAppointment}
 			/>
 			{isPopupOpen && (
 				<ZoomLinkPopup
