@@ -11,9 +11,7 @@ import {
 	FiBarChart2,
 	FiSettings,
 	FiUsers,
-	FiHeart,
-	FiActivity,
-	FiDollarSign,
+	FiDownload,
 } from "react-icons/fi";
 import {
 	Card,
@@ -25,101 +23,257 @@ import {
 
 const Settings = () => {
 	return (
-		<div>
-			<header>
-				<Navbar />
-				<MobileNav />
-				<ThemeToggle />
-			</header>
-			<main className="container mx-auto px-4 sm:px-12">
-				<div className="flex flex-col bg-background text-foreground">
-					<div className="overflow-auto">
-						<nav className="grid gap-2 py-6 mt-24">
-							<Link
-								href="#"
-								className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-								prefetch={false}
-							>
-								<FiBell className="h-5 w-5" />
-								Notifications
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-								prefetch={false}
-							>
-								<FiAlertCircle className="h-5 w-5" />
-								Alerts
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-								prefetch={false}
-							>
-								<FiBarChart2 className="h-5 w-5" />
-								Reports
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-								prefetch={false}
-							>
-								<FiSettings className="h-5 w-5" />
-								Settings
-							</Link>
-							<Link
-								href="#"
-								className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
-								prefetch={false}
-							>
-								<FiUsers className="h-5 w-5" />
-								Users
-							</Link>
-						</nav>
-						<main className="flex-1 overflow-auto p-6">
-							<Card className="bg-card text-card-foreground">
-								<CardHeader>
+		<div className="grid min-h-screen w-full grid-cols-[260px_1fr] overflow-hidden">
+			<div className="flex flex-col bg-background text-foreground">
+				<div className="flex h-20 items-center justify-between px-6">
+					<Navbar />
+					<MobileNav />
+					<ThemeToggle />
+				</div>
+				<div className="container mx-auto flex items-center justify-evenly max-w-xl">
+					<nav className="grid gap-2 px-4 py-6">
+						<Link
+							href="#"
+							className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+							prefetch={false}
+						>
+							<FiBell className="h-5 w-5" />
+							Notifications
+						</Link>
+						<Link
+							href="#"
+							className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+							prefetch={false}
+						>
+							<FiAlertCircle className="h-5 w-5" />
+							Alerts
+						</Link>
+						<Link
+							href="#"
+							className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+							prefetch={false}
+						>
+							<FiBarChart2 className="h-5 w-5" />
+							Reports
+						</Link>
+						<Link
+							href="#"
+							className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+							prefetch={false}
+						>
+							<FiSettings className="h-5 w-5" />
+							Settings
+						</Link>
+						<Link
+							href="#"
+							className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground"
+							prefetch={false}
+						>
+							<FiUsers className="h-5 w-5" />
+							Users
+						</Link>
+					</nav>
+				</div>
+			</div>
+			<div className="flex flex-col items-center mt-16 w-full">
+				<main className="flex-1 overflow-auto p-6 max-w-7xl w-full">
+					<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+						<Card className="bg-card text-card-foreground">
+							<CardHeader>
+								<div className="flex items-center space-x-2">
+									<FiBell className="h-5 w-5" />
 									<CardTitle>Notifications</CardTitle>
-									<CardDescription>
-										You have 3 unread notifications.
-									</CardDescription>
-								</CardHeader>
-								<CardContent>
-									<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-										<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-										<div className="grid gap-1">
-											<p className="text-sm font-medium">
-												User#1 created a link.
-											</p>
-											<p className="text-sm text-muted-foreground">5 min ago</p>
-										</div>
+								</div>
+								<CardDescription>
+									You have 3 unread notifications.
+								</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+									<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
+									<div className="grid gap-1">
+										<p className="text-sm font-medium">
+											User#1 created a link.
+										</p>
+										<p className="text-sm text-muted-foreground">5 min ago</p>
 									</div>
-									<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-										<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-										<div className="grid gap-1">
-											<p className="text-sm font-medium">
-												User#2 updated link 10510!
-											</p>
-											<p className="text-sm text-muted-foreground">1 min ago</p>
-										</div>
+								</div>
+								<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+									<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
+									<div className="grid gap-1">
+										<p className="text-sm font-medium">
+											User#2 updated link 10510!
+										</p>
+										<p className="text-sm text-muted-foreground">1 min ago</p>
 									</div>
-									<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
-										<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
-										<div className="grid gap-1">
+								</div>
+								<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+									<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-blue-500" />
+									<div className="grid gap-1">
+										<p className="text-sm font-medium">
+											Your subscription is expiring soon!
+										</p>
+										<p className="text-sm text-muted-foreground">2 hours ago</p>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
+						<Card className="bg-card text-card-foreground">
+							<CardHeader>
+								<div className="flex items-center space-x-2">
+									<FiAlertCircle className="h-5 w-5" />
+									<CardTitle>Alerts</CardTitle>
+								</div>
+								<CardDescription>You have 2 active alerts.</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+									<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-red-500" />
+									<div className="grid gap-1">
+										<p className="text-sm font-medium">
+											Meeting # 10102 doesn't have a link.
+										</p>
+										<p className="text-sm text-muted-foreground">
+											A meeting started 5 minutes ago, link is missing! Wake up
+											people!!
+										</p>
+									</div>
+								</div>
+								<div className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0">
+									<span className="flex h-2 w-2 translate-y-1.5 rounded-full bg-yellow-500" />
+									<div className="grid gap-1">
+										<p className="text-sm font-medium">
+											Meeting # 10099 is missing link
+										</p>
+										<p className="text-sm text-muted-foreground">
+											A meeting expected to start in 1 hour is missing a link.
+										</p>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
+						<Card className="bg-card text-card-foreground">
+							<CardHeader>
+								<div className="flex items-center space-x-2">
+									<FiBarChart2 className="h-5 w-5" />
+									<CardTitle>Reports</CardTitle>
+								</div>
+								<CardDescription>View your latest reports.</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="grid gap-4">
+									<div className="flex items-center justify-between">
+										<div>
 											<p className="text-sm font-medium">
-												Your subscription is expiring soon!
+												Monthly Sales Report
 											</p>
 											<p className="text-sm text-muted-foreground">
-												2 hours ago
+												Last updated 2 days ago
 											</p>
 										</div>
+										<Button variant="ghost" size="icon">
+											<FiDownload className="h-5 w-5" />
+											<span className="sr-only">Download</span>
+										</Button>
 									</div>
-								</CardContent>
-							</Card>
-						</main>
+									<div className="flex items-center justify-between">
+										<div>
+											<p className="text-sm font-medium">
+												User Activity Report
+											</p>
+											<p className="text-sm text-muted-foreground">
+												Last updated 1 week ago
+											</p>
+										</div>
+										<Button variant="ghost" size="icon">
+											<FiDownload className="h-5 w-5" />
+											<span className="sr-only">Download</span>
+										</Button>
+									</div>
+									<div className="flex items-center justify-between">
+										<div>
+											<p className="text-sm font-medium">
+												Marketing Campaign Report
+											</p>
+											<p className="text-sm text-muted-foreground">
+												Last updated 3 days ago
+											</p>
+										</div>
+										<Button variant="ghost" size="icon">
+											<FiDownload className="h-5 w-5" />
+											<span className="sr-only">Download</span>
+										</Button>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
 					</div>
-				</div>
-			</main>
+					<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 mt-6 justify-center">
+						<Card className="bg-card text-card-foreground">
+							<CardHeader>
+								<div className="flex items-center space-x-2">
+									<FiSettings className="h-5 w-5" />
+									<CardTitle>Settings</CardTitle>
+								</div>
+								<CardDescription>Manage your account settings.</CardDescription>
+							</CardHeader>
+							<CardContent>
+								<div className="grid gap-4">
+									<div className="flex items-center justify-between">
+										<div>
+											<p className="text-sm font-medium">General</p>
+											<p className="text-sm text-muted-foreground">
+												Update your basic account information
+											</p>
+										</div>
+										<Button variant="ghost" size="icon">
+											<FiSettings className="h-5 w-5" />
+											<span className="sr-only">Settings</span>
+										</Button>
+									</div>
+									<div className="flex items-center justify-between">
+										<div>
+											<p className="text-sm font-medium">Security</p>
+											<p className="text-sm text-muted-foreground">
+												Manage your account security settings
+											</p>
+										</div>
+										<Button variant="ghost" size="icon">
+											<FiUsers className="h-5 w-5" />
+											<span className="sr-only">Security</span>
+										</Button>
+									</div>
+									<div className="flex items-center justify-between">
+										<div>
+											<p className="text-sm font-medium">Integrations</p>
+											<p className="text-sm text-muted-foreground">
+												Connect your account to external services
+											</p>
+										</div>
+										<Button variant="ghost" size="icon">
+											<FiDownload className="h-5 w-5" />
+											<span className="sr-only">Integrations</span>
+										</Button>
+									</div>
+								</div>
+							</CardContent>
+						</Card>
+
+						<Card className="bg-card text-card-foreground">
+							<CardHeader>
+								<div className="flex items-center space-x-2">
+									<FiUsers className="h-5 w-5" />
+									<CardTitle>Users</CardTitle>
+								</div>
+								<CardDescription>Manage your team members.</CardDescription>
+							</CardHeader>
+							<CardContent>
+								{/* User management interface goes here */}
+							</CardContent>
+						</Card>
+					</div>
+				</main>
+			</div>
 		</div>
 	);
 };
