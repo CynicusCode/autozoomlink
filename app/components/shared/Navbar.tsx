@@ -17,11 +17,6 @@ export const Navbar = () => {
 						</Link>
 					</li>
 					<li>
-						<Link href="/dashboard">
-							<span className="hover:text-primary">Dashboard</span>
-						</Link>
-					</li>
-					<li>
 						<Link href="/meetings">
 							<span className="hover:text-primary">Meetings</span>
 						</Link>

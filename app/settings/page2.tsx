@@ -22,6 +22,7 @@ import {
 	CardContent,
 } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { FiMoreVertical } from "react-icons/fi";
 
 export default function Component() {
 	return (
@@ -314,7 +315,7 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<MoveVerticalIcon className="h-5 w-5" />
+													<FiMoreVertical className="h-5 w-5" />
 													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
@@ -338,7 +339,7 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<MoveVerticalIcon className="h-5 w-5" />
+													<FiMoreVertical className="h-5 w-5" />
 													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
@@ -362,10 +363,14 @@ export default function Component() {
 										<DropdownMenu>
 											<DropdownMenuTrigger asChild>
 												<Button variant="ghost" size="icon">
-													<MoveVerticalIcon className="h-5 w-5" />
-													<span className="sr-only" />
+													<FiMoreVertical className="h-5 w-5" />
+													<span className="sr-only">More</span>
 												</Button>
 											</DropdownMenuTrigger>
+											<DropdownMenuContent align="end">
+												<DropdownMenuItem>Edit</DropdownMenuItem>
+												<DropdownMenuItem>Deactivate</DropdownMenuItem>
+											</DropdownMenuContent>
 										</DropdownMenu>
 									</div>
 								</div>
