@@ -107,7 +107,7 @@ const AppointmentsData = ({
 					!appointment.vri || !appointment.vriLabel || !appointment.vriType
 				);
 			if (filter === "custPending")
-				return appointment.videoLink.toLowerCase().includes("customer");
+				return appointment.videoLink.toLowerCase().includes("will");
 			if (filter === "demoPending")
 				return (
 					!appointment.zoomJoinLink &&

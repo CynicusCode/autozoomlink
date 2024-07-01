@@ -67,13 +67,14 @@ export default async function handler(req, res) {
 				availableRoomNumber = maxRooms + 1;
 			}
 
-			// Create a new appointment with the assigned room number
+			// Create a new appointment with the assigned room number and current UTC datetime
 			const appointment = await prisma.appointment.create({
 				data: {
 					...data,
 					date: startDateTime,
 					endDateTime: endDateTime,
 					vriRoomNumber: availableRoomNumber,
+					createdAt: new Date().toISOString(), // Setting createdAt explicitly in UTC ISO string format
 				},
 			});
 
