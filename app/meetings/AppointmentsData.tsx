@@ -80,7 +80,7 @@ const AppointmentsData = ({
 					!appointment.vri || !appointment.vriLabel || !appointment.vriType,
 			).length,
 			custPending: formattedData.filter((appointment) =>
-				appointment.videoLink.toLowerCase().includes("customer"),
+				appointment.videoLink.toLowerCase().includes("will"),
 			).length,
 			demoPending: formattedData.filter(
 				(appointment) =>
