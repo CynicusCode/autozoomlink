@@ -3,6 +3,7 @@ import prisma from "../../../lib/prismaClient";
 export default async function handler(req, res) {
 	if (req.method === "POST") {
 		const data = req.body;
+		console.log("Received data:", data); // Log the received data
 
 		// Validate the request body and check for correct data types
 		const requiredFields = [
@@ -28,8 +29,10 @@ export default async function handler(req, res) {
 			// Calculate endDateTime based on the duration
 			const startDateTime = new Date(data.date);
 			const endDateTime = new Date(startDateTime);
-			endDateTime.setHours(endDateTime.getHours() + data.durationHrs);
-			endDateTime.setMinutes(endDateTime.getMinutes() + data.durationMins);
+			endDateTime.setHours(endDateTime.getHours() + Number(data.durationHrs));
+			endDateTime.setMinutes(
+				endDateTime.getMinutes() + Number(data.durationMins),
+			);
 
 			// Query to find conflicting appointments
 			const conflicts = await prisma.appointment.findMany({
@@ -70,19 +73,34 @@ export default async function handler(req, res) {
 					jobNumber: data.jobNumber,
 					manualTitle: data.manualTitle,
 					date: startDateTime,
+					time: data.time ? new Date(data.time) : null,
 					endDateTime: endDateTime,
-					durationHrs: data.durationHrs,
-					durationMins: data.durationMins,
+					durationHrs: Number(data.durationHrs),
+					durationMins: Number(data.durationMins),
 					timeZone: data.timeZone,
+					timeZoneDisplayName: data.timeZoneDisplayName || null,
 					vriRoomNumber: availableRoomNumber,
-					createdAt: new Date().toISOString(), // Setting createdAt explicitly in UTC ISO string format
-					// Include any other fields from data that are part of your appointment model
+					createdAt: new Date().toISOString(),
+					createdByLLS: true, // Set this to true as required
+					requestorEmail: data.requestorEmail || null,
+					requestorName: data.requestorName || null,
+					status: data.status || null,
+					videoLink: data.videoLink || null,
+					videoLinkField: data.videoLinkField || null,
+					vriApproved: data.vriApproved === true,
+					vriLabel: data.vriLabel === true,
+					vriType: data.vriType === true,
+					zoomInvitation: data.zoomInvitation || null,
+					zoomJoinLink: data.zoomJoinLink || null,
+					zoomMeetingId: data.zoomMeetingId || null,
+					zoomStartLink: data.zoomStartLink || null,
 				},
 			});
 
 			console.log(
 				`Appointment created successfully. Room number: ${availableRoomNumber}`,
 			);
+			console.log("Created appointment:", appointment); // Log the created appointment
 			res.status(200).json(appointment);
 		} catch (error) {
 			console.error("Error creating appointment:", error);
