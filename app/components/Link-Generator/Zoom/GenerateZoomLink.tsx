@@ -5,63 +5,43 @@ import {
 	ZoomMeetingDetails,
 	generateUniqueIdentifier,
 } from "./ZoomMeetingDetails";
-import { SubmitButton } from "./SubmitButton";
 import { useCreateZoomMeeting } from "../../../hooks/useCreateZoomMeeting";
 import { useCreateAppointment } from "../../../hooks/useCreateAppointment";
 import type { FormValues } from "../formSchema";
 import type { ZoomData, ZoomMeetingResponse } from "@/app/types/ZoomData";
 import { getTimeZoneDisplayName } from "../utils/timeZoneUtils";
+import { Button } from "@/components/ui/button";
 
-/**
- * GenerateZoomLink Component
- * This component is responsible for handling the form submission to generate a Zoom link
- * and create an appointment. It also handles the opening and closing of a popup displaying the Zoom details.
- */
-const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
-	// React Hook Form context to handle form state and methods
+type ZoomDetailsType = ReturnType<typeof ZoomMeetingDetails.createZoomDetails>;
+
+const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 	const { handleSubmit, getValues, setValue, setError, formState } =
 		useFormContext<FormValues>();
 	const { errors } = formState;
 
-	// Local state for managing the popup visibility and Zoom details
 	const [isPopupOpen, setIsPopupOpen] = useState(false);
-	const [zoomDetails, setZoomDetails] = useState({
-		title: "",
-		time: "",
-		joinLink: "",
-		meetingId: "",
-		passcode: "",
-		requestorEmail: "",
-	});
+	const [zoomDetails, setZoomDetails] = useState<ZoomDetailsType | null>(null);
 
-	// Custom hooks for creating Zoom meeting and appointment
 	const { mutate: createZoomMeeting, status: createZoomMeetingStatus } =
 		useCreateZoomMeeting();
 	const { mutate: createAppointment, status: createAppointmentStatus } =
 		useCreateAppointment();
 
-	// Flags to indicate the loading state of creating Zoom meeting and appointment
 	const isCreatingZoomMeeting = createZoomMeetingStatus === "pending";
 	const isCreatingAppointment = createAppointmentStatus === "pending";
 
-	/**
-	 * Form submission handler
-	 * This function handles the form submission, generates the Zoom meeting, and creates the appointment.
-	 */
 	const onSubmit = useCallback(
 		async (data: FormValues) => {
 			try {
 				console.log("Initial form values:", data);
 				const { uiExpectedStartDate, timeZone } = data;
 
-				// Ensure we have a job number
 				if (!data.jobNumber) {
 					const internalId = generateUniqueIdentifier();
 					setValue("jobNumber", internalId);
 					data.jobNumber = internalId;
 				}
 
-				// Handle timezone and convert start date
 				let utcDate: string | undefined;
 				if (uiExpectedStartDate) {
 					console.log("Converting uiExpectedStartDate to UTC");
@@ -81,7 +61,6 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					data.expectedStartDate = utcDate;
 				}
 
-				// Handle missing timeZoneDisplayName
 				if (!data.timeZoneDisplayName && timeZone) {
 					data.timeZoneDisplayName = getTimeZoneDisplayName(timeZone);
 					console.log(
@@ -90,7 +69,6 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					);
 				}
 
-				// Validate manual title
 				if (!data.manualTitle) {
 					setError("manualTitle", {
 						type: "manual",
@@ -100,13 +78,11 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					return;
 				}
 
-				// Validate expected start date after conversion
 				if (!data.expectedStartDate) {
 					console.error("Expected start date is missing after conversion.");
 					throw new Error("Invalid start date");
 				}
 
-				// Validate and convert start date
 				const startDate = ZoomMeetingDetails.getUtcStartDate(
 					data.expectedStartDate,
 				);
@@ -115,11 +91,9 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					throw new Error("Invalid start date");
 				}
 
-				// Calculate meeting duration and end date/time
 				const duration = Number(data.hours) * 60 + Number(data.minutes);
 				const endDateTime = startDate.add(duration, "minute").toISOString();
 
-				// Create Zoom meeting
 				createZoomMeeting(
 					{
 						topic: data.manualTitle,
@@ -144,7 +118,6 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 								},
 							};
 
-							// Create appointment payload
 							const appointmentData = ZoomMeetingDetails.createPayload(
 								data,
 								startDate,
@@ -158,7 +131,6 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 								appointmentData,
 							);
 
-							// Send appointment data to API
 							const response = await fetch(
 								"http://localhost:3000/api/supabase/createAppointment",
 								{
@@ -183,8 +155,7 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 							);
 							console.log("Setting Zoom details:", zoomDetailsData);
 							setZoomDetails(zoomDetailsData);
-							setIsPopupOpen(true);
-							console.log("Popup state set to open");
+							setIsPopupOpen(true); // Automatically open the popup
 						},
 						onError: (error: Error) => {
 							setError("uiExpectedStartDate", {
@@ -200,29 +171,50 @@ const GenerateZoomLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 					message: (error as Error).message,
 				});
 			}
-			onClick();
+			if (onClick) onClick();
 		},
 		[createZoomMeeting, setError, setValue, onClick],
 	);
 
-	/**
-	 * Handler to close the Zoom details popup
-	 */
+	const handleOpenPopup = useCallback(() => {
+		if (zoomDetails) {
+			setIsPopupOpen(true);
+		} else {
+			console.error("No Zoom details available");
+			// You might want to show an error message to the user here
+		}
+	}, [zoomDetails]);
+
 	const handleClosePopup = useCallback(() => {
 		console.log("Closing popup");
 		setIsPopupOpen(false);
 	}, []);
 
 	return (
-		<div className="space-x-2">
-			<SubmitButton
-				handleSubmit={handleSubmit}
-				onSubmit={onSubmit}
-				errors={errors}
-				isCreatingZoomMeeting={isCreatingZoomMeeting}
-				isCreatingAppointment={isCreatingAppointment}
-			/>
-			{isPopupOpen && (
+		<div className="space-y-4">
+			<div className="flex items-center space-x-2">
+				{zoomDetails ? (
+					<Button onClick={handleOpenPopup}>See Invitation</Button>
+				) : (
+					<Button
+						onClick={() => {
+							console.log("Button clicked, calling handleSubmit");
+							handleSubmit(onSubmit)();
+							if (Object.keys(errors).length > 0) {
+								console.error("Validation errors:", errors);
+							}
+						}}
+						style={{ backgroundColor: "#0B5CFF" }}
+						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+						disabled={isCreatingZoomMeeting || isCreatingAppointment}
+					>
+						{isCreatingZoomMeeting || isCreatingAppointment
+							? "Loading..."
+							: "Generate Zoom Link"}
+					</Button>
+				)}
+			</div>
+			{isPopupOpen && zoomDetails && (
 				<ZoomLinkPopup
 					isOpen={isPopupOpen}
 					onClose={handleClosePopup}

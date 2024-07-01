@@ -8,7 +8,7 @@ import {
 	SelectLabel,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/select";
+} from "../../../components/ui/select";
 import type { FormValues } from "./formSchema"; // Ensure this path is correct
 
 interface DurationProps {
@@ -21,26 +21,28 @@ export function Duration({ disabled }: DurationProps) {
 	const minutes = watch("minutes");
 
 	useEffect(() => {
-		// Set default values when the component mounts
-		setValue("hours", "02", { shouldValidate: true });
-		setValue("minutes", "00", { shouldValidate: true });
+		register("hours");
+		register("minutes");
+	}, [register]);
 
-		// Register the fields
-		register("hours", { required: true });
-		register("minutes", { required: true });
-	}, [register, setValue]);
+	useEffect(() => {
+		if (!hours) {
+			setValue("hours", "0");
+		}
+		if (!minutes) {
+			setValue("minutes", "00");
+		}
+	}, [hours, minutes, setValue]);
 
 	const onHoursChange = (value: string) => {
-		setValue("hours", value, { shouldValidate: true });
+		setValue("hours", value);
 	};
 
 	const onMinutesChange = (value: string) => {
-		setValue("minutes", value, { shouldValidate: true });
+		setValue("minutes", value);
 	};
 
-	const hoursArray = Array.from({ length: 24 }, (_, i) =>
-		i.toString().padStart(2, "0"),
-	);
+	const hoursArray = Array.from({ length: 24 }, (_, i) => i.toString()); // Assuming 24-hour format, adjust as needed
 	const minutesArray = ["00", "15", "30", "45"];
 
 	return (

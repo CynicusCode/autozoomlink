@@ -60,7 +60,12 @@ const ZoomLinkPopup: React.FC<ZoomLinkPopupProps> = React.memo(
 		}, []);
 
 		return (
-			<Dialog open={isOpen} onOpenChange={onClose}>
+			<Dialog
+				open={isOpen}
+				onOpenChange={(open) => {
+					if (!open) onClose();
+				}}
+			>
 				<DialogContent className="sm:max-w-[600px]">
 					<DialogHeader>
 						<DialogTitle className="text-center">Invite Members</DialogTitle>

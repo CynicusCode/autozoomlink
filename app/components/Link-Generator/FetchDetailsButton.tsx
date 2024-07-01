@@ -87,7 +87,7 @@ const FetchDetailsButton: React.FC<FetchDetailsButtonProps> = ({
 		<div className="flex flex-col items-center">
 			<Button
 				onClick={handleFetchDetails}
-				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-green-600 dark:hover:bg-green-700 ${
+				className={`text-white bg-orange-600 hover:bg-orange-700 dark:bg-blue-600 dark:hover:bg-blue-900 ${
 					isLoading ? "opacity-50 cursor-not-allowed" : ""
 				}`}
 				disabled={isLoading}

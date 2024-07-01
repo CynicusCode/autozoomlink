@@ -4,9 +4,6 @@ import prisma from "../../../lib/prismaClient";
 export default async function handler(req, res) {
 	if (req.method === "POST") {
 		const data = req.body;
-
-		console.log("Received data:", data); // Log the received data
-
 		// Validate the request body and check for correct data types
 		const missingFields = [];
 		if (!data.jobNumber) missingFields.push("jobNumber");

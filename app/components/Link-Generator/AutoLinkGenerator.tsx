@@ -91,11 +91,6 @@ const AutoLinkGenerator: React.FC = () => {
 					<Separator />
 					<CardFooter className="flex justify-between mt-4">
 						<Button type="reset">Clear</Button>
-						{isLinkGenerated && (
-							<Button onClick={() => setIsLinkGenerated(false)}>
-								See Invitation
-							</Button>
-						)}
 						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />
 					</CardFooter>
 				</FormProvider>
