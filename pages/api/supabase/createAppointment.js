@@ -1,20 +1,21 @@
-//pages/api/supabase/createAppointment.js
 import prisma from "../../../lib/prismaClient";
 
 export default async function handler(req, res) {
 	if (req.method === "POST") {
 		const data = req.body;
+
 		// Validate the request body and check for correct data types
-		const missingFields = [];
-		if (!data.jobNumber) missingFields.push("jobNumber");
-		if (!data.manualTitle) missingFields.push("manualTitle");
-		if (!data.date) missingFields.push("date");
-		if (data.durationHrs === undefined || data.durationHrs === null)
-			missingFields.push("durationHrs");
-		if (data.durationMins === undefined || data.durationMins === null)
-			missingFields.push("durationMins");
-		if (!data.endDateTime) missingFields.push("endDateTime");
-		if (!data.timeZone) missingFields.push("timeZone");
+		const requiredFields = [
+			"jobNumber",
+			"manualTitle",
+			"date",
+			"durationHrs",
+			"durationMins",
+			"timeZone",
+		];
+		const missingFields = requiredFields.filter(
+			(field) => data[field] === undefined || data[field] === null,
+		);
 
 		if (missingFields.length > 0) {
 			console.error("Missing required fields:", missingFields);
@@ -33,14 +34,10 @@ export default async function handler(req, res) {
 			// Query to find conflicting appointments
 			const conflicts = await prisma.appointment.findMany({
 				where: {
-					AND: [
-						{ date: { equals: startDateTime } },
-						{
-							OR: [
-								{ endDateTime: { gte: startDateTime } },
-								{ date: { lte: endDateTime } },
-							],
-						},
+					OR: [
+						{ date: { lt: endDateTime }, endDateTime: { gt: startDateTime } },
+						{ date: { gte: startDateTime, lt: endDateTime } },
+						{ endDateTime: { gt: startDateTime, lte: endDateTime } },
 					],
 				},
 				select: {
@@ -70,14 +67,22 @@ export default async function handler(req, res) {
 			// Create a new appointment with the assigned room number and current UTC datetime
 			const appointment = await prisma.appointment.create({
 				data: {
-					...data,
+					jobNumber: data.jobNumber,
+					manualTitle: data.manualTitle,
 					date: startDateTime,
 					endDateTime: endDateTime,
+					durationHrs: data.durationHrs,
+					durationMins: data.durationMins,
+					timeZone: data.timeZone,
 					vriRoomNumber: availableRoomNumber,
 					createdAt: new Date().toISOString(), // Setting createdAt explicitly in UTC ISO string format
+					// Include any other fields from data that are part of your appointment model
 				},
 			});
 
+			console.log(
+				`Appointment created successfully. Room number: ${availableRoomNumber}`,
+			);
 			res.status(200).json(appointment);
 		} catch (error) {
 			console.error("Error creating appointment:", error);
