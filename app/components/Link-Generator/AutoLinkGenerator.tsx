@@ -79,7 +79,6 @@ const AutoLinkGenerator: React.FC = () => {
 							<TimeZoneSelector disabled={isAutomaticMode} />
 						</>
 					)}
-					<Separator />
 					<div className="flex justify-evenly space-x-2">
 						<VriApproved />
 						<VriLabel />
