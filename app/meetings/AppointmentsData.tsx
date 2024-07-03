@@ -1,4 +1,3 @@
-// app/meetings/AppointmentsData.tsx
 "use client";
 
 import React, { useEffect, useMemo } from "react";
@@ -67,7 +66,6 @@ const AppointmentsData = ({
 		);
 	}, [data]);
 
-	// I just learned how to use useMemo, I'm aware this is an overkill. I'm just practicing.
 	const counts = useMemo(() => {
 		return {
 			all: formattedData.length,

@@ -1,5 +1,3 @@
-// app/meetings/data-table.tsx
-
 "use client";
 
 import * as React from "react";
@@ -34,6 +32,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/Input";
 import MeetingTabs from "./MeetingTabs";
+import { ArrowUpDown } from "lucide-react"; // Import the ArrowUpDown icon
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -125,7 +124,11 @@ export function DataTable<TData, TValue>({
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
-									<TableHead key={header.id}>
+									<TableHead
+										key={header.id}
+										onClick={header.column.getToggleSortingHandler()}
+										className="cursor-pointer hover:bg-gray-100"
+									>
 										{header.isPlaceholder
 											? null
 											: flexRender(

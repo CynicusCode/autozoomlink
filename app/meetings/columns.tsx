@@ -1,4 +1,3 @@
-// app/meetings/columns.tsx
 import type { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { ArrowUpDown } from "lucide-react"; // Import the ArrowUpDown icon
 
 export type Meeting = {
 	jobNumber: string;
@@ -50,18 +50,30 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		accessorKey: "jobNumber",
-		header: () => <div className="text-center">Job Number</div>,
+		header: ({ column }) => (
+			<div className="flex items-center justify-center cursor-pointer">
+				Job Number
+				<ArrowUpDown className="ml-2 h-4 w-4" />
+			</div>
+		),
 		cell: ({ row }) => (
 			<div className="text-center">{row.getValue("jobNumber") as string}</div>
 		),
+		enableSorting: true,
 	},
 	{
 		accessorKey: "date",
-		header: () => <div className="text-center">Date & Time</div>,
+		header: ({ column }) => (
+			<div className="flex items-center justify-center cursor-pointer">
+				Date & Time
+				<ArrowUpDown className="ml-2 h-4 w-4" />
+			</div>
+		),
 		cell: ({ row }) => {
 			const date = row.getValue("date") as string;
 			return <div className="text-center">{date}</div>;
 		},
+		enableSorting: true,
 	},
 	{
 		accessorKey: "timeZoneDisplayName",
@@ -71,9 +83,10 @@ export const columns: ColumnDef<Meeting>[] = [
 				{row.getValue("timeZoneDisplayName") as string}
 			</div>
 		),
+		enableSorting: true,
 	},
 	{
-		accessorKey: "badge",
+		accessorKey: "requiresAttention",
 		header: () => <div className="text-center">Requires Attention</div>,
 		cell: ({ row }) => {
 			const { vri, vriLabel, vriType } = row.original;
@@ -90,6 +103,17 @@ export const columns: ColumnDef<Meeting>[] = [
 				</div>
 			);
 		},
+		enableSorting: true,
+		sortingFn: (rowA, rowB) => {
+			const a = rowA.original;
+			const b = rowB.original;
+			return (a.vri && a.vriLabel && a.vriType) ===
+				(b.vri && b.vriLabel && b.vriType)
+				? 0
+				: a.vri && a.vriLabel && a.vriType
+					? -1
+					: 1;
+		},
 	},
 	{
 		accessorKey: "videoLink",
@@ -97,6 +121,7 @@ export const columns: ColumnDef<Meeting>[] = [
 		cell: ({ row }) => (
 			<div className="text-center">{row.getValue("videoLink") as string}</div>
 		),
+		enableSorting: true,
 	},
 	{
 		accessorKey: "status",
@@ -124,6 +149,18 @@ export const columns: ColumnDef<Meeting>[] = [
 				</div>
 			);
 		},
+		enableSorting: true,
+		sortingFn: (rowA, rowB) => {
+			const getStatusPriority = (row: Meeting) => {
+				if (row.createdbyLLS) return 1;
+				if (row.videoLink.toLowerCase().includes("demo")) return 2;
+				if (row.videoLink.includes("http")) return 3;
+				return 4; // Pending Customer
+			};
+			return (
+				getStatusPriority(rowA.original) - getStatusPriority(rowB.original)
+			);
+		},
 	},
 	{
 		accessorKey: "zoomJoinLink",
@@ -140,6 +177,7 @@ export const columns: ColumnDef<Meeting>[] = [
 			</div>
 		),
 		size: 150,
+		enableSorting: true,
 	},
 	{
 		accessorKey: "vriRoomNumber",
@@ -149,6 +187,7 @@ export const columns: ColumnDef<Meeting>[] = [
 				{row.getValue("vriRoomNumber") as string}
 			</div>
 		),
+		enableSorting: true,
 	},
 	{
 		id: "actions",
@@ -185,5 +224,6 @@ export const columns: ColumnDef<Meeting>[] = [
 				</div>
 			);
 		},
+		enableSorting: false,
 	},
 ];
