@@ -191,7 +191,25 @@ export const columns: ColumnDef<Meeting>[] = [
 	},
 	{
 		id: "actions",
-		header: () => <div className="text-center">Actions</div>,
+		header: () => (
+			<div className="text-center">
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant="ghost" className="h-8 w-8 p-0">
+							<span className="sr-only">Open batch actions menu</span>
+							...
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align="end">
+						<DropdownMenuLabel>Batch Actions</DropdownMenuLabel>
+						<DropdownMenuItem>
+							Generate Link & Push Data to ii /w Customer Notification
+						</DropdownMenuItem>
+						<DropdownMenuItem>Send Customer Notification</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
+		),
 		cell: ({ row }) => {
 			const meeting = row.original;
 			return (
@@ -199,8 +217,8 @@ export const columns: ColumnDef<Meeting>[] = [
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="ghost" className="h-8 w-8 p-0">
-								<span className="sr-only">Open menu</span>
-								<MoreHorizontal className="h-4 w-4" />
+								<span className="sr-only">Open row actions menu</span>
+								...
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
