@@ -39,19 +39,10 @@ const AutoLinkGenerator: React.FC = () => {
 		resolver: zodResolver(schema),
 	});
 
-	const handleGenerateZoomLinkClick = () => {
-		setIsLoading(true); // Set loading to true when the link generation starts
-		setTimeout(() => {
-			setIsLinkGenerated(true);
-			// Remove the setZoomDetails and setIsPopupOpen calls
-			setIsLoading(false); // Set loading to false after the link is generated
-		}, 2000); // Simulate a network request
-	};
-
 	return (
-		<Card className="w-[650px]">
+		<Card className="max-w-xl w-full mx-auto p-4">
 			<CardHeader>
-				<CardTitle className="flex items-center justify-center">
+				<CardTitle className="flex items-center justify-center text-lg sm:text-xl">
 					Auto Zoom Link Generator
 				</CardTitle>
 			</CardHeader>
@@ -79,7 +70,7 @@ const AutoLinkGenerator: React.FC = () => {
 							<TimeZoneSelector disabled={isAutomaticMode} />
 						</>
 					)}
-					<div className="flex justify-evenly space-x-2">
+					<div className="flex flex-col sm:flex-row justify-evenly space-y-2 sm:space-y-0 sm:space-x-2">
 						<VriApproved />
 						<VriLabel />
 						<VriType />
@@ -88,9 +79,11 @@ const AutoLinkGenerator: React.FC = () => {
 						<VideoLinkField />
 					</div>
 					<Separator />
-					<CardFooter className="flex justify-between mt-4">
-						<Button type="reset">Clear</Button>
-						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />
+					<CardFooter className="flex flex-col sm:flex-row justify-between mt-4 space-y-2 sm:space-y-0">
+						<Button className="w-full sm:w-auto" type="reset">
+							Clear
+						</Button>
+						<GenerateZoomLink />
 					</CardFooter>
 				</FormProvider>
 			</CardContent>
