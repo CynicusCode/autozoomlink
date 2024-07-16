@@ -17,7 +17,6 @@ import DateTimePicker from "./Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
-import ManualEntrySwitch from "./ManualEntryswitch";
 import { schema, type FormValues } from "./formSchema";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
@@ -28,6 +27,7 @@ import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
 import VideoLinkField from "./VideoLinkField";
 import SkeletonLoader from "../Skeleton/FormSkeleton";
+import ManualEntrySwitch from "./ManualEntryswitch";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
