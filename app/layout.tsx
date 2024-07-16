@@ -4,6 +4,7 @@ import { poppins } from "./font";
 import "./globals.css";
 import { ThemeProvider } from "@/app/components/theme-provider";
 import QueryProvider from "@/app/components/QueryProvider"; // Adjust the import path
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
 	title: "AZLG",
@@ -17,7 +18,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head />
+			<head>
+				<title>AZLG</title>
+			</head>
 			<body className={poppins.className}>
 				<ThemeProvider
 					attribute="class"
@@ -27,6 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 				>
 					<QueryProvider>{children}</QueryProvider>
 				</ThemeProvider>
+				<SpeedInsights />
 			</body>
 		</html>
 	);
