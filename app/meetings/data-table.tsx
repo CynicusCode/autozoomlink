@@ -30,7 +30,7 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import MeetingTabs from "./MeetingTabs";
 
 interface DataTableProps<TData, TValue> {

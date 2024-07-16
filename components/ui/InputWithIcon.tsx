@@ -1,7 +1,7 @@
 //### InputWithIcon.tsx
 "use client";
 import * as React from "react";
-import { Input, type InputProps } from "./Input";
+import { Input, type InputProps } from "./input";
 
 export interface InputWithIconProps extends InputProps {
 	label: string;

@@ -2,7 +2,7 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { Input } from "./Input";
+import { Input } from "./input";
 import { Label } from "../ui/label";
 
 export interface InputProps
