@@ -7,7 +7,7 @@ const page = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="flex justify-center items-center pt-40">
+			<div className="flex justify-center items-center pt-32">
 				<AutoLinkGenerator />
 			</div>
 		</>
