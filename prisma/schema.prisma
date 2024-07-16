@@ -22,7 +22,7 @@ model Appointment {
   vriApproved          Boolean? @default(false)
   vriLabel             Boolean? @default(false)
   vriType              Boolean? @default(false)
-  status               String?`
+  status               String?
   videoLink            String?
   videoLinkField       String?
   requestorName        String?
