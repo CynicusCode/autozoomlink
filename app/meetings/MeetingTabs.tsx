@@ -1,4 +1,6 @@
 // app/meetings/MeetingTabs.tsx
+"use client";
+
 import React from "react";
 import {
 	Tabs,
@@ -27,9 +29,9 @@ function MeetingTabs({ activeTab, onTabChange, counts }: MeetingTabsProps) {
 			onValueChange={handleTabChange}
 			className="max-w-full"
 		>
-			<TabsList>
+			<TabsList className="flex flex-wrap justify-center">
 				<TabsTrigger value="all">
-					All <Badge className=" ml-1 ">{counts.all}</Badge>
+					All <Badge className="ml-1">{counts.all}</Badge>
 				</TabsTrigger>
 				<TabsTrigger value="linkProvided">
 					Link Provided <Badge className="ml-1">{counts.linkProvided}</Badge>

@@ -37,7 +37,7 @@ export default function MeetingsPage() {
 				<ThemeToggle />
 			</header>
 			<main>
-				<div className="container mx-auto mt-20">
+				<div className="container mx-auto mt-20 px-4 sm:px-6 lg:px-8">
 					<h1 className="text-2xl font-bold mb-4 text-center">Meetings</h1>
 					<AppointmentsData
 						filter={filter}

@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/Input";
 import MeetingTabs from "./MeetingTabs";
-import { ArrowUpDown } from "lucide-react"; // Import the ArrowUpDown icon
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -78,7 +77,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex py-4 justify-evenly">
+			<div className="flex flex-col sm:flex-row py-4 justify-evenly">
 				<div className="flex flex-wrap justify-evenly gap-4 w-full">
 					<MeetingTabs
 						activeTab={filter}
@@ -118,7 +117,7 @@ export function DataTable<TData, TValue>({
 					</DropdownMenu>
 				</div>
 			</div>
-			<div className="rounded-md border text-center">
+			<div className="rounded-md border text-center overflow-x-auto">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

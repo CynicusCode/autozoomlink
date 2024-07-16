@@ -127,15 +127,6 @@ const AppointmentsData = ({
 		return <div>Error: {error.message}</div>;
 	}
 
-	// Log raw data
-	console.log("Raw data:", data);
-
-	// Log formatted data
-	console.log("Formatted data:", formattedData);
-
-	// Log filtered data
-	console.log("Filtered data:", filteredData);
-
 	return (
 		<DataTable
 			columns={columns}
