@@ -17,6 +17,7 @@ import DateTimePicker from "./Date-time/DateTimePicker";
 import FetchDetailsButton from "./FetchDetailsButton";
 import JobNumberInput from "./JobNumberInput";
 import { LanguageSelector } from "./LanguageSelector";
+import ManualEntrySwitch from "./ManualEntryswitch";
 import { schema, type FormValues } from "./formSchema";
 import TimeZoneSelector from "./TimeZoneSelector/TimeZoneSelector";
 import { Duration } from "./Duration";
@@ -27,7 +28,6 @@ import VriLabel from "./VriLabel";
 import VriApproved from "./VriApproved";
 import VideoLinkField from "./VideoLinkField";
 import SkeletonLoader from "../Skeleton/FormSkeleton";
-import ManualEntrySwitch from "./ManualEntryswitch";
 
 const AutoLinkGenerator: React.FC = () => {
 	const [jobNumber, setJobNumber] = useState("");
@@ -39,8 +39,17 @@ const AutoLinkGenerator: React.FC = () => {
 		resolver: zodResolver(schema),
 	});
 
+	const handleGenerateZoomLinkClick = () => {
+		setIsLoading(true); // Set loading to true when the link generation starts
+		setTimeout(() => {
+			setIsLinkGenerated(true);
+			// Remove the setZoomDetails and setIsPopupOpen calls
+			setIsLoading(false); // Set loading to false after the link is generated
+		}, 2000); // Simulate a network request
+	};
+
 	return (
-		<Card className="max-w-xl w-full mx-auto p-4">
+		<Card className="max-w-xl w-full mx-auto">
 			<CardHeader>
 				<CardTitle className="flex items-center justify-center text-lg sm:text-xl">
 					Auto Zoom Link Generator
@@ -83,7 +92,7 @@ const AutoLinkGenerator: React.FC = () => {
 						<Button className="w-full sm:w-auto" type="reset">
 							Clear
 						</Button>
-						<GenerateZoomLink />
+						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />
 					</CardFooter>
 				</FormProvider>
 			</CardContent>

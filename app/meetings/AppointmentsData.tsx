@@ -35,8 +35,6 @@ const AppointmentsData = ({
 	onCountsChange,
 	onFilterChange,
 }: AppointmentsDataProps) => {
-	console.log("Current filter:", filter);
-
 	// Use React Query to fetch appointments data
 	const { data, error, isLoading } = useQuery<Meeting[]>({
 		queryKey: ["appointments"],
@@ -117,7 +115,6 @@ const AppointmentsData = ({
 
 	// Render loading state
 	if (isLoading) {
-		console.log("Loading data...");
 		return <DataTableSkeleton rows={5} columns={5} />; // Display the DataTableSkeleton component
 	}
 
