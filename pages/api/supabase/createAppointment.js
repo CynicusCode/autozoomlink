@@ -73,7 +73,7 @@ export default async function handler(req, res) {
 				availableRoomNumber = maxRooms + 1;
 			}
 
-			console.log("Assigned room number:", availableRoomNumber);
+			console.log("Assigned room#:", availableRoomNumber);
 
 			// Create a new appointment with the assigned room number and current UTC datetime
 			const appointment = await prisma.appointment.create({
