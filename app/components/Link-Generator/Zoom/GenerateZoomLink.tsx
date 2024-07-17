@@ -148,15 +148,21 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 								body: JSON.stringify(appointmentData),
 							});
 
+							const responseText = await response.text(); // Capture the raw response text
+							console.log("Raw response text:", responseText);
+
 							if (!response.ok) {
 								console.error(
 									"Error creating appointment:",
 									response.statusText,
+									responseText,
 								);
-								throw new Error("Error creating appointment");
+								throw new Error(
+									`Error creating appointment: ${response.statusText}`,
+								);
 							}
 
-							const dbData = await response.json();
+							const dbData = JSON.parse(responseText); // Parse the raw response text
 							console.log("Appointment created successfully:", dbData);
 							const zoomDetailsData = ZoomMeetingDetails.createZoomDetails(
 								data,

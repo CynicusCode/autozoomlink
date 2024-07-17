@@ -34,6 +34,9 @@ export default async function handler(req, res) {
 				endDateTime.getMinutes() + Number(data.durationMins),
 			);
 
+			console.log("Start date:", startDateTime);
+			console.log("End date:", endDateTime);
+
 			// Query to find conflicting appointments
 			const conflicts = await prisma.appointment.findMany({
 				where: {
@@ -47,6 +50,8 @@ export default async function handler(req, res) {
 					vriRoomNumber: true,
 				},
 			});
+
+			console.log("Conflicting appointments:", conflicts);
 
 			// Find an available room number
 			const maxRooms = 10; // Assume you have 10 rooms initially
@@ -66,6 +71,8 @@ export default async function handler(req, res) {
 			if (!availableRoomNumber) {
 				availableRoomNumber = maxRooms + 1;
 			}
+
+			console.log("Assigned room number:", availableRoomNumber);
 
 			// Create a new appointment with the assigned room number and current UTC datetime
 			const appointment = await prisma.appointment.create({
