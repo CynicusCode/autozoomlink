@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuItem,
 	DropdownMenuLabel,
+	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react"; // Import the ArrowUpDown icon
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 export type Meeting = {
 	jobNumber: string;
@@ -202,10 +204,31 @@ export const columns: ColumnDef<Meeting>[] = [
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
 						<DropdownMenuLabel>Batch Actions</DropdownMenuLabel>
-						<DropdownMenuItem>
-							Generate Link & Push Data to ii /w Customer Notification
-						</DropdownMenuItem>
-						<DropdownMenuItem>Send Customer Notification</DropdownMenuItem>
+						<div className="flex flex-col space-y-2 p-2">
+							<div className="flex items-center space-x-2">
+								<Label htmlFor="generate-zoom-link">Generate Zoom Link</Label>
+								<Switch defaultChecked id="generate-zoom-link" />
+							</div>
+							<div className="flex items-center space-x-2">
+								<Label htmlFor="send-customer-notification">
+									Send Customer Notification
+								</Label>
+								<Switch defaultChecked id="send-customer-notification" />
+							</div>
+							<div className="flex items-center space-x-2">
+								<Label htmlFor="paste-link-ii">Paste the Link in ii</Label>
+								<Switch defaultChecked id="paste-link-ii" />
+							</div>
+							<div className="flex items-center space-x-2">
+								<Label htmlFor="send-customer-reminder">
+									Send Customer Reminder
+								</Label>
+								<Switch id="send-customer-reminder" />
+							</div>
+							<div className="flex items-center justify-center space-x-2">
+								<Button>Execute Batch</Button>
+							</div>
+						</div>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
