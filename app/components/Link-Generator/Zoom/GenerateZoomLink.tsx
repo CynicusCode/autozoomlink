@@ -1,3 +1,4 @@
+//app/components/Link-Generator-Zoom-GenerateZoomLink.tsx
 import React, { useState, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import ZoomLinkPopup from "./ZoomLinkPopup";
@@ -158,7 +159,7 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 									responseText,
 								);
 								throw new Error(
-									`Error creating appointment: ${response.statusText}`,
+									`Error creating appointment: ${response.statusText} - ${responseText}`,
 								);
 							}
 
