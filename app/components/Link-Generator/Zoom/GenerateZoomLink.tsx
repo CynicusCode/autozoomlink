@@ -1,5 +1,3 @@
-//app/components/Link_Generator/Zoom/GenerateZoomLink.tsx
-
 import React, { useState, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import ZoomLinkPopup from "./ZoomLinkPopup";
@@ -34,8 +32,8 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 
 	const onSubmit = useCallback(
 		async (data: FormValues) => {
+			console.log("onSubmit called with data:", data);
 			try {
-				console.log("Initial form values:", data);
 				const { uiExpectedStartDate, timeZone } = data;
 
 				if (!data.jobNumber) {
@@ -46,7 +44,11 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 
 				let utcDate: string | undefined;
 				if (uiExpectedStartDate) {
-					console.log("Converting uiExpectedStartDate to UTC");
+					console.log(
+						"Converting uiExpectedStartDate to UTC:",
+						uiExpectedStartDate,
+						timeZone,
+					);
 					utcDate = ZoomMeetingDetails.convertToUtc(
 						uiExpectedStartDate,
 						timeZone ?? "",
@@ -58,17 +60,12 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 						});
 						return;
 					}
-					console.log("Converted UTC Date:", utcDate);
 					setValue("expectedStartDate", utcDate);
 					data.expectedStartDate = utcDate;
 				}
 
 				if (!data.timeZoneDisplayName && timeZone) {
 					data.timeZoneDisplayName = getTimeZoneDisplayName(timeZone);
-					console.log(
-						"Resolved timeZoneDisplayName:",
-						data.timeZoneDisplayName,
-					);
 				}
 
 				if (!data.manualTitle) {
@@ -96,6 +93,18 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 				const duration = Number(data.hours) * 60 + Number(data.minutes);
 				const endDateTime = startDate.add(duration, "minute").toISOString();
 
+				console.log("Creating Zoom meeting with data:", {
+					topic: data.manualTitle,
+					start_time: startDate.tz(timeZone).format(),
+					duration,
+					timezone: timeZone ?? "",
+					settings: {
+						join_before_host: true,
+						participant_video: true,
+						host_video: true,
+					},
+				});
+
 				createZoomMeeting(
 					{
 						topic: data.manualTitle,
@@ -110,6 +119,7 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 					},
 					{
 						onSuccess: async (zoomData: ZoomMeetingResponse) => {
+							console.log("Zoom meeting created successfully:", zoomData);
 							const jobNumber = data.jobNumber || generateUniqueIdentifier();
 							const convertedZoomData: ZoomData = {
 								meeting: {
@@ -128,23 +138,21 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 								jobNumber,
 							);
 
-							console.log(
-								"Appointment Data to be sent to API:",
-								appointmentData,
-							);
+							console.log("Creating appointment with data:", appointmentData);
 
-							const response = await fetch(
-								"http://localhost:3000/api/supabase/createAppointment",
-								{
-									method: "POST",
-									headers: {
-										"Content-Type": "application/json",
-									},
-									body: JSON.stringify(appointmentData),
+							const response = await fetch("/api/supabase/createAppointment", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
 								},
-							);
+								body: JSON.stringify(appointmentData),
+							});
 
 							if (!response.ok) {
+								console.error(
+									"Error creating appointment:",
+									response.statusText,
+								);
 								throw new Error("Error creating appointment");
 							}
 
@@ -155,11 +163,11 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 								startDate,
 								convertedZoomData,
 							);
-							console.log("Setting Zoom details:", zoomDetailsData);
 							setZoomDetails(zoomDetailsData);
 							setIsPopupOpen(true); // Automatically open the popup
 						},
 						onError: (error: Error) => {
+							console.error("Error creating Zoom meeting:", error);
 							setError("uiExpectedStartDate", {
 								type: "manual",
 								message: error.message,
@@ -168,6 +176,7 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 					},
 				);
 			} catch (error: unknown) {
+				console.error("Error in onSubmit:", error);
 				setError("uiExpectedStartDate", {
 					type: "manual",
 					message: (error as Error).message,
@@ -188,7 +197,6 @@ const GenerateZoomLink: React.FC<{ onClick?: () => void }> = ({ onClick }) => {
 	}, [zoomDetails]);
 
 	const handleClosePopup = useCallback(() => {
-		console.log("Closing popup");
 		setIsPopupOpen(false);
 	}, []);
 

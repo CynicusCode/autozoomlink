@@ -78,7 +78,6 @@ export const createPayload = (
 		zoomInvitation: zoomData.meeting.password,
 		vriRoomNumber: 1,
 	};
-	console.log("Created Payload:", payload);
 	return payload;
 };
 
@@ -95,7 +94,6 @@ export const createZoomDetails = (
 		passcode: zoomData.meeting.password || "No Passcode",
 		requestorEmail: data.requestorEmail || "",
 	};
-	console.log("Created Zoom Details:", zoomDetails);
 	return zoomDetails;
 };
 
