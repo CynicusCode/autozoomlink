@@ -1,4 +1,3 @@
-//page/api/supabase/createAppointment.js
 import prisma from "../../../lib/prismaClient";
 
 export default async function handler(req, res) {
@@ -112,6 +111,7 @@ export default async function handler(req, res) {
 			res.status(200).json(appointment);
 		} catch (error) {
 			console.error("Error creating appointment:", error);
+			console.error("Error details:", JSON.stringify(error, null, 2)); // Log detailed error information
 			res
 				.status(500)
 				.json({ error: "Error creating appointment", details: error.message });
