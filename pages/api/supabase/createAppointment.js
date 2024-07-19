@@ -1,12 +1,11 @@
-//pages/api/supabase/createAppointment.js
 import prisma from "../../../lib/prismaClient";
 
 export default async function handler(req, res) {
 	if (req.method === "POST") {
+		console.log("Received POST request to create appointment");
 		const data = req.body;
-		console.log("Received data:", data); // Log the received data
+		console.log("Received data:", JSON.stringify(data, null, 2));
 
-		// Validate the request body and check for correct data types
 		const requiredFields = [
 			"jobNumber",
 			"manualTitle",
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
 		}
 
 		try {
-			// Calculate endDateTime based on the duration
+			console.log("Calculating start and end date/time");
 			const startDateTime = new Date(data.date);
 			const endDateTime = new Date(startDateTime);
 			endDateTime.setHours(endDateTime.getHours() + Number(data.durationHrs));
@@ -35,10 +34,10 @@ export default async function handler(req, res) {
 				endDateTime.getMinutes() + Number(data.durationMins),
 			);
 
-			console.log("Start date:", startDateTime);
-			console.log("End date:", endDateTime);
+			console.log("Start date:", startDateTime.toISOString());
+			console.log("End date:", endDateTime.toISOString());
 
-			// Query to find conflicting appointments
+			console.log("Querying for conflicting appointments");
 			const conflicts = await prisma.appointment.findMany({
 				where: {
 					OR: [
@@ -54,8 +53,7 @@ export default async function handler(req, res) {
 
 			console.log("Conflicting appointments:", conflicts);
 
-			// Find an available room number
-			const maxRooms = 10; // Assume you have 10 rooms initially
+			const maxRooms = 10;
 			const occupiedRooms = new Set(
 				conflicts.map((appointment) => appointment.vriRoomNumber),
 			);
@@ -68,14 +66,13 @@ export default async function handler(req, res) {
 				}
 			}
 
-			// If no room is available, assign a new room number
 			if (!availableRoomNumber) {
 				availableRoomNumber = maxRooms + 1;
 			}
 
 			console.log("Assigned room#:", availableRoomNumber);
 
-			// Create a new appointment with the assigned room number and current UTC datetime
+			console.log("Creating new appointment");
 			const appointment = await prisma.appointment.create({
 				data: {
 					jobNumber: data.jobNumber,
@@ -89,7 +86,7 @@ export default async function handler(req, res) {
 					timeZoneDisplayName: data.timeZoneDisplayName || null,
 					vriRoomNumber: availableRoomNumber,
 					createdAt: new Date().toISOString(),
-					createdByLLS: true, // Set this to true as required
+					createdByLLS: true,
 					requestorEmail: data.requestorEmail || null,
 					requestorName: data.requestorName || null,
 					status: data.status || null,
@@ -108,16 +105,28 @@ export default async function handler(req, res) {
 			console.log(
 				`Appointment created successfully. Room number: ${availableRoomNumber}`,
 			);
-			console.log("Created appointment:", appointment); // Log the created appointment
+			console.log("Created appointment:", JSON.stringify(appointment, null, 2));
 			res.status(200).json(appointment);
 		} catch (error) {
 			console.error("Error creating appointment:", error);
-			console.error("Error details:", JSON.stringify(error, null, 2)); // Log detailed error information
-			res
-				.status(500)
-				.json({ error: "Error creating appointment", details: error.message });
+			console.error("Error name:", error.name);
+			console.error("Error message:", error.message);
+			console.error("Error stack:", error.stack);
+
+			if (error instanceof prisma.PrismaClientKnownRequestError) {
+				console.error("Prisma error code:", error.code);
+				console.error("Prisma error meta:", error.meta);
+			}
+
+			res.status(500).json({
+				error: "Error creating appointment",
+				details: error.message,
+				name: error.name,
+				stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+			});
 		}
 	} else {
+		console.error(`Method ${req.method} not allowed`);
 		res.status(405).json({ error: "Method not allowed" });
 	}
 }
