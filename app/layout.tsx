@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { poppins } from "./font";
@@ -28,7 +29,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					enableSystem
 					disableTransitionOnChange
 				>
-					<QueryProvider>{children}</QueryProvider>
+					<QueryProvider>
+						{children}
+						<Analytics />
+					</QueryProvider>
 				</ThemeProvider>
 				<SpeedInsights />
 			</body>
