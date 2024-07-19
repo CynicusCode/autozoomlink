@@ -18,7 +18,7 @@ const VriType: React.FC = () => {
         text-white
       `}
 		>
-			VRI Approved Filter
+			VRI in Service Type
 		</Badge>
 	);
 };
