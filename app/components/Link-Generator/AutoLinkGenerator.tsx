@@ -48,6 +48,10 @@ const AutoLinkGenerator: React.FC = () => {
 		}, 2000); // Simulate a network request
 	};
 
+	const handleClearClick = () => {
+		window.location.reload(); // Refresh the page entirely
+	};
+
 	return (
 		<Card className="max-w-xl w-full mx-auto">
 			<CardHeader>
@@ -89,7 +93,7 @@ const AutoLinkGenerator: React.FC = () => {
 					</div>
 					<Separator />
 					<CardFooter className="flex flex-col sm:flex-row justify-between mt-4 space-y-2 sm:space-y-0">
-						<Button className="w-full sm:w-auto" type="reset">
+						<Button variant="secondary" className="w-full sm:w-auto" type="button" onClick={handleClearClick}>
 							Clear
 						</Button>
 						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />

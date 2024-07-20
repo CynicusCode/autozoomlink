@@ -36,14 +36,14 @@ function MeetingTabs({ activeTab, onTabChange, counts }: MeetingTabsProps) {
 				<TabsTrigger value="linkProvided">
 					Link Provided <Badge className="ml-1">{counts.linkProvided}</Badge>
 				</TabsTrigger>
-				<TabsTrigger value="attention">
-					Attention Required <Badge className="ml-1">{counts.attention}</Badge>
-				</TabsTrigger>
 				<TabsTrigger value="custPending">
 					Cust. Pending <Badge className="ml-1">{counts.custPending}</Badge>
 				</TabsTrigger>
 				<TabsTrigger value="demoPending">
 					Demo Pending <Badge className="ml-1">{counts.demoPending}</Badge>
+				</TabsTrigger>
+				<TabsTrigger value="attention">
+					Attention Required <Badge className="ml-1">{counts.attention}</Badge>
 				</TabsTrigger>
 			</TabsList>
 		</Tabs>

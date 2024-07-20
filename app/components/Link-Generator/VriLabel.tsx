@@ -18,7 +18,7 @@ const VriLabel: React.FC = () => {
         text-white
       `}
 		>
-			VRI Approved Filter
+			VRI in Address
 		</Badge>
 	);
 };
