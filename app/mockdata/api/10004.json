@@ -65,9 +65,9 @@
   "bookingMode": {
     "id": 3,
     "uri": "https://osi.demo.com:443/api/bookingMode/3",
-    "description": "Video (Scheduled)",
-    "name": "Video (Scheduled)",
-    "nameKey": "video"
+    "description": "Over the Phone",
+    "name": "Over the Phone",
+    "nameKey": "OPI"
   },
   "bookingRequirements": "https://osi.demo.com:443/api/booking/10000/bookingCriteria/",
   "bookingTime": "2024-04-01T21:58:25Z",

@@ -741,8 +741,8 @@
       "criteria": {
         "id": 87,
         "uri": "https://osi.demo.com:443/api/employmentCriteria/87",
-        "description": "VRI Approved",
-        "name": "VRI Approved",
+        "description": "Qualification / Certification",
+        "name": "Qualification / Certification",
         "presetCriteria": false,
         "type": {
           "id": 2,

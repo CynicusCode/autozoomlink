@@ -14,13 +14,13 @@
     "addrEntered": "344 Zachary Forks, Lake Pamelaview, Vermont 97447-5198",
     "costCenter": null,
     "costCenterName": null,
-    "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\\n344 Zachary Forks, Lake Pamelaview, Vermont 97447-5198",
+    "description": "Over the Phone",
+    "displayLabel": "Over the Phone\\n344 Zachary Forks, Lake Pamelaview, Vermont 97447-5198",
     "lat": 47.9602,
     "lng": -222.054,
     "uuid": "3e49911a-a806-474b-938e-79cd75db489c"
   },
-  "actualLocationDisplayLabel": "Virtual Session (VRI)\ndemo.address",
+  "actualLocationDisplayLabel": "Over the Phone\ndemo.address",
   "actualStartDate": null,
   "assignedBy": null,
   "assignedByUsername": null,
@@ -243,8 +243,8 @@
     "addrEntered": "344 Zachary Forks, Lake Pamelaview, Vermont 97447-5198",
     "costCenter": null,
     "costCenterName": null,
-    "description": "Virtual Session (VRI)",
-    "displayLabel": "Virtual Session (VRI)\ndemo.address",
+    "description": "Over The Phone",
+    "displayLabel": "Over The Phone\ndemo.address",
     "lat": 37.9602,
     "lng": -122.054,
     "uuid": "3e38811a-a806-474b-938e-79cd75db489c"
@@ -741,8 +741,8 @@
       "criteria": {
         "id": 87,
         "uri": "https://osi.demo.com:443/api/employmentCriteria/87",
-        "description": "VRI Approved",
-        "name": "VRI Approved",
+        "description": "Over the Phone",
+        "name": "Over the Phone",
         "presetCriteria": false,
         "type": {
           "id": 2,
