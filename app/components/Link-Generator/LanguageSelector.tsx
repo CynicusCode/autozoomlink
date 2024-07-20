@@ -49,7 +49,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 						role="combobox"
 						disabled={disabled}
 						className={cn(
-							"w-[200px] justify-between",
+							"w-[200px] justify-between bg-transparent",
 							!selectedLanguage && "text-muted-foreground",
 						)}
 					>

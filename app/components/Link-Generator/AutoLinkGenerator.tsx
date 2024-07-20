@@ -93,7 +93,12 @@ const AutoLinkGenerator: React.FC = () => {
 					</div>
 					<Separator />
 					<CardFooter className="flex flex-col sm:flex-row justify-between mt-4 space-y-2 sm:space-y-0">
-						<Button variant="secondary" className="w-full sm:w-auto" type="button" onClick={handleClearClick}>
+						<Button
+							variant="secondary"
+							className="w-full sm:w-auto"
+							type="button"
+							onClick={handleClearClick}
+						>
 							Clear
 						</Button>
 						<GenerateZoomLink onClick={handleGenerateZoomLinkClick} />

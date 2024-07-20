@@ -65,7 +65,7 @@ export const TimeZoneSelector: React.FC<{ disabled: boolean }> = ({
 						aria-controls="timezone-select"
 						disabled={disabled}
 						className={cn(
-							"w-[418px] justify-between",
+							"w-[418px] justify-between bg-transparent",
 							!selectedTimeZone && "text-muted-foreground",
 						)}
 					>
